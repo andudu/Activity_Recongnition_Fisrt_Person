@@ -16,7 +16,7 @@
 #include <highgui.h>
 #include <cxcore.h>
 
-#define MIN_NUM_NODES 3 //minimum number of nodes to make a possible "activity" sequence
+#define MIN_NUM_ACT_SEQUENCE 3 //minimum number of nodes to make a possible "activity" sequence
 
 using namespace std;
 using namespace cv;

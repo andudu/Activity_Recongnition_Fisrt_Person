@@ -148,7 +148,7 @@ bool TemporalPyramid::buildPyramid(int level_required){
         return false;
     }
     
-    if (level_required < 2) {
+    if (level_required <= 1) {
         cout << "Invalid number for levels\n";
         return false;
     }
@@ -216,15 +216,17 @@ string TemporalPyramid::run_crf(FrameModel *frames, int level){
     }
     
     cout << "Features: ";
+    /*
     for (int i  = 0 ;  i < feature_names.size() ; i ++) {
         cout << feature_names[i] << " ";
     }
-    
+    */
+    cout << feature_names[feature_names.size()-3] << ", " << feature_names[feature_names.size()-2] << ", " << feature_names[feature_names.size()-1] << endl;
     fp = fopen("crf/test.crf", "w");
     
-    fprintf(fp, "%s\n",feature_names[0].c_str());
-    fprintf(fp, "%s\n",feature_names[1].c_str());
-    fprintf(fp, "%s\n",feature_names[2].c_str());
+    fprintf(fp, "%s\n",feature_names[feature_names.size()-3].c_str());
+    fprintf(fp, "%s\n",feature_names[feature_names.size()-2].c_str());
+    fprintf(fp, "%s\n",feature_names[feature_names.size()-1].c_str());
     
     fclose(fp);
     
@@ -257,12 +259,17 @@ string TemporalPyramid::run_crf(FrameModel *frames, int level){
     return SplitVec[1];
 }
 
-bool TemporalPyramid::activity_detect(FrameModel *frames){
+bool TemporalPyramid::activity_detect(FrameModel *frames, int min_num_act_seq){
     string result;
     for(int level = 0 ; level < num_of_levels ; level++){
-        cout << "Level:" << level << endl;
-        result = run_crf(frames, level);
-        cout << "\nResult from CRF++:"  << result <<endl<<endl;
+        if(pyramid[level].size() >= min_num_act_seq){
+            cout << "Level:" << level << endl;
+            result = run_crf(frames, level);
+            cout << "\nResult from CRF++:"  << result <<endl<<endl;
+        }else{
+            cout << "Level:" << level << " Not enough nodes" <<endl;
+        }
+        
     }
         
     return true;

@@ -66,16 +66,19 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,int s
             playImage_with_detected_results(pause_when_detected, frame);
 
             //Building pyramid
-            if(frameList.size()/FPS >= MIN_NUM_NODES){
+            if(frameList.size()/FPS >= MIN_NUM_ACT_SEQUENCE){
                 myTemporalPyramid->loadFrames_realtime(this);
                 //cout << "num of levels in pyramids:" << myTemporalPyramid->num_of_levels <<endl;
-                cout << (int)log2(frameList.size()/FPS) <<endl; 
+                //cout << (int)log2(frameList.size()/FPS) <<endl; 
                 myTemporalPyramid->buildPyramid((int)log2(frameList.size()/FPS));
 
                 //Showing pyramids
-                for(int l = 0 ; l < myTemporalPyramid->num_of_levels ; l++){
+                for(int l = 0 ; l < myTemporalPyramid->num_of_levels ; l++)
                     myTemporalPyramid->showPyramid(l);
-                }
+
+                //Activity Detection
+                myTemporalPyramid->activity_detect(this, MIN_NUM_ACT_SEQUENCE);
+
             }
         }
         else
