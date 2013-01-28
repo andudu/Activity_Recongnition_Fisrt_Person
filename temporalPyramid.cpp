@@ -168,7 +168,7 @@ string TemporalPyramid::run_crf(FrameModel *frames, int level){
         return  msg;
     }
     
-    cout << "\nFeatures:";
+    cout << "Features: ";
     for (int i  = 0 ;  i < feature_names.size() ; i ++) {
         cout << feature_names[i] << " ";
     }
@@ -201,8 +201,13 @@ string TemporalPyramid::run_crf(FrameModel *frames, int level){
     }
     
     myfile.close();
+
+    typedef vector< string > split_vector_type;
     
-    return tmp[tmp.size() - 3 ];
+    split_vector_type SplitVec;\
+    split( SplitVec, tmp[tmp.size() - 3 ], is_any_of("\t") ); 
+    
+    return SplitVec[1];
 }
 
 bool TemporalPyramid::activity_detect(FrameModel *frames){
@@ -210,7 +215,7 @@ bool TemporalPyramid::activity_detect(FrameModel *frames){
     for(int level = 0 ; level < num_of_levels ; level++){
         cout << "Level:" << level << endl;
         result = run_crf(frames, level);
-        cout << "\nResult from CRF++:"  << result <<endl;
+        cout << "\nResult from CRF++:"  << result <<endl<<endl;
     }
         
     return true;

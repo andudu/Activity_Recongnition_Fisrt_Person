@@ -13,8 +13,10 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <boost/algorithm/string.hpp>
 #include "frames.h"
 
+using namespace boost;
 using namespace std;
 
 
