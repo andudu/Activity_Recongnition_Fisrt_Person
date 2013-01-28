@@ -35,6 +35,53 @@ bool TemporalPyramid::observationSampling(){
     return true;
 }
 
+bool TemporalPyramid::loadFrames_realtime(FrameModel* frames){
+    
+    int sliding_window_start = 0;
+
+    //Clear the pyramid first
+    pyramid.clear();
+    
+    //Setting the 'frame per node' number
+    frame_per_node = frames->FPS;
+    num_of_features = frames->num_features;
+    
+    cout << "FPN: " << frame_per_node << endl;
+    //Build the first level pyramid
+    vector<node> tmp_node_array;
+
+    //Abandon earlier frames
+    //暫定最多2^5的第一層node即可
+    cout << "frames->num_frames: " << frames->num_frames <<endl;
+    if(frames->num_frames >= 32*frame_per_node)
+        sliding_window_start = frames->num_frames - 32*frame_per_node;
+
+    for(int f = sliding_window_start ; f + frame_per_node < frames->num_frames ; f = f + frame_per_node){
+        
+        //create a node with the same number of features in a frame
+        node tmp_node;
+        for (int i = 0 ; i < frames->num_features ; i++){
+            tmp_node.feature.push_back(frames->frameList[f].feature[i]);
+        }
+        
+        //Summing frame features in a interval(FPN)
+        for (int j = f+1; j < f + frame_per_node ; j++) {
+            for (int i = 0 ; i < frames->num_features ; i++){
+                //cerr << "f:" << f <<" j:"<< j <<" i:" << i << endl;
+                tmp_node.feature[i] = frames->frameList[j].feature[i] + tmp_node.feature[i];
+            } 
+        }
+        
+        tmp_node_array.push_back(tmp_node);
+    }
+    
+        
+    pyramid.push_back(tmp_node_array);
+    num_of_levels = (int)pyramid.size();
+    
+    return true;
+}
+
 bool TemporalPyramid::loadFrames(FrameModel* frames){
     
     //Clear the pyramid first

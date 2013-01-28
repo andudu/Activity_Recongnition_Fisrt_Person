@@ -8,6 +8,7 @@
 
 #include "frames.h"
 #include "objectDetector.h"
+#include "temporalPyramid.h"
 
 int FrameModel::getFPS(){
 
@@ -16,10 +17,12 @@ int FrameModel::getFPS(){
 
 bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,int start, int end){
     
+    ObjectDetector* myObjDetector = new ObjectDetector;
+    TemporalPyramid* myTemporalPyramid = new TemporalPyramid;
     CvCapture *capture;
     IplImage *frame;
-    ObjectDetector* myObjDetector = new ObjectDetector;
     frameNode temp;
+    
 
     cvNamedWindow("Obj Detection Result", CV_WINDOW_AUTOSIZE);
     cvMoveWindow("Obj Detection Result", 50, 0);
@@ -55,11 +58,17 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,int s
         
         if(frame)
         {   
-            
+            num_frames++;
             frameList.push_back(temp);
             //temp.frame = cvCloneImage(frame);
             myObjDetector->detect(this, i, frame);
+            //cout << frameList.size() << endl;
             playImage_with_detected_results(pause_when_detected, frame);
+
+            //Building pyramid
+            if(frameList.size()/FPS >= MIN_NUM_NODES){
+                myTemporalPyramid->loadFrames_realtime(this);
+            }
         }
         else
         {
@@ -73,6 +82,7 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,int s
     cvReleaseCapture(&capture);    
     cvDestroyWindow("Obj Detection Result");
     delete myObjDetector;
+    delete myTemporalPyramid;
     
     return true;
 }
@@ -181,7 +191,6 @@ bool FrameModel::loadVideo(string path){
         
         if(frame)
         {   
-            
             frameList.push_back(temp);
             //temp.frame = cvCloneImage(frame);
             myObjDetector->detect(this, i, frame);
@@ -383,6 +392,7 @@ bool FrameModel::playVideo_with_detected_results(bool pause_when_detected){
 }
 
 FrameModel::FrameModel(){
+    num_frames = 0;
 }
 
 FrameModel::~FrameModel(){

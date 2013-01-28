@@ -47,6 +47,7 @@ public:
     ////public functions
     //load frames and build the first level pyramid(nodes)
     bool loadFrames(FrameModel* frames);
+    bool loadFrames_realtime(FrameModel* frames);
     bool buildPyramid(int level_required);//level 'counts' => positive integer : 1,2,3...
     bool observationSampling();
     bool showPyramid(int level_index);//start from level 0

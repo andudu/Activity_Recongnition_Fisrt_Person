@@ -70,7 +70,7 @@ int main (int argc, const char * argv[])
     //Components initializtion
     //
     FrameModel* myFrames = new FrameModel();
-    //TemporalPyramid* myTemporalPyramid = new TemporalPyramid();    
+    
     
     //
     //Loading input video(feature detection included)
