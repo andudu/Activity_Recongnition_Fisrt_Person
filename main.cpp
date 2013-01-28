@@ -66,21 +66,54 @@ int main (int argc, const char * argv[])
     
     cout << start_frame << " " <<end_frame <<endl;
     
-    /*
-     Components initializtion
-     */
+    //
+    //Components initializtion
+    //
     FrameModel* myFrames = new FrameModel();
-    TemporalPyramid* myTemporalPyramid = new TemporalPyramid();    
+    //TemporalPyramid* myTemporalPyramid = new TemporalPyramid();    
     
-    /*
-     Loading input video(feature detection included)
-     */
+    //
+    //Loading input video(feature detection included)
+    //
     myFrames->loadVideo(input_video, start_frame , end_frame);
     cout << "Frames : " << myFrames->frame_count << endl;
     
     /*
-     Show detection result
-     */
+    //
+    //Show detection result
+    //
+    if(show_detection_result)
+        myFrames->playVideo_with_detected_results(pause_when_detected);
+    
+    //
+    //Building temporal pyramid
+    //
+    cout << "Building temporal pyramid\n";
+    myTemporalPyramid->loadFrames(myFrames);
+    myTemporalPyramid->showPyramid(0);
+    myTemporalPyramid->buildPyramid(2);
+    cout << "number of levels : " << myTemporalPyramid->num_of_levels << endl;
+    myTemporalPyramid->showPyramid(1);
+    
+    
+    //
+    //Activity Detection
+    //
+    if(do_activity_detection)
+        myTemporalPyramid->activity_detect(myFrames);
+    
+    
+    
+    
+    delete myTemporalPyramid;
+    */
+    delete myFrames;
+    
+    return 0;
+}
+
+
+bool temp(void){
     /*
      myFrames.feature_name.push_back("fake_object");
      Rect fake;
@@ -90,32 +123,5 @@ int main (int argc, const char * argv[])
      fake.height = 120;
      myFrames.frameList[3].result_list[0].push_back(fake);
      */
-    if(show_detection_result)
-        myFrames->playVideo_with_detected_results(pause_when_detected);
-    
-    /*
-     Building temporal pyramid
-     */
-    cout << "Building temporal pyramid\n";
-    myTemporalPyramid->loadFrames(myFrames);
-    myTemporalPyramid->showPyramid(0);
-    myTemporalPyramid->buildPyramid(2);
-    cout << "number of levels : " << myTemporalPyramid->num_of_levels << endl;
-    myTemporalPyramid->showPyramid(1);
-    
-    
-    /*
-     Activity Detection
-     */
-    if(do_activity_detection)
-        myTemporalPyramid->activity_detect(myFrames);
-    
-    
-    
-    delete myFrames;
-    delete myTemporalPyramid;
-    
-    return 0;
 }
-
 
