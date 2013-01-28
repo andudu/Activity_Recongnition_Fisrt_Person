@@ -14,11 +14,15 @@ int FrameModel::getFPS(){
     return FPS;
 }
 
-bool FrameModel::loadVideo_realtime(string path, int start, int end){
+bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,int start, int end){
     
     CvCapture *capture;
     IplImage *frame;
     ObjectDetector* myObjDetector = new ObjectDetector;
+    frameNode temp;
+
+    cvNamedWindow("Obj Detection Result", CV_WINDOW_AUTOSIZE);
+    cvMoveWindow("Obj Detection Result", 50, 0);
     
     ////Laoding video file
     cout << "Laoding video file\n";
@@ -42,8 +46,6 @@ bool FrameModel::loadVideo_realtime(string path, int start, int end){
     
     cvSetCaptureProperty( capture, CV_CAP_PROP_POS_FRAMES , start );
     
-    frameNode temp;
-    
     for(int i = 0 ; i < frame_count ; i ++)
     {   
         
@@ -57,16 +59,19 @@ bool FrameModel::loadVideo_realtime(string path, int start, int end){
             frameList.push_back(temp);
             //temp.frame = cvCloneImage(frame);
             myObjDetector->detect(this, i, frame);
-            frameList.size();
+            playImage_with_detected_results(pause_when_detected, frame);
         }
         else
         {
             break;
         }
+
+        if(cvWaitKey(10) >= 0)
+            break;
     }
     
-    cvReleaseCapture(&capture);
-    
+    cvReleaseCapture(&capture);    
+    cvDestroyWindow("Obj Detection Result");
     delete myObjDetector;
     
     return true;
@@ -166,7 +171,7 @@ bool FrameModel::loadVideo(string path){
     cvSetCaptureProperty( capture, CV_CAP_PROP_POS_FRAMES , start );
     
     frameNode temp;
-    
+
     for(int i = 0 ; i < frame_count ; i ++)
     {   
         
@@ -191,7 +196,7 @@ bool FrameModel::loadVideo(string path){
     cvReleaseCapture(&capture);
     
     delete myObjDetector;
-    
+
     return true;
 }
 
@@ -236,6 +241,59 @@ bool FrameModel::showFeature(int index){
     
     cout << endl;
     
+    return true;
+}
+
+bool FrameModel::playImage_with_detected_results(bool pause_when_detected, IplImage *tempFrame){
+    
+        
+    for(int feature_index = 0 ; feature_index < num_features ; feature_index ++)
+    {   
+        //cout << "feature_index : " << feature_index << " " << feature_name[feature_index] << endl;
+        //cout << "num of detections : " << frameList.back().result_list[feature_index].size() << endl;
+            
+            for (int box = 0 ; box < frameList.back().result_list[feature_index].size() ; box++){     
+                //cout << "drawing bboxes : " << box << endl;
+                CvPoint point1, point2;  
+                
+                point1.x = frameList.back().result_list[feature_index][box].x;  
+                point2.x = frameList.back().result_list[feature_index][box].x + frameList.back().result_list[feature_index][box].width;  
+                point1.y = frameList.back().result_list[feature_index][box].y;  
+                point2.y = frameList.back().result_list[feature_index][box].y + frameList.back().result_list[feature_index][box].height;  
+                //cout << "x1:" << point1.x << " x2:" << point2.x << " y1:"<< point1.y << " y2:" <<point2.y <<endl;
+                cvRectangle(tempFrame, point1, point2, CV_RGB(0,255,0), 3, 8, 0);
+                
+                /*
+                 Put the object name on the box
+                 */
+                CvFont font;
+                cvInitFont(&font, CV_FONT_HERSHEY_SIMPLEX, 1.0, 1.0, 0, 1, CV_AA);
+                cvPutText(tempFrame, feature_name[feature_index].c_str(), cvPoint(point2.x+10, point2.y), &font, cvScalar(255, 255, 255, 0));
+            }  
+            
+            /*
+             scale down the image since it's 720x1280 sometimes exceeds the monitor size
+             */
+            IplImage *dst = 0;       
+            float scale = 0.5; 
+            CvSize dst_cvsize;      
+            dst_cvsize.width = tempFrame->width * scale;
+            dst_cvsize.height = tempFrame->height * scale;
+            dst = cvCreateImage( dst_cvsize, tempFrame->depth, tempFrame->nChannels);
+            cvResize(tempFrame, dst, CV_INTER_LINEAR);
+            
+            
+            /*
+             Show the result in the window.  
+             */
+            cvShowImage("Obj Detection Result", dst);
+            if(pause_when_detected && frameList.back().result_list[feature_index].size() > 0)
+                cvWaitKey(0);
+        
+            cvReleaseImage(&dst);
+            
+    }
+
     return true;
 }
 

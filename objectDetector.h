@@ -15,6 +15,7 @@
 #include "haar_cascade.h"
 #include "frames.h"
 
+#define MIN_NUM_NODES 3 //minimum number of nodes to make a possible "activity" sequence
 #define MAX_DETECTION_BOX 1000
 #define MIN_DETECTION_BOX 200
 //#define HAAR_PATH "../../DerivedData/FP_ADL_Detector/Build/Products/Debug/"

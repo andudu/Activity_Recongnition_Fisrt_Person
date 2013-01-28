@@ -75,7 +75,7 @@ int main (int argc, const char * argv[])
     //
     //Loading input video(feature detection included)
     //
-    myFrames->loadVideo(input_video, start_frame , end_frame);
+    myFrames->loadVideo_realtime(input_video, pause_when_detected, start_frame , end_frame);
     cout << "Frames : " << myFrames->frame_count << endl;
     
     /*
