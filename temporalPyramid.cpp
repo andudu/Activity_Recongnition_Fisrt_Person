@@ -266,6 +266,7 @@ bool TemporalPyramid::activity_detect(FrameModel *frames, int min_num_act_seq){
             cout << "Level:" << level << endl;
             result = run_crf(frames, level);
             cout << "\nResult from CRF++:"  << result <<endl<<endl;
+            
         }else{
             cout << "Level:" << level << " Not enough nodes" <<endl;
         }
