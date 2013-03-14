@@ -5,9 +5,9 @@ LINKING+=-L/usr/lib -Llib -lopencv_core -lopencv_highgui -lopencv_imgproc -lopen
 CXX=g++
 #CXX=ccache g++
 
-SRC=main.cpp main.h frames.cpp frames.h haar_cascade.cpp haar_cascade.h objectDetector.cpp objectDetector.h temporalPyramid.cpp temporalPyramid.h
+SRC=hmm_test.cpp
 
-EXE=FP_ADL.out
+EXE=hmm_test
 
 OPT=-O3
 
