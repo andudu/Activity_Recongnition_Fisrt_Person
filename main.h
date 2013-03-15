@@ -10,6 +10,8 @@
 #define FP_ADL_Detector_main_h
 
 #include <iostream>
+#include <vector>
+#include <boost/algorithm/string.hpp>
 
 #include "frames.h"
 #include "objectDetector.h"

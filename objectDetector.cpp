@@ -44,7 +44,7 @@ bool ObjectDetector::detect(FrameModel* frame_model , int frame_index ,IplImage*
     if( frame_index == 0)//If this is the first detection
         frame_model->num_features = (int)myHaars.size();//Equal to num of object detectors
     
-    //Detection using the cascades in myHaars
+    //Detection using the cascade classifiers in myHaars
     for (int cls = 0 ; cls < frame_model->num_features ; cls ++){
         
         if( frame_index == 0)

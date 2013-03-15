@@ -13,71 +13,79 @@ int main (int argc, const char * argv[])
     
     /*
      Input arguments checking
-     argv[1] : video path
-     argv[2] : [crf]run CRF++ for activity recognition
-     argv[3] : [show]show detection result 
-     argv[4] : [pause]show detection and pause when detected
-     argv[5] : start frame
-     argv[6] : end frame
+     -i path/to/video: video path
+     -crf : [crf]run CRF++ for activity recognition
+     -show : [show]show detection result 
+     -pause : [pause]show detection and pause when detected
+     -start start_frame : start frame
+     -end end_frame : end frame
      */
     
-    if (argv[1] == NULL){
-        cout << "missing argv[1] : input video path\n";
-        return 0;
-    }
-    
-    string input_video = string(argv[1]);
+    string input_video = "";
     bool do_activity_detection = false;
     bool show_detection_result = false;
     bool pause_when_detected = false;
     int  start_frame = -1;
     int  end_frame = -1;
-    
-    cout  << "input video:" << input_video << endl;
-    
-    if (argc >= 2) {
+
+    string temp = argv[1];
+
+    for(int i = 1 ; i <= argc - 1; i ++){
         string tmp;
-        tmp.assign(argv[2]);
-        if(tmp.compare("crf") == 0)
+        tmp.assign(argv[i]);
+
+        if(tmp.compare("-crf") == 0){
             do_activity_detection = true;
-    }
-    
-    if (argc >= 3) {
-        string tmp;
-        tmp.assign(argv[3]);
-        if(tmp.compare("show") == 0)
-            show_detection_result  = true;
-    }
-    
-    if (argc >= 4) {
-        string tmp;
-        tmp.assign(argv[4]);
-        if(tmp.compare("pause") == 0)
+        }
+
+        if(tmp.compare("-show") == 0){
+            show_detection_result = true;
+        }         
+
+        if(tmp.compare("-pause") == 0){
             pause_when_detected = true;
+        }
+
+        if(tmp.compare("-start") == 0){
+            start_frame = atoi(argv[i+1]);
+            i++;
+        }
+
+        if(tmp.compare("-end") == 0){
+            end_frame = atoi(argv[i+1]);
+            i++;
+        }
+
+        if(tmp.compare("-i") == 0){
+            input_video = string(argv[i+1]);
+            i++;
+        }    
     }
     
-    if (argc >= 5) {
-        start_frame = atoi(argv[5]);
+    cout  << "input video: " << input_video << endl;
+    cout << "start/end frame: " << start_frame << "/" <<end_frame <<endl;
+    cout << "run crf: " << do_activity_detection << endl;
+    cout << "show when object detected: " << show_detection_result << endl;
+    cout << "pause when object detected: " << pause_when_detected << endl;
+
+    if (input_video.compare("") == 0){
+        cout << "Invalid input video path !\n" << endl;
+        return 0;
     }
-    
-    if (argc >= 6) {
-        end_frame = atoi(argv[6]);
-    }
-    
-    cout << start_frame << " " <<end_frame <<endl;
-    
+
     //
     //Components initializtion
     //
     FrameModel* myFrames = new FrameModel();
-    
-    
+
     //
     //Loading input video(feature detection included)
     //
+    /*
     myFrames->loadVideo_realtime(input_video, pause_when_detected, start_frame , end_frame);
     cout << "Frames : " << myFrames->frame_count << endl;
-    
+    */
+
     /*
     //
     //Show detection result
@@ -122,6 +130,18 @@ bool temp(void){
      fake.width = 120;
      fake.height = 120;
      myFrames.frameList[3].result_list[0].push_back(fake);
+
+
+     typedef vector< string > split_vector_type;
+    
+    split_vector_type SplitVec;
+    split( SplitVec, "1 2 3", is_any_of(" ") );
+
+    for(int i = 0 ; i < SplitVec.size() ; i ++){
+        cout << SplitVec[i] << endl;
+        if(SplitVec[i].compare("1") == 0)
+            cout << "ok\n";
+    }
      */
 }
 

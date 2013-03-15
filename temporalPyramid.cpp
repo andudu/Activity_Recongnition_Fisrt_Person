@@ -253,7 +253,7 @@ string TemporalPyramid::run_crf(FrameModel *frames, int level){
 
     typedef vector< string > split_vector_type;
     
-    split_vector_type SplitVec;\
+    split_vector_type SplitVec;
     split( SplitVec, tmp[tmp.size() - 3 ], is_any_of("\t") ); 
     
     return SplitVec[1];

@@ -9,7 +9,7 @@ SRC=main.cpp main.h frames.cpp frames.h haar_cascade.cpp haar_cascade.h objectDe
 
 EXE=FP_ADL.out
 
-OPT=-O3
+OPT=-O0
 
 all:
 	$(CXX) $(OPT) $(INCLUDE) $(LINKING) $(SRC) -o $(EXE)
