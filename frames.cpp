@@ -35,7 +35,7 @@ int FrameModel::getFPS(){
 
 bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool show_detection_result,int start, int end, int indicate){
     
-    ObjectDetector* myObjDetector = new ObjectDetector;
+    ObjectDetector* myObjDetector = new ObjectDetector(indicate);
     TemporalPyramid* myTemporalPyramid = new TemporalPyramid;
     CvCapture *capture;
     IplImage *frame;
@@ -129,7 +129,7 @@ bool FrameModel::loadVideo(string path, int start, int end){
     
     CvCapture *capture;
     IplImage *frame;
-    ObjectDetector* myObjDetector = new ObjectDetector;
+    ObjectDetector* myObjDetector = new ObjectDetector();
     
     ////Laoding video file
     cout << "Laoding video file\n";
@@ -189,7 +189,7 @@ bool FrameModel::loadVideo(string path){
     IplImage *frame;
     int start;
     int end;
-    ObjectDetector* myObjDetector = new ObjectDetector;
+    ObjectDetector* myObjDetector = new ObjectDetector();
     
     ////Laoding video file
     cout << "Laoding video file\n";

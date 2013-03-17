@@ -37,7 +37,8 @@ public:
     bool detect(FrameModel* frame_model , int frame_index ,IplImage* image);
     
     //constructor
-	ObjectDetector();
+    ObjectDetector();
+	ObjectDetector(int indicate);
 	~ObjectDetector();
     
 private:

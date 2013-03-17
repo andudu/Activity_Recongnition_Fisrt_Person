@@ -8,6 +8,60 @@
 
 #include "objectDetector.h"
 
+ObjectDetector::ObjectDetector(int indicate){
+
+    DIR *dir;
+    struct dirent *ent;
+    string file_name;
+    
+    int counter = 0;
+    int limit = -1;
+
+    if ((dir = opendir (HAAR_PATH)) != NULL) {
+        //print all the files and directories within directory
+        while ((ent = readdir (dir)) != NULL) {
+           
+            file_name.assign(ent->d_name);
+    
+            if(file_name.compare(".") == 0 || file_name.compare("..") == 0){
+                continue; 
+            }
+            
+            //Limit the number of detectors
+            if(limit!= -1 && counter == limit)break;   
+            
+            
+            if(indicate!=-1){
+                //Indicate the only one I want to evaluate
+                if (counter == indicate){
+                    string path = HAAR_PATH;
+                    path.append(file_name);
+                    
+                    Haar_cascade tmp_classifier = Haar_cascade(path , file_name);
+                    myHaars.push_back(tmp_classifier);
+                }                
+            }else{
+                //Evaluate all the obj detectors
+                string path = HAAR_PATH;
+                path.append(file_name);
+                
+                Haar_cascade tmp_classifier = Haar_cascade(path , file_name);
+                myHaars.push_back(tmp_classifier);
+            }
+
+            counter++;
+        }
+
+        closedir (dir);
+    }else{
+        //could not open directory
+        cout << "No such directory:"  <<  HAAR_PATH << endl;
+    }
+
+    num_of_detectors  = myHaars.size();
+    cout << "number of objectDetector: " << num_of_detectors << endl;
+}
+
 ObjectDetector::ObjectDetector(){
 
     DIR *dir;
@@ -16,7 +70,6 @@ ObjectDetector::ObjectDetector(){
     
     int counter = 0;
     int limit = -1;
-    int indicate = 2;
 
     if ((dir = opendir (HAAR_PATH)) != NULL) {
         //print all the files and directories within directory
@@ -31,16 +84,11 @@ ObjectDetector::ObjectDetector(){
             //Limit the number of detectors
             if(limit!= -1 && counter == limit)break;               
             
-            //Indicate the only one I want to evaluate
-            if(indicate!=-1 && counter == indicate){
-                //cout << "loading classifier:" << file_name << endl;
-
-                string path = HAAR_PATH;
-                path.append(file_name);
-                
-                Haar_cascade tmp_classifier = Haar_cascade(path , file_name);
-                myHaars.push_back(tmp_classifier);
-            }
+            string path = HAAR_PATH;
+            path.append(file_name);
+            
+            Haar_cascade tmp_classifier = Haar_cascade(path , file_name);
+            myHaars.push_back(tmp_classifier);
 
             counter++;
         }
