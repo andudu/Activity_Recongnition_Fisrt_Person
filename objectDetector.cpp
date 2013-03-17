@@ -135,55 +135,58 @@ bool ObjectDetector::detect(FrameModel* frame_model , int frame_index ,IplImage*
     
     return true;
 }
-
-bool ObjectDetector::mean_std_reader(){
+vector<string> reader(){
 
     string line;
     ifstream myfile ("cascade_0305/mean_std.txt");
+    vector<string> list;
     if (myfile.is_open())
     {
         while ( myfile.good() )
         {   
-            mean_std tmp;
             getline (myfile,line);
             cout << line << endl;
-
-            typedef vector< string > split_vector_type;
             
-               
-            split_vector_type SplitVec;
-            split( SplitVec, line, is_any_of(" ") );
-            
-            tmp.classifier_name = SplitVec[0];
-
-            /*
-            tmp.width_mean = atoi(SplitVec[1].c_str());
-            tmp.width_std = atoi(SplitVec[2].c_str());
-            tmp.height_mean = atoi(SplitVec[3].c_str());
-            tmp.height_std = atoi(SplitVec[4].c_str());
-            
-            /*
-            cout << "1\n";
-            mean_std_list.push_back(tmp);
-            cout << "list size:" << mean_std_list.size() << endl;
-            cout << "2\n";
-            */
+            list.push_back(line);
         }
         
         myfile.close();
         
     }else{
-         cout << "Unable to open mean_std file!\n";
-         return false;    
+         cout << "Unable to open mean_std file!\n";    
+    }
+
+    return list;
+}
+
+bool ObjectDetector::mean_std_reader(){
+
+    typedef vector< string > split_vector_type;
+
+    vector<string> list = reader();
+
+    for(int i = 0 ; i < list.size() ; i ++){
+        mean_std tmp;
+        
+        split_vector_type SplitVec;
+        split( SplitVec, list[i], is_any_of(" ") );
+        
+        tmp.classifier_name = SplitVec[0];
+        tmp.width_mean = atoi(SplitVec[1].c_str());
+        tmp.width_std = atoi(SplitVec[2].c_str());
+        tmp.height_mean = atoi(SplitVec[3].c_str());
+        tmp.height_std = atoi(SplitVec[4].c_str());
+        
+        mean_std_list.push_back(tmp);
     }
     
-/*
     for (int i = 0 ; i < mean_std_list.size() ; i ++){
         cout << "i:" << i << endl;
         cout << mean_std_list[i].classifier_name << " " << mean_std_list[i].width_mean << " " 
              << mean_std_list[i].width_std << " " << mean_std_list[i].height_mean << " "
              << mean_std_list[i].height_std <<endl;
     }
-*/  
+
     return true;
 }
+
