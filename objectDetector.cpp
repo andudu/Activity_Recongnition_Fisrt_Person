@@ -26,7 +26,8 @@ ObjectDetector::ObjectDetector(int indicate){
            
             file_name.assign(ent->d_name);
     
-            if(file_name.compare(".") == 0 || file_name.compare("..") == 0){
+            if(file_name.compare(".") == 0 || file_name.compare("..") == 0 ||
+               file_name.compare("mean_std.txt") == 0){
                 continue; 
             }
             
@@ -144,6 +145,11 @@ vector<string> reader(){
     {
         while ( myfile.good() )
         {   
+            /*
+            注意最後一行的問題
+            可能會把最後空行讀進來!
+            需要手動對input檔案做檢查
+            */  
             getline (myfile,line);
             cout << line << endl;
             
@@ -180,13 +186,14 @@ bool ObjectDetector::mean_std_reader(){
         mean_std_list.push_back(tmp);
     }
     
+    /*
     for (int i = 0 ; i < mean_std_list.size() ; i ++){
         cout << "i:" << i << endl;
         cout << mean_std_list[i].classifier_name << " " << mean_std_list[i].width_mean << " " 
              << mean_std_list[i].width_std << " " << mean_std_list[i].height_mean << " "
              << mean_std_list[i].height_std <<endl;
     }
-
+    */
     return true;
 }
 
