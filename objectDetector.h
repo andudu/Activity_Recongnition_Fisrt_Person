@@ -11,8 +11,10 @@
 
 #include <stdlib.h>
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <dirent.h>
+#include <boost/algorithm/string.hpp>
 #include "haar_cascade.h"
 #include "frames.h"
 
@@ -22,6 +24,20 @@
 #define HAAR_PATH "cascade_0305/"
 
 using namespace std;
+using namespace boost;
+
+class mean_std{
+
+public:
+    
+    string classifier_name;
+    int width_mean;
+    int height_mean;
+    int width_std;
+    int height_std; 
+
+};
+
 
 class ObjectDetector{
 	
@@ -44,6 +60,9 @@ public:
 private:
     
     vector<Haar_cascade> myHaars;
+    vector<mean_std> mean_std_list;
+
+    bool mean_std_reader();
 };
 
 

@@ -17,6 +17,9 @@ ObjectDetector::ObjectDetector(int indicate){
     int counter = 0;
     int limit = -1;
 
+    //Reade the mean std file first
+    mean_std_reader();
+
     if ((dir = opendir (HAAR_PATH)) != NULL) {
         //print all the files and directories within directory
         while ((ent = readdir (dir)) != NULL) {
@@ -130,5 +133,56 @@ bool ObjectDetector::detect(FrameModel* frame_model , int frame_index ,IplImage*
         
     }
     
+    return true;
+}
+
+bool ObjectDetector::mean_std_reader(){
+
+    string line;
+    ifstream myfile ("cascade_0305/mean_std.txt");
+    if (myfile.is_open())
+    {
+        while ( myfile.good() )
+        {   
+            mean_std tmp;
+            getline (myfile,line);
+            cout << line << endl;
+
+            typedef vector< string > split_vector_type;
+            
+            /*    
+            split_vector_type SplitVec;
+            split( SplitVec, line, is_any_of(" ") );
+
+            tmp.classifier_name = SplitVec[0];
+            
+            tmp.width_mean = atoi(SplitVec[1].c_str());
+            tmp.width_std = atoi(SplitVec[2].c_str());
+            tmp.height_mean = atoi(SplitVec[3].c_str());
+            tmp.height_std = atoi(SplitVec[4].c_str());
+            */
+            /*
+            cout << "1\n";
+            mean_std_list.push_back(tmp);
+            cout << "list size:" << mean_std_list.size() << endl;
+            cout << "2\n";
+            */
+        }
+        
+        myfile.close();
+        
+    }else{
+         cout << "Unable to open mean_std file!\n";
+         return false;    
+    }
+    
+/*
+    for (int i = 0 ; i < mean_std_list.size() ; i ++){
+        cout << "i:" << i << endl;
+        cout << mean_std_list[i].classifier_name << " " << mean_std_list[i].width_mean << " " 
+             << mean_std_list[i].width_std << " " << mean_std_list[i].height_mean << " "
+             << mean_std_list[i].height_std <<endl;
+    }
+*/  
     return true;
 }
