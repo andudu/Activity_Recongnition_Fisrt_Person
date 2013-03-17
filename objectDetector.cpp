@@ -15,6 +15,8 @@ ObjectDetector::ObjectDetector(){
     string file_name;
     
     int counter = 0;
+    int limit = -1;
+    int indicate = 2;
 
     if ((dir = opendir (HAAR_PATH)) != NULL) {
         //print all the files and directories within directory
@@ -25,15 +27,20 @@ ObjectDetector::ObjectDetector(){
             if(file_name.compare(".") == 0 || file_name.compare("..") == 0){
                 continue; 
             }
-            if(counter == 3)
-                break;               
-            //cout << "loading classifier:" << file_name << endl;
-
-            string path = HAAR_PATH;
-            path.append(file_name);
             
-            Haar_cascade tmp_classifier = Haar_cascade(path , file_name);
-            myHaars.push_back(tmp_classifier);
+            //Limit the number of detectors
+            if(limit!= -1 && counter == limit)break;               
+            
+            //Indicate the only one I want to evaluate
+            if(indicate!=-1 && counter == indicate){
+                //cout << "loading classifier:" << file_name << endl;
+
+                string path = HAAR_PATH;
+                path.append(file_name);
+                
+                Haar_cascade tmp_classifier = Haar_cascade(path , file_name);
+                myHaars.push_back(tmp_classifier);
+            }
 
             counter++;
         }
@@ -46,29 +53,6 @@ ObjectDetector::ObjectDetector(){
 
     num_of_detectors  = myHaars.size();
     cout << "number of objectDetector: " << num_of_detectors << endl;
-
-    /*
-    string path = HAAR_PATH;
-    path.append("cascade_active_beverage.xml");
-    
-    Haar_cascade tmp = Haar_cascade(path , "active_beverage");
-    myHaars.push_back(tmp);
-    
-    path = HAAR_PATH;
-    path.append("cascade_active_laptop.xml");
-    tmp = Haar_cascade(path , "active_laptop");
-    myHaars.push_back(tmp);
-    
-    path = HAAR_PATH;
-    path.append("cascade_active_mug.xml");
-    tmp = Haar_cascade(path , "active_mug");
-    myHaars.push_back(tmp);
-    
-    path = HAAR_PATH;
-    path.append("cascade_active_water_dispenser.xml");
-    tmp = Haar_cascade(path , "active_water_dispenser");
-    myHaars.push_back(tmp);
-    */
 }
 
 ObjectDetector::~ObjectDetector(){

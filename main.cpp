@@ -24,8 +24,9 @@ int main (int argc, const char * argv[])
     bool do_activity_detection = false;
     bool show_detection_result = false;
     bool pause_when_detected = false;
-    int  start_frame = -1;
-    int  end_frame = -1;
+    int start_frame = -1;
+    int end_frame = -1;
+    int indicate = -1;
 
     string temp = argv[1];
 
@@ -58,14 +59,20 @@ int main (int argc, const char * argv[])
         if(tmp.compare("-i") == 0){
             input_video = string(argv[i+1]);
             i++;
+        }
+
+        if(tmp.compare("-indicate") == 0){
+            indicate = atoi(argv[i+1]);
+            i++;
         }    
     }
     
     cout  << "input video: " << input_video << endl;
     cout << "start/end frame: " << start_frame << "/" <<end_frame <<endl;
     cout << "run crf: " << do_activity_detection << endl;
-    cout << "show when object detected: " << show_detection_result << endl;
+    cout << "show frames: " << show_detection_result << endl;
     cout << "pause when object detected: " << pause_when_detected << endl;
+    cout << "indicate object index:" << indicate <<endl;
 
     if (input_video.compare("") == 0){
         cout << "Invalid input video path !\n" << endl;
@@ -80,7 +87,7 @@ int main (int argc, const char * argv[])
     //
     //Loading input video(feature detection included)
     //
-    myFrames->loadVideo_realtime(input_video, pause_when_detected, start_frame , end_frame);
+    myFrames->loadVideo_realtime(input_video, pause_when_detected, show_detection_result, start_frame , end_frame, indicate);
     cout << "Frames : " << myFrames->frame_count << endl;
 
     /*

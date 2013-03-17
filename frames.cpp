@@ -33,7 +33,7 @@ int FrameModel::getFPS(){
     return FPS;
 }
 
-bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,int start, int end){
+bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool show_detection_result,int start, int end, int indicate){
     
     ObjectDetector* myObjDetector = new ObjectDetector;
     TemporalPyramid* myTemporalPyramid = new TemporalPyramid;
@@ -80,7 +80,9 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,int s
             //temp.frame = cvCloneImage(frame);
             myObjDetector->detect(this, i, frame);
             //cout << frameList.size() << endl;
-            playImage_with_detected_results(pause_when_detected, frame);
+            if(show_detection_result){
+                playImage_with_detected_results(pause_when_detected, frame);   
+            }           
 
             
             myTemporalPyramid->loadFrames_realtime(this);

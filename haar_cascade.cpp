@@ -95,7 +95,7 @@ vector<Rect> Haar_cascade::runDetection(IplImage* image_detect)
     end_time = clock();
     total_time = (float)(end_time - start_time)/CLOCKS_PER_SEC;
     //cout << CLOCKS_PER_SEC << endl;
-    cout << "Detection took:" << total_time << " seconds\n";
+    //cout << "Detection took:" << total_time << " seconds\n";
     
     //cout << "Number of detections:" << result_list.size() << endl;
     
