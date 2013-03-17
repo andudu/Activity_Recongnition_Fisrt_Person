@@ -51,10 +51,12 @@ bool TemporalPyramid::loadFrames_realtime(FrameModel* frames){
     vector<node> tmp_node_array;
 
     //Abandon earlier frames
-    //暫定最多2^5的第一層node即可
+    //暫定最多2^5的第一層node即可(已註解)
     cout << "frames->num_frames: " << frames->num_frames <<endl;
+    /*
     if(frames->num_frames >= 32*frame_per_node)
         sliding_window_start = frames->num_frames - 32*frame_per_node;
+    */
 
     for(int f = sliding_window_start ; f + frame_per_node < frames->num_frames ; f = f + frame_per_node){
         

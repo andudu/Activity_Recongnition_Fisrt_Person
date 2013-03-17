@@ -14,6 +14,8 @@ ObjectDetector::ObjectDetector(){
     struct dirent *ent;
     string file_name;
     
+    int counter = 0;
+
     if ((dir = opendir (HAAR_PATH)) != NULL) {
         //print all the files and directories within directory
         while ((ent = readdir (dir)) != NULL) {
@@ -22,14 +24,18 @@ ObjectDetector::ObjectDetector(){
     
             if(file_name.compare(".") == 0 || file_name.compare("..") == 0){
                 continue; 
-            }               
-            cout << "loading classifier:" << file_name << endl;
+            }
+            if(counter == 3)
+                break;               
+            //cout << "loading classifier:" << file_name << endl;
 
             string path = HAAR_PATH;
             path.append(file_name);
             
             Haar_cascade tmp_classifier = Haar_cascade(path , file_name);
             myHaars.push_back(tmp_classifier);
+
+            counter++;
         }
 
         closedir (dir);

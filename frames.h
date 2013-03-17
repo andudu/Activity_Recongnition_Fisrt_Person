@@ -63,9 +63,7 @@ public:
     bool playImage_with_detected_results(bool pause_when_detected, IplImage *frame);
     
 private:
-    string video_path;
-    
-    
+    string video_path;    
 };
 
 #endif

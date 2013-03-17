@@ -12,7 +12,6 @@
 Haar_cascade::Haar_cascade(string classifier_name , string feature_name){
     
     name = feature_name;
-    //classifier_name = "mug_cascade.xml";
 
     // Create classifier object 
     if (myClassifier.load(classifier_name))

@@ -10,6 +10,24 @@
 #include "objectDetector.h"
 #include "temporalPyramid.h"
 
+float ObjectDetector_Evaluation(int frame_index,TemporalPyramid* my_pyramid){
+
+    int level_index = 0;
+
+    cout << "Number of nodes in level " << level_index  << " => " << my_pyramid->pyramid[level_index].size() <<endl;;
+    cout << "Node features" << endl;
+    for (int i = 0 ;  i < my_pyramid->pyramid[level_index].size(); i++) {
+        for (int j = 0; j < my_pyramid->pyramid[level_index][i].feature.size() ; j++) {
+            cout << my_pyramid->pyramid[level_index][i].feature[j] <<" "; 
+        }
+        cout << " | ";
+    }
+    cout << "\n";
+
+    return 0;
+}
+
+
 int FrameModel::getFPS(){
 
     return FPS;
@@ -64,6 +82,14 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,int s
             //cout << frameList.size() << endl;
             playImage_with_detected_results(pause_when_detected, frame);
 
+            
+            myTemporalPyramid->loadFrames_realtime(this);
+            if((i%FPS) == 0){
+                ObjectDetector_Evaluation(i,myTemporalPyramid);  
+            }
+            
+
+            /*
             //Building pyramid
             if(frameList.size()/FPS >= MIN_NUM_ACT_SEQUENCE){
                 myTemporalPyramid->loadFrames_realtime(this);
@@ -77,8 +103,8 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,int s
 
                 //Activity Detection
                 myTemporalPyramid->activity_detect(this, MIN_NUM_ACT_SEQUENCE);
-
             }
+            */
         }
         else
         {
