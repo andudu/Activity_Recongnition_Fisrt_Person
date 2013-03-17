@@ -150,12 +150,13 @@ bool ObjectDetector::mean_std_reader(){
 
             typedef vector< string > split_vector_type;
             
-                
+               
             split_vector_type SplitVec;
             split( SplitVec, line, is_any_of(" ") );
-
-            tmp.classifier_name = SplitVec[0];
             
+            tmp.classifier_name = SplitVec[0];
+
+            /*
             tmp.width_mean = atoi(SplitVec[1].c_str());
             tmp.width_std = atoi(SplitVec[2].c_str());
             tmp.height_mean = atoi(SplitVec[3].c_str());
