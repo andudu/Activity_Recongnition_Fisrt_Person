@@ -9,6 +9,39 @@
 #include "objectDetector.h"
 
 ObjectDetector::ObjectDetector(){
+
+    DIR *dir;
+    struct dirent *ent;
+    string file_name;
+    
+    if ((dir = opendir (HAAR_PATH)) != NULL) {
+        //print all the files and directories within directory
+        while ((ent = readdir (dir)) != NULL) {
+           
+            file_name.assign(ent->d_name);
+    
+            if(file_name.compare(".") == 0 || file_name.compare("..") == 0){
+                continue; 
+            }               
+            cout << "loading classifier:" << file_name << endl;
+
+            string path = HAAR_PATH;
+            path.append(file_name);
+            
+            Haar_cascade tmp_classifier = Haar_cascade(path , file_name);
+            myHaars.push_back(tmp_classifier);
+        }
+
+        closedir (dir);
+    }else{
+        //could not open directory
+        cout << "No such directory:"  <<  HAAR_PATH << endl;
+    }
+
+    num_of_detectors  = myHaars.size();
+    cout << "number of objectDetector: " << num_of_detectors << endl;
+
+    /*
     string path = HAAR_PATH;
     path.append("cascade_active_beverage.xml");
     
@@ -29,6 +62,7 @@ ObjectDetector::ObjectDetector(){
     path.append("cascade_active_water_dispenser.xml");
     tmp = Haar_cascade(path , "active_water_dispenser");
     myHaars.push_back(tmp);
+    */
 }
 
 ObjectDetector::~ObjectDetector(){

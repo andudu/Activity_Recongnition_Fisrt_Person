@@ -22,7 +22,6 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,int s
     CvCapture *capture;
     IplImage *frame;
     frameNode temp;
-    
 
     cvNamedWindow("Obj Detection Result", CV_WINDOW_AUTOSIZE);
     cvMoveWindow("Obj Detection Result", 50, 0);

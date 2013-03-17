@@ -12,13 +12,14 @@
 #include <stdlib.h>
 #include <iostream>
 #include <vector>
+#include <dirent.h>
 #include "haar_cascade.h"
 #include "frames.h"
 
 #define MAX_DETECTION_BOX 1000
 #define MIN_DETECTION_BOX 200
 //#define HAAR_PATH "../../DerivedData/FP_ADL_Detector/Build/Products/Debug/"
-#define HAAR_PATH ""
+#define HAAR_PATH "cascade_0305/"
 
 using namespace std;
 

@@ -5,13 +5,7 @@
 //  Created by Yahoo on 11/10/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
-#include "main.h"
-
-int main (int argc, const char * argv[])
-{   
-    cout << "FP_ADL_Detector\n";
-    
-    /*
+/*
      Input arguments checking
      -i path/to/video: video path
      -crf : [crf]run CRF++ for activity recognition
@@ -20,6 +14,11 @@ int main (int argc, const char * argv[])
      -start start_frame : start frame
      -end end_frame : end frame
      */
+#include "main.h"
+
+int main (int argc, const char * argv[])
+{   
+    cout << "FP_ADL_Detector\n";    
     
     string input_video = "";
     bool do_activity_detection = false;
@@ -81,10 +80,8 @@ int main (int argc, const char * argv[])
     //
     //Loading input video(feature detection included)
     //
-    /*
     myFrames->loadVideo_realtime(input_video, pause_when_detected, start_frame , end_frame);
     cout << "Frames : " << myFrames->frame_count << endl;
-    */
 
     /*
     //
