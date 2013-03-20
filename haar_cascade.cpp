@@ -9,7 +9,7 @@
 #include <iostream>
 #include "haar_cascade.h"
 
-Haar_cascade::Haar_cascade(string classifier_name , string feature_name){
+Haar_cascade::Haar_cascade(string classifier_name , string feature_name,int width_mean,int height_mean, int width_std,int height_std){
     
     name = feature_name;
 
@@ -18,6 +18,26 @@ Haar_cascade::Haar_cascade(string classifier_name , string feature_name){
         cout << classifier_name << " is loaded\n";
     else
         cout << "Failed loading" << classifier_name <<endl;
+
+    /*
+    min_obj_size.height = height_mean - height_std;
+    max_obj_size.height = height_mean + height_std;
+    min_obj_size.width = width_mean - width_std;
+    max_obj_size.width = width_mean + width_std;
+    */
+
+    //Tunning factor
+    float f = 1;
+    min_obj_size.height = height_mean - f*height_std;
+    max_obj_size.height = height_mean + f*height_std;
+    min_obj_size.width = width_mean - f*width_std;
+    max_obj_size.width = width_mean + f*width_std;
+
+    cout << classifier_name <<endl;
+    cout << "min_obj_size.height:" << min_obj_size.height <<endl;
+    cout << "min_obj_size.width:" << min_obj_size.width <<endl;
+    cout << "max_obj_size.height:" << max_obj_size.height <<endl;
+    cout << "max_obj_size.height:" << max_obj_size.height <<endl;
 }
 
 Haar_cascade::~Haar_cascade(){
@@ -28,39 +48,8 @@ string Haar_cascade::get_name(){
     return name;
 }
 
-int Haar_cascade::detect(string img,int min,int max){
+vector<Rect> Haar_cascade::detect(IplImage* image_detect){
     
-        
-    //cout << name <<">>Detection begins..."<<endl;
-    
-    min_obj_size.height = min_obj_size.width = min;
-    max_obj_size.height = max_obj_size.width = max;
-    IplImage* pImg = cvLoadImage( img.c_str(), 1);
-    //cout << "Image loaded..." <<endl;
-    //cout << "Running detection..." <<endl;
-    int num_of_detection = (int)runDetection(pImg).size();  
-    cvReleaseImage( &pImg );
-    //cout << "Image released..." <<endl;
-    
-    return num_of_detection;
-}
-
-vector<Rect> Haar_cascade::detect(IplImage* image_detect,int min,int max){
-    
-    
-    //cout << "Detection begins..." <<endl;
-    
-    min_obj_size.height = min_obj_size.width = min;
-    max_obj_size.height = max_obj_size.width = max;
-    
-    //int num_of_detection = (int)runDetection(image_detect).size();  
-    
-    
-    return runDetection(image_detect);
-}
-
-vector<Rect> Haar_cascade::runDetection(IplImage* image_detect)  
-{   
     clock_t start_time, end_time;
     float total_time = 0;
     
@@ -134,5 +123,6 @@ vector<Rect> Haar_cascade::runDetection(IplImage* image_detect)
     }
      */
     cvReleaseImage(&tempFrame);
-    return result_list;  
-}  
+    return result_list; 
+}
+

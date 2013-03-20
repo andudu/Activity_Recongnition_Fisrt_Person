@@ -33,20 +33,19 @@ public:
     CvSize max_obj_size;
     
     //constructor
-	Haar_cascade(string classifier_name , string feature_name);
+	Haar_cascade(string classifier_name , string feature_name,int width_mean,int height_mean, int width_std,int height_std);
 	~Haar_cascade();
     
     //public functions
     string get_name();
     int detect(string img,int min_obj_height,int min_obj_width);
-    vector<Rect> detect(IplImage* image_detect,int min,int max);
+    vector<Rect> detect(IplImage* image_detect);
     
     
 private:
     
     CascadeClassifier myClassifier;
     
-    vector<Rect> runDetection(IplImage* image_detect);
 };
 
 

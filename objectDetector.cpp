@@ -34,6 +34,16 @@ ObjectDetector::ObjectDetector(int indicate){
             //Limit the number of detectors
             if(limit!= -1 && counter == limit)break;   
             
+
+            int width_mean=0,height_mean=0,width_std=0,height_std=0;
+            for(int i=0;i<mean_std_list.size();i++){
+                if(mean_std_list[i].classifier_name.compare(file_name)){
+                    width_mean = mean_std_list[i].width_mean;
+                    height_mean = mean_std_list[i].height_mean;
+                    width_std = mean_std_list[i].width_std;
+                    height_std = mean_std_list[i].height_std;
+                }
+            }
             
             if(indicate!=-1){
                 //Indicate the only one I want to evaluate
@@ -41,15 +51,15 @@ ObjectDetector::ObjectDetector(int indicate){
                     string path = HAAR_PATH;
                     path.append(file_name);
                     
-                    Haar_cascade tmp_classifier = Haar_cascade(path , file_name);
+                    Haar_cascade tmp_classifier = Haar_cascade(path , file_name,width_mean,height_mean,width_std,height_std);
                     myHaars.push_back(tmp_classifier);
                 }                
             }else{
                 //Evaluate all the obj detectors
                 string path = HAAR_PATH;
                 path.append(file_name);
-                
-                Haar_cascade tmp_classifier = Haar_cascade(path , file_name);
+
+                Haar_cascade tmp_classifier = Haar_cascade(path , file_name,width_mean,height_mean,width_std,height_std);
                 myHaars.push_back(tmp_classifier);
             }
 
@@ -57,47 +67,7 @@ ObjectDetector::ObjectDetector(int indicate){
         }
 
         closedir (dir);
-    }else{
-        //could not open directory
-        cout << "No such directory:"  <<  HAAR_PATH << endl;
-    }
 
-    num_of_detectors  = myHaars.size();
-    cout << "number of objectDetector: " << num_of_detectors << endl;
-}
-
-ObjectDetector::ObjectDetector(){
-
-    DIR *dir;
-    struct dirent *ent;
-    string file_name;
-    
-    int counter = 0;
-    int limit = -1;
-
-    if ((dir = opendir (HAAR_PATH)) != NULL) {
-        //print all the files and directories within directory
-        while ((ent = readdir (dir)) != NULL) {
-           
-            file_name.assign(ent->d_name);
-    
-            if(file_name.compare(".") == 0 || file_name.compare("..") == 0){
-                continue; 
-            }
-            
-            //Limit the number of detectors
-            if(limit!= -1 && counter == limit)break;               
-            
-            string path = HAAR_PATH;
-            path.append(file_name);
-            
-            Haar_cascade tmp_classifier = Haar_cascade(path , file_name);
-            myHaars.push_back(tmp_classifier);
-
-            counter++;
-        }
-
-        closedir (dir);
     }else{
         //could not open directory
         cout << "No such directory:"  <<  HAAR_PATH << endl;
@@ -112,7 +82,7 @@ ObjectDetector::~ObjectDetector(){
 
 /*
  Single frame detection
- */
+*/
 bool ObjectDetector::detect(FrameModel* frame_model , int frame_index ,IplImage* image){
     
     name_of_frames = frame_model->name;
@@ -127,7 +97,7 @@ bool ObjectDetector::detect(FrameModel* frame_model , int frame_index ,IplImage*
             frame_model->feature_name.push_back(myHaars[cls].name);//If this is the first detection
             
         //cout << "detecting:" <<<< "/" << frame_model->frameList.size()-1 << endl; 
-        vector<Rect> result_list = myHaars[cls].detect(image,MIN_DETECTION_BOX,MAX_DETECTION_BOX);
+        vector<Rect> result_list = myHaars[cls].detect(image);
         frame_model->frameList[frame_index].feature.push_back(result_list.size());
         frame_model->frameList[frame_index].result_list.push_back(result_list);
         
@@ -136,6 +106,7 @@ bool ObjectDetector::detect(FrameModel* frame_model , int frame_index ,IplImage*
     
     return true;
 }
+
 vector<string> reader(){
 
     string line;

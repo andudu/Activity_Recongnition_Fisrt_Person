@@ -54,8 +54,6 @@ public:
     
     //public functions
     int getFPS();
-    bool loadVideo(string path);
-    bool loadVideo(string path, int start, int end);
     bool loadVideo_realtime(string path, bool pause_when_detected, bool show_detection_result, int start, int end ,int indicate);
     bool playVideo();
     bool showFeature(int index);
