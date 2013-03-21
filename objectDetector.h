@@ -52,6 +52,7 @@ public:
     
     //public functions
     bool detect(FrameModel* frame_model , int frame_index ,IplImage* image);
+    bool ground_truth_detect(FrameModel* frame_model , int frame_index ,IplImage* image);
     
     //constructor
 	ObjectDetector(int indicate);

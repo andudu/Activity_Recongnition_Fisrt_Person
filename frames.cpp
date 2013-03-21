@@ -54,7 +54,7 @@ bool FrameModel::load_ground_truth_obj_annotation(string path){
         split_vector_type SplitVec;
         split( SplitVec, file[i], is_any_of(" ") );
 
-        tmp_obj.obj_name = SplitVec[7];
+        tmp_obj.name = SplitVec[7];
         tmp_obj.frame = atoi(SplitVec[4].c_str());
         tmp_obj.x = atoi(SplitVec[0].c_str());
         tmp_obj.y = atoi(SplitVec[1].c_str());
@@ -62,6 +62,9 @@ bool FrameModel::load_ground_truth_obj_annotation(string path){
         tmp_obj.height = atoi(SplitVec[3].c_str());
         tmp_obj.index = atoi(SplitVec[6].c_str());
         tmp_obj.exist = true;
+
+        if(obj_name.find(tmp_obj.index) == obj_name.end())
+            obj_name[tmp_obj.index] = tmp_obj.name;
 
         if(ground_truth.find(tmp_obj.frame) == ground_truth.end()){
             frame_annotation tmp;
@@ -143,19 +146,24 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
         {   
             num_frames++;
             frameList.push_back(temp);
-            //temp.frame = cvCloneImage(frame);
-            myObjDetector->detect(this, i, frame);
+            
+            //Ground truth detect
+            myObjDetector->ground_truth_detect(this, i, frame);
+
+            //Real detect
+            //myObjDetector->detect(this, i, frame);
+            
+            /*
             //cout << frameList.size() << endl;
             if(show_detection_result){
                 playImage_with_detected_results(pause_when_detected, frame);   
             }           
 
-            
             myTemporalPyramid->loadFrames_realtime(this);
             if((i%FPS) == 0){
                 ObjectDetector_Evaluation(i,myTemporalPyramid);  
             }
-            
+            */
 
             /*
             //Building pyramid

@@ -107,6 +107,37 @@ bool ObjectDetector::detect(FrameModel* frame_model , int frame_index ,IplImage*
     return true;
 }
 
+/*
+ Ground truth detection
+*/
+bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_index ,IplImage* image){
+    
+    name_of_frames = frame_model->name;
+    
+    //If this is the first detection
+    if( frame_index == 0){
+        //frame_model->num_features = (int)myHaars.size();//Equal to num of object detectors
+        frame_model->num_features = frame_model->obj_name.size();
+    }
+        
+    //Detection using the cascade classifiers in myHaars
+    for (int cls = 0 ; cls < frame_model->num_features ; cls ++){
+        
+        if( frame_index == 0)
+            frame_model->feature_name.push_back(frame_model->obj_name[cls]);//If this is the first detection
+            
+        //cout << "detecting:" <<<< "/" << frame_model->frameList.size()-1 << endl; 
+        //vector<Rect> result_list = myHaars[cls].detect(image);
+        //frame_model->frameList[frame_index].feature.push_back(result_list.size());
+        //frame_model->frameList[frame_index].result_list.push_back(result_list);
+        
+        
+    }
+
+    return true;
+}
+
+
 vector<string> reader(){
 
     string line;
@@ -123,7 +154,7 @@ vector<string> reader(){
             */
             if(line.size() == 0)
                 break;
-            
+
             getline (myfile,line);
             cout << line << endl;
             

@@ -41,7 +41,7 @@ class obj_info{
 public:
     bool exist;
     int frame,x,y,width,height,index;
-    string obj_name;
+    string name;
 
     obj_info(){
         exist = false;
@@ -52,6 +52,7 @@ public:
 class frame_annotation{
 
 public:
+    // <obj_index,obj_info>
     map<int,obj_info> objs;
 };
 
@@ -70,9 +71,9 @@ public:
     int num_frames;
     int num_features;
     vector<string> feature_name;
-    //map<frame,annotation>
+    //<frame_index,frame_annotation>
     map<int, frame_annotation> ground_truth;
-
+    map<int, string> obj_name;
     
     //constructor
 	FrameModel();
