@@ -53,7 +53,7 @@ bool FrameModel::load_ground_truth_obj_annotation(string path){
         split_vector_type SplitVec;
         split( SplitVec, file[i], is_any_of(" ") );
 
-        tmp_obj.name = SplitVec[8];
+        tmp_obj.name = SplitVec[7];
         tmp_obj.frame = atoi(SplitVec[4].c_str());
         tmp_obj.x = atoi(SplitVec[0].c_str());
         tmp_obj.y = atoi(SplitVec[1].c_str());
