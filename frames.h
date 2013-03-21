@@ -32,6 +32,13 @@ public:
 
 };
 
+class annotation{
+
+    string obj_name[60];
+    bool obj_show[60];
+
+};
+
 
 class FrameModel{
 	
@@ -47,6 +54,8 @@ public:
     int num_frames;
     int num_features;
     vector<string> feature_name;
+    vector<annotation> ground_truth;
+
     
     //constructor
 	FrameModel();
@@ -61,7 +70,8 @@ public:
     bool playImage_with_detected_results(bool pause_when_detected, IplImage *frame);
     
 private:
-    string video_path;    
+    string video_path;
+    bool ground_truth_obj_annotation_reader(int video_index);    
 };
 
 #endif

@@ -10,6 +10,13 @@
 #include "objectDetector.h"
 #include "temporalPyramid.h"
 
+bool ground_truth_obj_annotation_reader(int video_index){
+    
+    //read the specific annotation file
+
+    return true;    
+}
+
 float ObjectDetector_Evaluation(int frame_index,TemporalPyramid* my_pyramid){
 
     int level_index = 0;
