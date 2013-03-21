@@ -113,7 +113,7 @@ bool ObjectDetector::detect(FrameModel* frame_model , int frame_index ,IplImage*
 bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_index ,IplImage* image){
     
     name_of_frames = frame_model->name;
-    
+
     //If this is the first detection
     if( frame_index == 0){
         //frame_model->num_features = (int)myHaars.size();//Equal to num of object detectors
@@ -147,6 +147,8 @@ vector<string> reader(){
     {
         while ( myfile.good() )
         {   
+            getline (myfile,line);
+
             /*
             注意最後一行的問題
             可能會把最後空行讀進來!
@@ -155,8 +157,7 @@ vector<string> reader(){
             if(line.size() == 0)
                 break;
 
-            getline (myfile,line);
-            cout << line << endl;
+            //cout << line << endl;
             
             list.push_back(line);
         }

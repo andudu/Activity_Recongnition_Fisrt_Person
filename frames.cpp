@@ -19,6 +19,8 @@ vector<string> reader(string path){
     {
         while ( myfile.good() )
         {   
+            getline (myfile,line);
+            
             /*
             注意最後一行的問題
             可能會把最後空行讀進來!
@@ -27,16 +29,13 @@ vector<string> reader(string path){
             if(line.size() == 0)
                 break;
 
-            getline (myfile,line);
-            //cout << line << endl;
-
             list.push_back(line);
         }
         
         myfile.close();
         
     }else{
-         cout << "Unable to open mean_std file!\n";    
+         cout << "Unable to open the file!\n";    
     }
 
     return list;
@@ -54,7 +53,7 @@ bool FrameModel::load_ground_truth_obj_annotation(string path){
         split_vector_type SplitVec;
         split( SplitVec, file[i], is_any_of(" ") );
 
-        tmp_obj.name = SplitVec[7];
+        tmp_obj.name = SplitVec[8];
         tmp_obj.frame = atoi(SplitVec[4].c_str());
         tmp_obj.x = atoi(SplitVec[0].c_str());
         tmp_obj.y = atoi(SplitVec[1].c_str());
@@ -62,6 +61,8 @@ bool FrameModel::load_ground_truth_obj_annotation(string path){
         tmp_obj.height = atoi(SplitVec[3].c_str());
         tmp_obj.index = atoi(SplitVec[6].c_str());
         tmp_obj.exist = true;
+
+        cout << tmp_obj.index <<" "<<tmp_obj.name <<endl;
 
         if(obj_name.find(tmp_obj.index) == obj_name.end())
             obj_name[tmp_obj.index] = tmp_obj.name;
@@ -159,6 +160,7 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
                 playImage_with_detected_results(pause_when_detected, frame);   
             }           
 
+            /*
             myTemporalPyramid->loadFrames_realtime(this);
             if((i%FPS) == 0){
                 ObjectDetector_Evaluation(i,myTemporalPyramid);  
