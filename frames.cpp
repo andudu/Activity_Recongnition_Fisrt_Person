@@ -22,9 +22,9 @@ vector<string> reader(string path){
             /*
             注意最後一行的問題
             可能會把最後空行讀進來!
-            需要做最後換行符檢查
+            所以要做長度檢查
             */
-            if(line.compare("\n") == 0)
+            if(line.size() == 0)
                 break;
 
             getline (myfile,line);
@@ -53,7 +53,7 @@ bool FrameModel::load_ground_truth_obj_annotation(string path){
 
         split_vector_type SplitVec;
         split( SplitVec, file[i], is_any_of(" ") );
-        
+
         tmp_obj.obj_name = SplitVec[7];
         tmp_obj.frame = atoi(SplitVec[4].c_str());
         tmp_obj.x = atoi(SplitVec[0].c_str());
