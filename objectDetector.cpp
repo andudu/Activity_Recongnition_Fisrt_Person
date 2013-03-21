@@ -119,8 +119,11 @@ vector<string> reader(){
             /*
             注意最後一行的問題
             可能會把最後空行讀進來!
-            需要手動對input檔案做檢查
-            */  
+            需要做最後換行符檢查
+            */
+            if(line.compare("\n") == 0)
+                break;
+            
             getline (myfile,line);
             cout << line << endl;
             

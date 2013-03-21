@@ -10,11 +10,70 @@
 #include "objectDetector.h"
 #include "temporalPyramid.h"
 
-bool ground_truth_obj_annotation_reader(int video_index){
-    
-    //read the specific annotation file
+vector<string> reader(string path){
 
-    return true;    
+    string line;
+    ifstream myfile (path.c_str());
+    vector<string> list;
+    if (myfile.is_open())
+    {
+        while ( myfile.good() )
+        {   
+            /*
+            注意最後一行的問題
+            可能會把最後空行讀進來!
+            需要做最後換行符檢查
+            */
+            if(line.compare("\n") == 0)
+                break;
+
+            getline (myfile,line);
+            //cout << line << endl;
+
+            list.push_back(line);
+        }
+        
+        myfile.close();
+        
+    }else{
+         cout << "Unable to open mean_std file!\n";    
+    }
+
+    return list;
+}
+
+bool FrameModel::load_ground_truth_obj_annotation(string path){
+
+    typedef vector< string > split_vector_type;
+
+    vector<string> file = reader(path);
+    obj_info tmp_obj;
+
+    for(int i = 0 ; i < file.size() ; i ++){
+
+        split_vector_type SplitVec;
+        split( SplitVec, file[i], is_any_of(" ") );
+        
+        tmp_obj.obj_name = SplitVec[7];
+        tmp_obj.frame = atoi(SplitVec[4].c_str());
+        tmp_obj.x = atoi(SplitVec[0].c_str());
+        tmp_obj.y = atoi(SplitVec[1].c_str());
+        tmp_obj.width = atoi(SplitVec[2].c_str());
+        tmp_obj.height = atoi(SplitVec[3].c_str());
+        tmp_obj.index = atoi(SplitVec[6].c_str());
+        tmp_obj.exist = true;
+
+        if(ground_truth.find(tmp_obj.frame) == ground_truth.end()){
+            frame_annotation tmp;
+            tmp.objs[tmp_obj.index] = tmp_obj;
+            ground_truth[tmp_obj.frame] = tmp;
+        }else{
+            ground_truth[tmp_obj.frame].objs[tmp_obj.index] = tmp_obj;
+        }
+            
+    }
+
+    return true;
 }
 
 float ObjectDetector_Evaluation(int frame_index,TemporalPyramid* my_pyramid){
