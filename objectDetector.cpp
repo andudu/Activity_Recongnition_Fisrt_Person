@@ -145,13 +145,20 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
             frame_model->feature_name.push_back(frame_model->obj_name[cls]);//If this is the first detection
             
         //cout << "detecting:" <<<< "/" << frame_model->frameList.size()-1 << endl; 
-        //vector<Rect> result_list = ground_truth_detect(frame_model ,frame_index, cls);
         vector<Rect> result_list;
         frame_annotation annotation = frame_model->ground_truth[frame_index];
-        //cout << "class:" << annotation.objs[cls].name << endl;
+        if(annotation.objs[cls].exist){
+            cout << "frame_index:"<< frame_index << " " << annotation.objs[cls].name << endl;
+            Rect tmp;
+            tmp.x = annotation.objs[cls].x;
+            tmp.y = annotation.objs[cls].y;
+            tmp.width = annotation.objs[cls].width;
+            tmp.height = annotation.objs[cls].height;
+            result_list.push_back(tmp);
+        }
 
-        //frame_model->frameList[frame_index].feature.push_back(result_list.size());
-        //frame_model->frameList[frame_index].result_list.push_back(result_list);
+        frame_model->frameList[frame_index].feature.push_back(result_list.size());
+        frame_model->frameList[frame_index].result_list.push_back(result_list);
         
     }
 
