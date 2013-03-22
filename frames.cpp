@@ -154,7 +154,7 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
         
         frame  = cvQueryFrame(capture);
         
-        cout << i + 1<< "/" << frame_count << endl;
+        cout << i << "/" << frame_count << endl;
         
         if(frame)
         {   
@@ -162,7 +162,7 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
             frameList.push_back(temp);
             
             //Ground truth detect
-            myObjDetector->ground_truth_detect(this, i, frame);
+            myObjDetector->ground_truth_detect(this, i, frame , frame_start);
 
             //Real detect
             //myObjDetector->detect(this, i, frame);

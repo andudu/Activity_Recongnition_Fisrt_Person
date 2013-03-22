@@ -110,69 +110,74 @@ bool ObjectDetector::detect(FrameModel* frame_model , int frame_index ,IplImage*
 /*
  Ground truth detection
 */
-bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_index ,IplImage* image){
+bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_index ,IplImage* image, int frame_start){
     
+    /*
+    frame_index : the frame index in temporal pyramid level 1
+    so I have to add the offset 'frame_start' to get the corresponding frame in the video
+    */
+    int frame_index_pyramid = frame_index;
+    int frame_index_video = frame_index + frame_start;
     
-    if(frame_index%30 != 0){
-        
-        for(int i = 0 ; i < result_list_cached.size() ; i++){
-            frame_model->frameList[frame_index].feature.push_back(result_list_cached[i].size());
-            frame_model->frameList[frame_index].result_list.push_back(result_list_cached[i]);   
+    //Do detection every 30 frames
+    if(frame_index_video%30 == 0){
+
+        name_of_frames = frame_model->name;
+
+        //If this is the first detection
+        if( frame_index_pyramid == 0){
+            //frame_model->num_features = (int)myHaars.size();//Equal to num of object detectors
+            frame_model->num_features = frame_model->obj_name.size();
+
+            //Fill in the feature names
+            frame_model->feature_name.clear();
+            map<int,string>::iterator it;
+            for(it = frame_model->obj_name.begin() ; it != frame_model->obj_name.end() ; it++){
+                frame_model->feature_name.push_back(it->second);
+            }            
         }
+      
+        //Detection using the ground truth data
+        frame_annotation annotation = frame_model->ground_truth[frame_index_video];
 
-        return true;
-    }
-    
+        int feature = 0;
+        result_list_cached.clear();
 
-    name_of_frames = frame_model->name;
-
-    //If this is the first detection
-    if( frame_index == 0){
-        //frame_model->num_features = (int)myHaars.size();//Equal to num of object detectors
-        frame_model->num_features = frame_model->obj_name.size();
-
-        //Fill in the feature names
-        frame_model->feature_name.clear();
         map<int,string>::iterator it;
         for(it = frame_model->obj_name.begin() ; it != frame_model->obj_name.end() ; it++){
-            frame_model->feature_name.push_back(it->second);
+            vector<Rect> result_list;
+            int obj_index = it->first;
+            //cout << feature<< ":" <<it->first << " " << it->second <<endl;
+            //cout << "feature_index:" << feature << " obj_name:"<< frame_model->obj_name[feature] <<"  obj_index:" << obj_index <<endl;
+
+            if(annotation.objs.find(obj_index) != annotation.objs.end()){
+                //The obj cls is detected in this frame
+                //cout << "found!" <<endl;
+                //cout << "frame_index:"<< frame_index << " " << annotation.objs[obj_index].name << endl;
+                Rect tmp;
+                tmp.x = annotation.objs[obj_index].x;
+                tmp.y = annotation.objs[obj_index].y;
+                tmp.width = annotation.objs[obj_index].width;
+                tmp.height = annotation.objs[obj_index].height;
+                result_list.push_back(tmp);
+            }else{
+
+            }
+
+            frame_model->frameList[frame_index_pyramid].feature.push_back(result_list.size());
+            frame_model->frameList[frame_index_pyramid].result_list.push_back(result_list);
+            result_list_cached.push_back(result_list);
+
+            feature++;
         }
-        
+
+    }else{
+
+        for(int i = 0 ; i < result_list_cached.size() ; i++){
+            frame_model->frameList[frame_index_pyramid].feature.push_back(result_list_cached[i].size());
+            frame_model->frameList[frame_index_pyramid].result_list.push_back(result_list_cached[i]);   
+        }
     }
-  
-    //Detection using the ground truth data
-    frame_annotation annotation = frame_model->ground_truth[frame_index];
-
-    int feature = 0;
-    result_list_cached.clear();
-
-    map<int,string>::iterator it;
-    for(it = frame_model->obj_name.begin() ; it != frame_model->obj_name.end() ; it++){
-        vector<Rect> result_list;
-        int obj_index = it->first;
-        //cout << feature<< ":" <<it->first << " " << it->second <<endl;
-        //cout << "feature_index:" << feature << " obj_name:"<< frame_model->obj_name[feature] <<"  obj_index:" << obj_index <<endl;
-
-        if(annotation.objs.find(obj_index) != annotation.objs.end()){
-            //The obj cls is detected in this frame
-            //cout << "found!" <<endl;
-            //cout << "frame_index:"<< frame_index << " " << annotation.objs[obj_index].name << endl;
-            Rect tmp;
-            tmp.x = annotation.objs[obj_index].x;
-            tmp.y = annotation.objs[obj_index].y;
-            tmp.width = annotation.objs[obj_index].width;
-            tmp.height = annotation.objs[obj_index].height;
-            result_list.push_back(tmp);
-        }else{
-
-        }
-
-        frame_model->frameList[frame_index].feature.push_back(result_list.size());
-        frame_model->frameList[frame_index].result_list.push_back(result_list);
-        result_list_cached.push_back(result_list);
-
-        feature++;
-    }     
 
     return true;
 }
