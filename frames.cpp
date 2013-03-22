@@ -279,7 +279,7 @@ bool FrameModel::playImage_with_detected_results(bool pause_when_detected, IplIm
                  */
                 CvFont font;
                 cvInitFont(&font, CV_FONT_HERSHEY_SIMPLEX, 1.0, 1.0, 0, 1, CV_AA);
-                cvPutText(tempFrame, feature_name[feature_index].c_str(), cvPoint(point1.x+10, point1.y-10), &font, cvScalar(0, 0, 255, 0));
+                cvPutText(tempFrame, feature_name[feature_index].c_str(), cvPoint(point1.x+10, point1.y-10), &font, cvScalar(255, 0, 0, 0));
                 //cout << "b" << endl;
             }  
             
