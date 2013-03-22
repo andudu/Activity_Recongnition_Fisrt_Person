@@ -88,10 +88,6 @@ int main (int argc, const char * argv[])
     //Load ground truth obj annotation
     myFrames->load_ground_truth_obj_annotation("translated_with_obj_name/object_annot_P_01_translated_with_obj_name.txt");
 
-    map<int, string>::iterator it;
-    for(it = myFrames->obj_name.begin() ; it != myFrames->obj_name.end() ; it++)
-        cout<<it->first<<" "<<it->second<<endl;
-
     //
     //Loading input video(feature detection included)
     //

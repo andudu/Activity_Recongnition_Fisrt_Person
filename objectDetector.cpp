@@ -108,6 +108,24 @@ bool ObjectDetector::detect(FrameModel* frame_model , int frame_index ,IplImage*
 }
 
 /*
+vector<Rect> ground_truth_mapping(FrameModel* frame_model ,int frame_index,int cls){
+    vector<Rect> result_list;
+    frame_annotation annotation = frame_model->ground_truth[frame_index];
+    
+    
+    map<int,obj_info>::iterator it;
+    for(it = frame_annotation.begin() ; it != frame_annotation.end() ; it++){
+        cout<<it->first<<" "<<it->second.name<<endl;
+        if()
+    }
+    cout << "class:" << annotation[frame_index][cls] << endl;
+
+    return result_list;
+}
+*/
+
+
+/*
  Ground truth detection
 */
 bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_index ,IplImage* image){
@@ -120,17 +138,20 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
         frame_model->num_features = frame_model->obj_name.size();
     }
         
-    //Detection using the cascade classifiers in myHaars
+    //Detection using the ground truth data
     for (int cls = 0 ; cls < frame_model->num_features ; cls ++){
         
         if( frame_index == 0)
             frame_model->feature_name.push_back(frame_model->obj_name[cls]);//If this is the first detection
             
         //cout << "detecting:" <<<< "/" << frame_model->frameList.size()-1 << endl; 
-        //vector<Rect> result_list = myHaars[cls].detect(image);
+        //vector<Rect> result_list = ground_truth_detect(frame_model ,frame_index, cls);
+        vector<Rect> result_list;
+        frame_annotation annotation = frame_model->ground_truth[frame_index];
+        //cout << "class:" << annotation.objs[cls].name << endl;
+
         //frame_model->frameList[frame_index].feature.push_back(result_list.size());
         //frame_model->frameList[frame_index].result_list.push_back(result_list);
-        
         
     }
 

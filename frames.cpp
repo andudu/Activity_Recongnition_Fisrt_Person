@@ -62,7 +62,7 @@ bool FrameModel::load_ground_truth_obj_annotation(string path){
         tmp_obj.index = atoi(SplitVec[6].c_str());
         tmp_obj.exist = true;
 
-        cout << tmp_obj.index <<" "<<tmp_obj.name <<endl;
+        //cout << tmp_obj.index <<" "<<tmp_obj.name <<endl;
 
         if(obj_name.find(tmp_obj.index) == obj_name.end())
             obj_name[tmp_obj.index] = tmp_obj.name;
@@ -76,6 +76,13 @@ bool FrameModel::load_ground_truth_obj_annotation(string path){
         }
             
     }
+
+    
+    map<int, string>::iterator it;
+    cout << "ground_truth:" <<endl;
+    for(it = obj_name.begin() ; it != obj_name.end() ; it++)
+        cout<<it->first<<" "<<it->second<<endl;
+    
 
     return true;
 }
