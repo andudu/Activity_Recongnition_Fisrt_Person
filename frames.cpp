@@ -57,8 +57,8 @@ bool FrameModel::load_ground_truth_obj_annotation(string path){
         tmp_obj.frame = atoi(SplitVec[4].c_str());
         tmp_obj.x = atoi(SplitVec[0].c_str())*2;
         tmp_obj.y = atoi(SplitVec[1].c_str())*2;
-        tmp_obj.width = atoi(SplitVec[2].c_str());
-        tmp_obj.height = atoi(SplitVec[3].c_str());
+        tmp_obj.width = atoi(SplitVec[2].c_str())*2 - atoi(SplitVec[0].c_str())*2;
+        tmp_obj.height = atoi(SplitVec[3].c_str())*2 - atoi(SplitVec[1].c_str())*2;
         tmp_obj.index = atoi(SplitVec[6].c_str());
         tmp_obj.exist = true;
 
