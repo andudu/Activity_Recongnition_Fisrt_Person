@@ -112,6 +112,18 @@ bool ObjectDetector::detect(FrameModel* frame_model , int frame_index ,IplImage*
 */
 bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_index ,IplImage* image){
     
+    
+    if(frame_index%30 != 0){
+        
+        for(int i = 0 ; i < result_list_cached.size() ; i++){
+            frame_model->frameList[frame_index].feature.push_back(result_list_cached[i].size());
+            frame_model->frameList[frame_index].result_list.push_back(result_list_cached[i]);   
+        }
+
+        return true;
+    }
+    
+
     name_of_frames = frame_model->name;
 
     //If this is the first detection
@@ -132,6 +144,8 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
     frame_annotation annotation = frame_model->ground_truth[frame_index];
 
     int feature = 0;
+    result_list_cached.clear();
+
     map<int,string>::iterator it;
     for(it = frame_model->obj_name.begin() ; it != frame_model->obj_name.end() ; it++){
         vector<Rect> result_list;
@@ -153,9 +167,9 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
 
         }
 
-
         frame_model->frameList[frame_index].feature.push_back(result_list.size());
         frame_model->frameList[frame_index].result_list.push_back(result_list);
+        result_list_cached.push_back(result_list);
 
         feature++;
     }     

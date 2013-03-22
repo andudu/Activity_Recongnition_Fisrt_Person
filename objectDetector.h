@@ -60,6 +60,7 @@ public:
     
 private:
     
+    vector< vector<Rect> > result_list_cached;
     vector<Haar_cascade> myHaars;
     vector<mean_std> mean_std_list;
 
