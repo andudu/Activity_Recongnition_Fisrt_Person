@@ -154,24 +154,26 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
         
         frame  = cvQueryFrame(capture);
         
-        cout << i << "/" << frame_count << endl;
+        cout << i + 1<< "/" << frame_count << endl;
         
         if(frame)
         {   
+
             num_frames++;
             frameList.push_back(temp);
-            
+
             //Ground truth detect
             myObjDetector->ground_truth_detect(this, i, frame , frame_start);
 
             //Real detect
             //myObjDetector->detect(this, i, frame);
-            
-            
+
             //cout << frameList.size() << endl;
+            
             if(show_detection_result){
                 playImage_with_detected_results(pause_when_detected, frame);   
             }           
+            
 
             /*
             myTemporalPyramid->loadFrames_realtime(this);
@@ -258,7 +260,6 @@ bool FrameModel::showFeature(int index){
 }
 
 bool FrameModel::playImage_with_detected_results(bool pause_when_detected, IplImage *tempFrame){
-    
 
     for(int feature_index = 0 ; feature_index < num_features ; feature_index ++)
     {   
@@ -275,14 +276,12 @@ bool FrameModel::playImage_with_detected_results(bool pause_when_detected, IplIm
                 point2.y = frameList.back().result_list[feature_index][box].y + frameList.back().result_list[feature_index][box].height;  
                 //cout << "x1:" << point1.x << " x2:" << point2.x << " y1:"<< point1.y << " y2:" <<point2.y <<endl;
                 cvRectangle(tempFrame, point1, point2, CV_RGB(0,255,0), 3, 8, 0);
-                //cout << "a" << endl;
                 /*
                  Put the object name on the box
                  */
                 CvFont font;
                 cvInitFont(&font, CV_FONT_HERSHEY_SIMPLEX, 1.0, 1.0, 0, 1, CV_AA);
-                cvPutText(tempFrame, feature_name[feature_index].c_str(), cvPoint(point1.x+10, point1.y-10), &font, cvScalar(255, 0, 0, 0));
-                //cout << "b" << endl;
+                cvPutText(tempFrame, feature_name[feature_index].c_str(), cvPoint(point1.x+10, point1.y+20), &font, cvScalar(255, 0, 0, 0));
             }  
             
             /*

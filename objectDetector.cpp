@@ -111,7 +111,7 @@ bool ObjectDetector::detect(FrameModel* frame_model , int frame_index ,IplImage*
  Ground truth detection
 */
 bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_index ,IplImage* image, int frame_start){
-    
+
     /*
     frame_index : the frame index in temporal pyramid level 1
     so I have to add the offset 'frame_start' to get the corresponding frame in the video
@@ -119,23 +119,23 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
     int frame_index_pyramid = frame_index;
     int frame_index_video = frame_index + frame_start;
     
+    //If this is the first detection
+    if( frame_index_pyramid == 0){
+        //frame_model->num_features = (int)myHaars.size();//Equal to num of object detectors
+        frame_model->num_features = frame_model->obj_name.size();
+
+        //Fill in the feature names
+        frame_model->feature_name.clear();
+        map<int,string>::iterator it;
+        for(it = frame_model->obj_name.begin() ; it != frame_model->obj_name.end() ; it++){
+            frame_model->feature_name.push_back(it->second);
+        }            
+    }
+
     //Do detection every 30 frames
     if(frame_index_video%30 == 0){
 
         name_of_frames = frame_model->name;
-
-        //If this is the first detection
-        if( frame_index_pyramid == 0){
-            //frame_model->num_features = (int)myHaars.size();//Equal to num of object detectors
-            frame_model->num_features = frame_model->obj_name.size();
-
-            //Fill in the feature names
-            frame_model->feature_name.clear();
-            map<int,string>::iterator it;
-            for(it = frame_model->obj_name.begin() ; it != frame_model->obj_name.end() ; it++){
-                frame_model->feature_name.push_back(it->second);
-            }            
-        }
       
         //Detection using the ground truth data
         frame_annotation annotation = frame_model->ground_truth[frame_index_video];
@@ -160,8 +160,6 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
                 tmp.width = annotation.objs[obj_index].width;
                 tmp.height = annotation.objs[obj_index].height;
                 result_list.push_back(tmp);
-            }else{
-
             }
 
             frame_model->frameList[frame_index_pyramid].feature.push_back(result_list.size());
