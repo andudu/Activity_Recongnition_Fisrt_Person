@@ -142,7 +142,7 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
         if(annotation.objs.find(obj_index) != annotation.objs.end()){
             //The obj cls is detected in this frame
             //cout << "found!" <<endl;
-            cout << "frame_index:"<< frame_index << " " << annotation.objs[obj_index].name << endl;
+            //cout << "frame_index:"<< frame_index << " " << annotation.objs[obj_index].name << endl;
             Rect tmp;
             tmp.x = annotation.objs[obj_index].x;
             tmp.y = annotation.objs[obj_index].y;
