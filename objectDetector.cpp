@@ -108,24 +108,6 @@ bool ObjectDetector::detect(FrameModel* frame_model , int frame_index ,IplImage*
 }
 
 /*
-vector<Rect> ground_truth_mapping(FrameModel* frame_model ,int frame_index,int cls){
-    vector<Rect> result_list;
-    frame_annotation annotation = frame_model->ground_truth[frame_index];
-    
-    
-    map<int,obj_info>::iterator it;
-    for(it = frame_annotation.begin() ; it != frame_annotation.end() ; it++){
-        cout<<it->first<<" "<<it->second.name<<endl;
-        if()
-    }
-    cout << "class:" << annotation[frame_index][cls] << endl;
-
-    return result_list;
-}
-*/
-
-
-/*
  Ground truth detection
 */
 bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_index ,IplImage* image){
@@ -136,31 +118,47 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
     if( frame_index == 0){
         //frame_model->num_features = (int)myHaars.size();//Equal to num of object detectors
         frame_model->num_features = frame_model->obj_name.size();
-    }
-        
-    //Detection using the ground truth data
-    for (int cls = 0 ; cls < frame_model->num_features ; cls ++){
-        
-        if( frame_index == 0)
-            frame_model->feature_name.push_back(frame_model->obj_name[cls]);//If this is the first detection
-            
-        //cout << "detecting:" <<<< "/" << frame_model->frameList.size()-1 << endl; 
-        vector<Rect> result_list;
-        frame_annotation annotation = frame_model->ground_truth[frame_index];
-        if(annotation.objs[cls].exist){
-            cout << "frame_index:"<< frame_index << " " << annotation.objs[cls].name << endl;
-            Rect tmp;
-            tmp.x = annotation.objs[cls].x;
-            tmp.y = annotation.objs[cls].y;
-            tmp.width = annotation.objs[cls].width;
-            tmp.height = annotation.objs[cls].height;
-            result_list.push_back(tmp);
+
+        //Fill in the feature names
+        frame_model->feature_name.clear();
+        map<int,string>::iterator it;
+        for(it = frame_model->obj_name.begin() ; it != frame_model->obj_name.end() ; it++){
+            frame_model->feature_name.push_back(it->second);
         }
+        
+    }
+  
+    //Detection using the ground truth data
+    frame_annotation annotation = frame_model->ground_truth[frame_index];
+
+    int feature = 0;
+    map<int,string>::iterator it;
+    for(it = frame_model->obj_name.begin() ; it != frame_model->obj_name.end() ; it++){
+        vector<Rect> result_list;
+        int obj_index = it->first;
+        //cout << feature<< ":" <<it->first << " " << it->second <<endl;
+        //cout << "feature_index:" << feature << " obj_name:"<< frame_model->obj_name[feature] <<"  obj_index:" << obj_index <<endl;
+
+        if(annotation.objs.find(obj_index) != annotation.objs.end()){
+            //The obj cls is detected in this frame
+            //cout << "found!" <<endl;
+            cout << "frame_index:"<< frame_index << " " << annotation.objs[obj_index].name << endl;
+            Rect tmp;
+            tmp.x = annotation.objs[obj_index].x;
+            tmp.y = annotation.objs[obj_index].y;
+            tmp.width = annotation.objs[obj_index].width;
+            tmp.height = annotation.objs[obj_index].height;
+            result_list.push_back(tmp);
+        }else{
+
+        }
+
 
         frame_model->frameList[frame_index].feature.push_back(result_list.size());
         frame_model->frameList[frame_index].result_list.push_back(result_list);
-        
-    }
+
+        feature++;
+    }     
 
     return true;
 }

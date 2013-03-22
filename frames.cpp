@@ -55,18 +55,18 @@ bool FrameModel::load_ground_truth_obj_annotation(string path){
 
         tmp_obj.name = SplitVec[7];
         tmp_obj.frame = atoi(SplitVec[4].c_str());
-        tmp_obj.x = atoi(SplitVec[0].c_str());
-        tmp_obj.y = atoi(SplitVec[1].c_str());
+        tmp_obj.x = atoi(SplitVec[0].c_str())*2;
+        tmp_obj.y = atoi(SplitVec[1].c_str())*2;
         tmp_obj.width = atoi(SplitVec[2].c_str());
         tmp_obj.height = atoi(SplitVec[3].c_str());
         tmp_obj.index = atoi(SplitVec[6].c_str());
         tmp_obj.exist = true;
 
-        //cout << tmp_obj.index <<" "<<tmp_obj.name <<endl;
-
-        if(obj_name.find(tmp_obj.index) == obj_name.end())
+        if(obj_name.find(tmp_obj.index) == obj_name.end()){
             obj_name[tmp_obj.index] = tmp_obj.name;
-
+            obj_name_reverse[tmp_obj.name] = tmp_obj.index;
+        }
+        
         if(ground_truth.find(tmp_obj.frame) == ground_truth.end()){
             frame_annotation tmp;
             tmp.objs[tmp_obj.index] = tmp_obj;
@@ -83,6 +83,10 @@ bool FrameModel::load_ground_truth_obj_annotation(string path){
     for(it = obj_name.begin() ; it != obj_name.end() ; it++)
         cout<<it->first<<" "<<it->second<<endl;
     
+    map<string,int>::iterator it2;
+    cout << "ground_truth:" <<endl;
+    for(it2 = obj_name_reverse.begin() ; it2 != obj_name_reverse.end() ; it2++)
+        cout<<it2->first<<" "<<it2->second<<endl;
 
     return true;
 }
@@ -161,7 +165,7 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
             //Real detect
             //myObjDetector->detect(this, i, frame);
             
-            /*
+            
             //cout << frameList.size() << endl;
             if(show_detection_result){
                 playImage_with_detected_results(pause_when_detected, frame);   
@@ -253,12 +257,12 @@ bool FrameModel::showFeature(int index){
 
 bool FrameModel::playImage_with_detected_results(bool pause_when_detected, IplImage *tempFrame){
     
-        
+
     for(int feature_index = 0 ; feature_index < num_features ; feature_index ++)
     {   
         //cout << "feature_index : " << feature_index << " " << feature_name[feature_index] << endl;
         //cout << "num of detections : " << frameList.back().result_list[feature_index].size() << endl;
-            
+        //cout << "feature_index" << feature_index <<endl;   
             for (int box = 0 ; box < frameList.back().result_list[feature_index].size() ; box++){     
                 //cout << "drawing bboxes : " << box << endl;
                 CvPoint point1, point2;  
@@ -269,13 +273,14 @@ bool FrameModel::playImage_with_detected_results(bool pause_when_detected, IplIm
                 point2.y = frameList.back().result_list[feature_index][box].y + frameList.back().result_list[feature_index][box].height;  
                 //cout << "x1:" << point1.x << " x2:" << point2.x << " y1:"<< point1.y << " y2:" <<point2.y <<endl;
                 cvRectangle(tempFrame, point1, point2, CV_RGB(0,255,0), 3, 8, 0);
-                
+                //cout << "a" << endl;
                 /*
                  Put the object name on the box
                  */
                 CvFont font;
                 cvInitFont(&font, CV_FONT_HERSHEY_SIMPLEX, 1.0, 1.0, 0, 1, CV_AA);
                 cvPutText(tempFrame, feature_name[feature_index].c_str(), cvPoint(point2.x+10, point2.y), &font, cvScalar(255, 255, 255, 0));
+                //cout << "b" << endl;
             }  
             
             /*

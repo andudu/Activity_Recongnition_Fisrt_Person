@@ -74,6 +74,7 @@ public:
     //<frame_index,frame_annotation>
     map<int, frame_annotation> ground_truth;
     map<int, string> obj_name;
+    map<string, int> obj_name_reverse;
     
     //constructor
 	FrameModel();
