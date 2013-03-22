@@ -21,6 +21,7 @@ int main (int argc, const char * argv[])
     cout << "FP_ADL_Detector\n";    
     
     string input_video = "";
+    string annotation_file = "";
     bool do_activity_detection = false;
     bool show_detection_result = false;
     bool pause_when_detected = false;
@@ -61,6 +62,11 @@ int main (int argc, const char * argv[])
             i++;
         }
 
+        if(tmp.compare("-an") == 0){
+            annotation_file = string(argv[i+1]);
+            i++;
+        }
+
         if(tmp.compare("-indicate") == 0){
             indicate = atoi(argv[i+1]);
             i++;
@@ -86,7 +92,8 @@ int main (int argc, const char * argv[])
 
 
     //Load ground truth obj annotation
-    myFrames->load_ground_truth_obj_annotation("translated_with_obj_name/object_annot_P_02_translated_with_obj_name.txt");
+    //myFrames->load_ground_truth_obj_annotation("translated_with_obj_name/object_annot_P_02_translated_with_obj_name.txt");
+    myFrames->load_ground_truth_obj_annotation(annotation_file);
 
     //
     //Loading input video(feature detection included)

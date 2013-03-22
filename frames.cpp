@@ -77,7 +77,8 @@ bool FrameModel::load_ground_truth_obj_annotation(string path){
             
     }
 
-    
+    cout << "annotation file:" << path <<endl;
+    /*
     map<int, string>::iterator it;
     cout << "ground_truth:" <<endl;
     for(it = obj_name.begin() ; it != obj_name.end() ; it++)
@@ -87,6 +88,7 @@ bool FrameModel::load_ground_truth_obj_annotation(string path){
     cout << "ground_truth:" <<endl;
     for(it2 = obj_name_reverse.begin() ; it2 != obj_name_reverse.end() ; it2++)
         cout<<it2->first<<" "<<it2->second<<endl;
+    */
 
     return true;
 }
