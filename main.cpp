@@ -29,6 +29,11 @@ int main (int argc, const char * argv[])
     int end_frame = -1;
     int indicate = -1;
 
+    if(argc == 1){
+        cout << "need arguments!\n";
+        return 0;
+    }
+
     string temp = argv[1];
 
     for(int i = 1 ; i <= argc - 1; i ++){
