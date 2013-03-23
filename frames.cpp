@@ -261,51 +261,53 @@ bool FrameModel::showFeature(int index){
 
 bool FrameModel::playImage_with_detected_results(bool pause_when_detected, IplImage *tempFrame){
 
+    int detection_counter = 0;
+
     for(int feature_index = 0 ; feature_index < num_features ; feature_index ++)
     {   
         //cout << "feature_index : " << feature_index << " " << feature_name[feature_index] << endl;
         //cout << "num of detections : " << frameList.back().result_list[feature_index].size() << endl;
         //cout << "feature_index" << feature_index <<endl;   
-            for (int box = 0 ; box < frameList.back().result_list[feature_index].size() ; box++){     
-                //cout << "drawing bboxes : " << box << endl;
-                CvPoint point1, point2;  
-                
-                point1.x = frameList.back().result_list[feature_index][box].x;  
-                point2.x = frameList.back().result_list[feature_index][box].x + frameList.back().result_list[feature_index][box].width;  
-                point1.y = frameList.back().result_list[feature_index][box].y;  
-                point2.y = frameList.back().result_list[feature_index][box].y + frameList.back().result_list[feature_index][box].height;  
-                //cout << "x1:" << point1.x << " x2:" << point2.x << " y1:"<< point1.y << " y2:" <<point2.y <<endl;
-                cvRectangle(tempFrame, point1, point2, CV_RGB(0,255,0), 3, 8, 0);
-                /*
-                 Put the object name on the box
-                 */
-                CvFont font;
-                cvInitFont(&font, CV_FONT_HERSHEY_SIMPLEX, 1.0, 1.0, 0, 1, CV_AA);
-                cvPutText(tempFrame, feature_name[feature_index].c_str(), cvPoint(point1.x+10, point1.y+20), &font, cvScalar(255, 0, 0, 0));
-            }  
+        for (int box = 0 ; box < frameList.back().result_list[feature_index].size() ; box++){     
+            //cout << "drawing bboxes : " << box << endl;
+            CvPoint point1, point2;  
             
+            point1.x = frameList.back().result_list[feature_index][box].x;  
+            point2.x = frameList.back().result_list[feature_index][box].x + frameList.back().result_list[feature_index][box].width;  
+            point1.y = frameList.back().result_list[feature_index][box].y;  
+            point2.y = frameList.back().result_list[feature_index][box].y + frameList.back().result_list[feature_index][box].height;  
+            //cout << "x1:" << point1.x << " x2:" << point2.x << " y1:"<< point1.y << " y2:" <<point2.y <<endl;
+            cvRectangle(tempFrame, point1, point2, CV_RGB(0,255,0), 3, 8, 0);
             /*
-             scale down the image since it's 720x1280 sometimes exceeds the monitor size
+             Put the object name on the box
              */
-            IplImage *dst = 0;       
-            float scale = 0.5; 
-            CvSize dst_cvsize;      
-            dst_cvsize.width = tempFrame->width * scale;
-            dst_cvsize.height = tempFrame->height * scale;
-            dst = cvCreateImage( dst_cvsize, tempFrame->depth, tempFrame->nChannels);
-            cvResize(tempFrame, dst, CV_INTER_LINEAR);
-            
-            
-            /*
-             Show the result in the window.  
-             */
-            cvShowImage("Obj Detection Result", dst);
-            if(pause_when_detected && frameList.back().result_list[feature_index].size() > 0)
-                cvWaitKey(0);
-        
-            cvReleaseImage(&dst);
-            
+            CvFont font;
+            cvInitFont(&font, CV_FONT_HERSHEY_SIMPLEX, 1.0, 1.0, 0, 1, CV_AA);
+            cvPutText(tempFrame, feature_name[feature_index].c_str(), cvPoint(point1.x+10, point1.y+20), &font, cvScalar(255, 0, 0, 0));
+            detection_counter++;
+        } 
     }
+
+    /*
+     scale down the image since it's 720x1280 sometimes exceeds the monitor size
+     */
+    IplImage *dst = 0;       
+    float scale = 0.5; 
+    CvSize dst_cvsize;      
+    dst_cvsize.width = tempFrame->width * scale;
+    dst_cvsize.height = tempFrame->height * scale;
+    dst = cvCreateImage( dst_cvsize, tempFrame->depth, tempFrame->nChannels);
+    cvResize(tempFrame, dst, CV_INTER_LINEAR);
+    
+    
+    /*
+     Show the result in the window.  
+     */
+    cvShowImage("Obj Detection Result", dst);
+    if(pause_when_detected && detection_counter > 0)
+        cvWaitKey(0);
+
+    cvReleaseImage(&dst);
 
     return true;
 }
@@ -336,55 +338,56 @@ bool FrameModel::playVideo_with_detected_results(bool pause_when_detected){
         cout << "frameList index : " << i << endl;
         tempFrame  = cvQueryFrame(capture);
         
+        int detection_counter = 0;
+
         for(int feature_index = 0 ; feature_index < num_features ; feature_index ++)
         {   
             cout << "feature_index : " << feature_index << " " << feature_name[feature_index] << endl;
             cout << "num of detections : " << frameList[i].result_list[feature_index].size() << endl;
                 
-                for (int box = 0 ; box < frameList[i].result_list[feature_index].size() ; box++){     
-                    cout << "drawing bboxes : " << box << endl;
-                    CvPoint point1, point2;  
-                    
-                    point1.x = frameList[i].result_list[feature_index][box].x;  
-                    point2.x = frameList[i].result_list[feature_index][box].x + frameList[i].result_list[feature_index][box].width;  
-                    point1.y = frameList[i].result_list[feature_index][box].y;  
-                    point2.y = frameList[i].result_list[feature_index][box].y + frameList[i].result_list[feature_index][box].height;  
-                    //cout << "x1:" << point1.x << " x2:" << point2.x << " y1:"<< point1.y << " y2:" <<point2.y <<endl;
-                    cvRectangle(tempFrame, point1, point2, CV_RGB(0,255,0), 3, 8, 0);
-                    
-                    /*
-                     Put the object name on the box
-                     */
-                    CvFont font;
-                    cvInitFont(&font, CV_FONT_HERSHEY_SIMPLEX, 1.0, 1.0, 0, 1, CV_AA);
-                    cvPutText(tempFrame, feature_name[feature_index].c_str(), cvPoint(point2.x+10, point2.y), &font, cvScalar(255, 255, 255, 0));
-                }  
+            for (int box = 0 ; box < frameList[i].result_list[feature_index].size() ; box++){     
+                cout << "drawing bboxes : " << box << endl;
+                CvPoint point1, point2;  
+                
+                point1.x = frameList[i].result_list[feature_index][box].x;  
+                point2.x = frameList[i].result_list[feature_index][box].x + frameList[i].result_list[feature_index][box].width;  
+                point1.y = frameList[i].result_list[feature_index][box].y;  
+                point2.y = frameList[i].result_list[feature_index][box].y + frameList[i].result_list[feature_index][box].height;  
+                //cout << "x1:" << point1.x << " x2:" << point2.x << " y1:"<< point1.y << " y2:" <<point2.y <<endl;
+                cvRectangle(tempFrame, point1, point2, CV_RGB(0,255,0), 3, 8, 0);
                 
                 /*
-                 scale down the image since it's 720x1280 sometimes exceeds the monitor size
+                 Put the object name on the box
                  */
-                IplImage *dst = 0;       
-                float scale = 0.5; 
-                CvSize dst_cvsize;      
-                dst_cvsize.width = tempFrame->width * scale;
-                dst_cvsize.height = tempFrame->height * scale;
-                dst = cvCreateImage( dst_cvsize, tempFrame->depth, tempFrame->nChannels);
-                cvResize(tempFrame, dst, CV_INTER_LINEAR);
-                
-                
-                /*
-                 Show the result in the window.  
-                 */
-                cvShowImage("Obj Detection Result", dst);
-                if(pause_when_detected && frameList[i].result_list[feature_index].size() > 0)
-                    cvWaitKey(0);
-            
-                cvReleaseImage(&dst);
-                
-            }
+                CvFont font;
+                cvInitFont(&font, CV_FONT_HERSHEY_SIMPLEX, 1.0, 1.0, 0, 1, CV_AA);
+                cvPutText(tempFrame, feature_name[feature_index].c_str(), cvPoint(point2.x+10, point2.y), &font, cvScalar(255, 255, 255, 0));
+                detection_counter++;
+            }                
+        }
+
+        /*
+         scale down the image since it's 720x1280 sometimes exceeds the monitor size
+         */
+        IplImage *dst = 0;       
+        float scale = 0.5; 
+        CvSize dst_cvsize;      
+        dst_cvsize.width = tempFrame->width * scale;
+        dst_cvsize.height = tempFrame->height * scale;
+        dst = cvCreateImage( dst_cvsize, tempFrame->depth, tempFrame->nChannels);
+        cvResize(tempFrame, dst, CV_INTER_LINEAR);
+
+        /*
+         Show the result in the window.  
+         */
+        cvShowImage("Obj Detection Result", dst);
+        if(pause_when_detected && detection_counter > 0)
+            cvWaitKey(0);
         
+        cvReleaseImage(&dst);
+
         if(cvWaitKey(10) >= 0)
-            break;
+            break;        
     }
     
     //cvReleaseImage( &tempFrame );
