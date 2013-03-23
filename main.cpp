@@ -28,6 +28,7 @@ int main (int argc, const char * argv[])
     int start_frame = -1;
     int end_frame = -1;
     int indicate = -1;
+    int length = 60;
 
     if(argc == 1){
         cout << "need arguments!\n";
@@ -61,10 +62,10 @@ int main (int argc, const char * argv[])
             i++;
         }
 
-        if(tmp.compare("-end") == 0){
-            end_frame = atoi(argv[i+1]);
-            if(end_frame%30!=0){
-                cout << "end_frame:Only multiples of 30 is acceptable." << endl;
+        if(tmp.compare("-length") == 0){
+            length = atoi(argv[i+1]);
+            if(length%30!=0){
+                cout << "length:Only multiples of 30 is acceptable." << endl;
                 return 0;
             }
             i++;
@@ -86,6 +87,8 @@ int main (int argc, const char * argv[])
         }    
     }
     
+    end_frame = start_frame + length;
+
     cout  << "input video: " << input_video << endl;
     cout << "start/end frame: " << start_frame << "/" <<end_frame <<endl;
     cout << "run crf: " << do_activity_detection << endl;
