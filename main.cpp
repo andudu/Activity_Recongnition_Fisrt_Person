@@ -55,10 +55,12 @@ int main (int argc, const char * argv[])
 
         if(tmp.compare("-start") == 0){
             start_frame = atoi(argv[i+1]);
+            /*
             if(start_frame%30!=0){
                 cout << "start_frame:Only multiples of 30 is acceptable." << endl;
                 return 0;
             }
+            */
             i++;
         }
 

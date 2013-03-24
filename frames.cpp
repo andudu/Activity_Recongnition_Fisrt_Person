@@ -77,7 +77,7 @@ bool FrameModel::load_ground_truth_obj_annotation(string path){
             
     }
 
-    cout << "annotation file:" << path <<endl;
+    cout << "annotation file:" << path << "is loaded."<<endl;
     /*
     map<int, string>::iterator it;
     cout << "ground_truth:" <<endl;
@@ -120,8 +120,9 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
     
     ObjectDetector* myObjDetector = new ObjectDetector(indicate);
     TemporalPyramid* myTemporalPyramid = new TemporalPyramid;
-    CvCapture *capture;
-    IplImage *frame;
+    VideoCapture capture(path.c_str());
+    Mat grab_frame;
+    IplImage frame;
     frameNode temp;
 
     cvNamedWindow("Obj Detection Result", CV_WINDOW_AUTOSIZE);
@@ -129,12 +130,11 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
     
     ////Laoding video file
     cout << "Laoding video file\n";
-    capture = cvCaptureFromAVI(path.c_str());
     video_path = path;
     
-    frame_count = cvGetCaptureProperty(capture,CV_CAP_PROP_FRAME_COUNT);
+    frame_count = capture.get(CV_CAP_PROP_FRAME_COUNT);
     cout << "Frame Count : " << frame_count << endl;
-    FPS = cvGetCaptureProperty(capture,CV_CAP_PROP_FPS);
+    FPS = capture.get(CV_CAP_PROP_FPS);
     cout << "FPS :"<< FPS <<endl;
     
     ////Grabbing frames from video
@@ -147,23 +147,45 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
     frame_count = end - start + 1;
     frame_start = start;
     
-    cvSetCaptureProperty( capture, CV_CAP_PROP_POS_FRAMES , start );
+    capture.set(CV_CAP_PROP_POS_FRAMES,start);
+    cout << (double)start <<endl;
+    cout << "cvGetprop:" << capture.get(CV_CAP_PROP_POS_FRAMES) << endl;
+
+    /*
+    //Testing
     
+    cout << "\n\n\n";
+    cout << "start:" << start <<endl;
+    cout << "end:" << end <<endl;
+
+    //frame  = capture.grqb();
+    capture.read(grab_frame);
+    frame = IplImage(grab_frame); 
+
+    IplImage *dst = 0;       
+    float scale = 0.5; 
+    CvSize dst_cvsize;      
+    dst_cvsize.width = frame.width * scale;
+    dst_cvsize.height = frame.height * scale;
+    dst = cvCreateImage( dst_cvsize, frame.depth, frame.nChannels);
+    cvResize(&frame, dst, CV_INTER_LINEAR);
+    cvShowImage("Obj Detection Result", dst);
+    cvWaitKey();
+    exit(1);
+    */
+
     for(int i = 0 ; i < frame_count ; i ++)
     {   
-        
-        frame  = cvQueryFrame(capture);
-        
         cout << i + 1<< "/" << frame_count << endl;
         
-        if(frame)
+        if(capture.read(grab_frame))
         {   
-
+            frame = IplImage(grab_frame); 
             num_frames++;
             frameList.push_back(temp);
 
             //Ground truth detect
-            myObjDetector->ground_truth_detect(this, i, frame , frame_start);
+            myObjDetector->ground_truth_detect(this, i, &frame , frame_start);
 
             //Real detect
             //myObjDetector->detect(this, i, frame);
@@ -171,7 +193,7 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
             //cout << frameList.size() << endl;
             
             if(show_detection_result){
-                playImage_with_detected_results(pause_when_detected, frame);   
+                playImage_with_detected_results(pause_when_detected, &frame);   
             }           
             
 
@@ -208,7 +230,8 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
             break;
     }
     
-    cvReleaseCapture(&capture);    
+    //cvReleaseCapture(&capture);
+    capture.release();    
     cvDestroyWindow("Obj Detection Result");
     delete myObjDetector;
     delete myTemporalPyramid;

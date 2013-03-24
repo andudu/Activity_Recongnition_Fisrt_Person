@@ -119,11 +119,12 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
     int frame_index_pyramid = frame_index;
     int frame_index_video = frame_index + frame_start;
     
-    //If this is the first detection
+    //If this is the first frame in the segment
     if( frame_index_pyramid == 0){
         //frame_model->num_features = (int)myHaars.size();//Equal to num of object detectors
         frame_model->num_features = frame_model->obj_name.size();
-
+        //cout << "\n\n\n" << frame_model->num_features <<endl;
+        //exit(1);
         //Fill in the feature names
         frame_model->feature_name.clear();
         map<int,string>::iterator it;
@@ -133,7 +134,8 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
     }
 
     //Do detection every 30 frames
-    if(frame_index_video%30 == 0){
+    //if(frame_index_video%30 == 0){
+    if(true){
 
         name_of_frames = frame_model->name;
       
@@ -143,6 +145,7 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
         int feature = 0;
         result_list_cached.clear();
 
+        //Each obj 
         map<int,string>::iterator it;
         for(it = frame_model->obj_name.begin() ; it != frame_model->obj_name.end() ; it++){
             vector<Rect> result_list;
@@ -168,7 +171,7 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
 
             feature++;
         }
-
+    //Else use cached result
     }else{
 
         for(int i = 0 ; i < result_list_cached.size() ; i++){
