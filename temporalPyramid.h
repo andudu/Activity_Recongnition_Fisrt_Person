@@ -52,6 +52,7 @@ public:
     bool observationSampling();
     bool showPyramid(int level_index);//start from level 0
     bool activity_detect(FrameModel* frames, int min_num_act_seq);
+    bool print_info(string info_id);
     string run_crf(FrameModel *frames, int level);
 
 };

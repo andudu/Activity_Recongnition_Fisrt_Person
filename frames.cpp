@@ -124,17 +124,21 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
     Mat grab_frame;
     IplImage frame;
     frameNode temp;
+    char buffer [512];
 
     cvNamedWindow("Obj Detection Result", CV_WINDOW_AUTOSIZE);
     cvMoveWindow("Obj Detection Result", 50, 0);
     
     ////Laoding video file
+    /*
     cout << "Laoding video file\n";
     video_path = path;
     
     frame_count = capture.get(CV_CAP_PROP_FRAME_COUNT);
     cout << "Frame Count : " << frame_count << endl;
     FPS = capture.get(CV_CAP_PROP_FPS);
+    */
+    FPS = 29;
     cout << "FPS :"<< FPS <<endl;
     
     ////Grabbing frames from video
@@ -179,18 +183,16 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
     exit(1);
     */
 
-    char buffer [512];
-
     for(int i = 0 ; i < frame_count ; i ++)
     {   
-        cout << i + 1<< "/" << frame_count << endl;
+        //cout << i + 1<< "/" << frame_count << endl;
         
         //if(capture.read(grab_frame))
         if(true)
         {   
             //frame = IplImage(grab_frame);
 
-            //walk around temporally
+            //walk around Temporarily
             //sprintf (buffer, "/Users/hmliu/Documents/CMLab/Master/ADL_code/ADLdataset/ADL_videos/split_frames_%d/%06d.jpg",start+i);
             sprintf(buffer,"%s/%06d.jpg",path.c_str(),start+i);
             //cout << buffer <<endl;
@@ -213,8 +215,12 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
             }           
             
 
-            /*
+            //Loading frames and put them into pyramid, level 1
             myTemporalPyramid->loadFrames_realtime(this);
+
+            //myTemporalPyramid->print_info("num_of_levels");
+            
+            /*
             if((i%FPS) == 0){
                 ObjectDetector_Evaluation(i,myTemporalPyramid);  
             }
@@ -435,6 +441,16 @@ bool FrameModel::playVideo_with_detected_results(bool pause_when_detected){
     cvReleaseCapture(&capture);
     
     return 0;
+}
+
+bool FrameModel::print_info(string info_id){
+    
+    if(info_id.compare("num_frames") == 0){
+        cout << "num_frames:" << num_frames << endl;
+        return true;
+    }
+
+    return false;
 }
 
 FrameModel::FrameModel(){

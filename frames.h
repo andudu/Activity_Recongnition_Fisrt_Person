@@ -88,6 +88,7 @@ public:
     bool showFeature(int index);
     bool playVideo_with_detected_results(bool pause_when_detected);
     bool playImage_with_detected_results(bool pause_when_detected, IplImage *frame);
+    bool print_info(string info_id);
     
 private:
     string video_path;

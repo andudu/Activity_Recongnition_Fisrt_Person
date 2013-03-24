@@ -46,27 +46,31 @@ bool TemporalPyramid::loadFrames_realtime(FrameModel* frames){
     frame_per_node = frames->FPS;
     num_of_features = frames->num_features;
     
-    cout << "FPN: " << frame_per_node << endl;
+    //this->print_info("frame_per_node");
+    //frames->print_info("num_frames");
+
     //Build the first level pyramid
     vector<node> tmp_node_array;
 
+    
     //Abandon earlier frames
     //暫定最多2^5的第一層node即可(已註解)
-    cout << "frames->num_frames: " << frames->num_frames <<endl;
     /*
     if(frames->num_frames >= 32*frame_per_node)
         sliding_window_start = frames->num_frames - 32*frame_per_node;
     */
 
+    //Building pyramid ,level 1
+    //stepping node by node  
     for(int f = sliding_window_start ; f + frame_per_node < frames->num_frames ; f = f + frame_per_node){
         
-        //create a node with the same number of features in a frame
+        //create a tmp node with the same number of features in a frame
         node tmp_node;
         for (int i = 0 ; i < frames->num_features ; i++){
             tmp_node.feature.push_back(frames->frameList[f].feature[i]);
         }
         
-        //Summing frame features in a interval(FPN)
+        //Summing frame features in an interval(FPN)
         for (int j = f+1; j < f + frame_per_node ; j++) {
             for (int i = 0 ; i < frames->num_features ; i++){
                 //cerr << "f:" << f <<" j:"<< j <<" i:" << i << endl;
@@ -74,13 +78,15 @@ bool TemporalPyramid::loadFrames_realtime(FrameModel* frames){
             } 
         }
         
+        //push it into the temp node array
         tmp_node_array.push_back(tmp_node);
     }
     
-        
+    
+    //push it to the pyramid, level 1.    
     pyramid.push_back(tmp_node_array);
     num_of_levels = (int)pyramid.size();
-    
+
     return true;
 }
 
@@ -276,6 +282,21 @@ bool TemporalPyramid::activity_detect(FrameModel *frames, int min_num_act_seq){
     }
         
     return true;
+}
+
+bool TemporalPyramid::print_info(string info_id){
+
+    if(info_id.compare("num_of_levels") == 0){
+        cout << "num_of_levels:" << num_of_levels << endl;
+        return true;
+    }
+
+    if(info_id.compare("frame_per_node") == 0){
+        cout << "frame_per_node:" << frame_per_node << endl;
+        return true;
+    }
+
+    return false;
 }
 
 
