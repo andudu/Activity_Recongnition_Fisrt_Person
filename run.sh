@@ -9,8 +9,8 @@ length="300"
 indicate="1"
 #show=""
 show="-show"
-pause=""
-#pause="-pause"
+#pause=""
+pause="-pause"
 
 cmd="./FP_ADL.out -i ${video} -start ${start} -length ${length} -an ${annotation} ${show} ${pause} -indicate ${indicate}"
 
