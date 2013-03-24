@@ -219,6 +219,7 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
             myTemporalPyramid->loadFrames_realtime(this);
 
             //myTemporalPyramid->print_info("num_of_levels");
+            myTemporalPyramid->showPyramid(0);
             
             /*
             if((i%FPS) == 0){
