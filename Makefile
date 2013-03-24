@@ -1,6 +1,6 @@
 INCLUDE+=-I/usr/local/include -I/usr/local/include/opencv -I/usr/local/include/opencv2 -I/Users/hmliu/boost_1_53_0
 
-LINKING+=-L/usr/lib -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_objdetect
+LINKING+=-L/usr/lib -lopencv_core.2.4.3 -lopencv_highgui.2.4.3 -lopencv_imgproc.2.4.3 -lopencv_objdetect.2.4.3
 
 CXX=g++
 #CXX=ccache g++

@@ -138,29 +138,34 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
     cout << "FPS :"<< FPS <<endl;
     
     ////Grabbing frames from video
+    /*
     cout << "Grabbing frames from the video\n";
     if(end < 0 || end > frame_count)
         end = frame_count;
     if(start < 0 || start > frame_count)
         start = 0;
-    
+    */
     frame_count = end - start + 1;
     frame_start = start;
     
-    capture.set(CV_CAP_PROP_POS_FRAMES,start);
-    cout << (double)start <<endl;
-    cout << "cvGetprop:" << capture.get(CV_CAP_PROP_POS_FRAMES) << endl;
+    //capture.set(CV_CAP_PROP_POS_FRAMES,start);
+    //cout << start <<endl;
+    //cout << "capture.Getprop:" << capture.get(CV_CAP_PROP_POS_FRAMES) << endl;
 
-    /*
     //Testing
-    
+    /*
     cout << "\n\n\n";
     cout << "start:" << start <<endl;
     cout << "end:" << end <<endl;
 
     //frame  = capture.grqb();
-    capture.read(grab_frame);
-    frame = IplImage(grab_frame); 
+    //capture.read(grab_frame);
+    //frame = IplImage(grab_frame); 
+    //walk around temporally
+    char buffer [512];
+    sprintf (buffer, "/Users/hmliu/Documents/CMLab/Master/ADL_code/frames_P_05/%06d.jpg",start);
+    grab_frame = imread(buffer, CV_LOAD_IMAGE_COLOR);
+    frame = IplImage(grab_frame);
 
     IplImage *dst = 0;       
     float scale = 0.5; 
@@ -174,13 +179,24 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
     exit(1);
     */
 
+    char buffer [512];
+
     for(int i = 0 ; i < frame_count ; i ++)
     {   
         cout << i + 1<< "/" << frame_count << endl;
         
-        if(capture.read(grab_frame))
+        //if(capture.read(grab_frame))
+        if(true)
         {   
-            frame = IplImage(grab_frame); 
+            //frame = IplImage(grab_frame);
+
+            //walk around temporally
+            //sprintf (buffer, "/Users/hmliu/Documents/CMLab/Master/ADL_code/ADLdataset/ADL_videos/split_frames_%d/%06d.jpg",start+i);
+            sprintf(buffer,"%s/%06d.jpg",path.c_str(),start+i);
+            //cout << buffer <<endl;
+            grab_frame = imread(buffer, CV_LOAD_IMAGE_COLOR);
+            frame = IplImage(grab_frame);
+
             num_frames++;
             frameList.push_back(temp);
 
