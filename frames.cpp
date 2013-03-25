@@ -221,6 +221,16 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
             //myTemporalPyramid->print_info("num_of_levels");
             myTemporalPyramid->showPyramid(0);
             
+            //Build the pyramid
+            cout << "frameList.size():" << frameList.size() <<endl;
+            cout << "FPS:" << FPS <<endl;
+            cout << "level required:" << (int)log2(frameList.size()/FPS) + 1<<endl;
+            myTemporalPyramid->buildPyramid((int)log2(frameList.size()/FPS) + 1);
+
+            //Showing pyramids
+            for(int l = 0 ; l < myTemporalPyramid->num_of_levels ; l++)
+                myTemporalPyramid->showPyramid(l);
+
             /*
             if((i%FPS) == 0){
                 ObjectDetector_Evaluation(i,myTemporalPyramid);  
