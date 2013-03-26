@@ -225,13 +225,15 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
                 playImage_with_detected_results(pause_when_detected, &frame);   
             }           
             
-
+            /*
+            cout << "1" << endl;
             //Loading frames and put them into pyramid, level 1
             myTemporalPyramid->loadFrames_realtime(this);
-
+            cout << "2" << endl;
             //myTemporalPyramid->print_info("num_of_levels");
             myTemporalPyramid->showPyramid(0);
-            
+            cout << "3" << endl;
+
             //Build the pyramid
             cout << "frameList.size():" << frameList.size() <<endl;
             cout << "FPS:" << FPS <<endl;
@@ -356,7 +358,7 @@ bool FrameModel::playImage_with_detected_results(bool pause_when_detected, IplIm
             detection_counter++;
         } 
     }
-
+    
     /*
      scale down the image since it's 720x1280 sometimes exceeds the monitor size
      */
@@ -367,7 +369,6 @@ bool FrameModel::playImage_with_detected_results(bool pause_when_detected, IplIm
     dst_cvsize.height = tempFrame->height * scale;
     dst = cvCreateImage( dst_cvsize, tempFrame->depth, tempFrame->nChannels);
     cvResize(tempFrame, dst, CV_INTER_LINEAR);
-    
     
     /*
      Show the result in the window.  
@@ -464,8 +465,6 @@ bool FrameModel::playVideo_with_detected_results(bool pause_when_detected){
     
     cvReleaseCapture(&capture);
 
-    cout << "1" << endl;
-    
     return 0;
 }
 

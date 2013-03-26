@@ -129,9 +129,14 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
         //exit(1);
         //Fill in the feature names
         frame_model->feature_name.clear();
+        /*
         map<int,string>::iterator it;
         for(it = frame_model->obj_name.begin() ; it != frame_model->obj_name.end() ; it++){
             frame_model->feature_name.push_back(it->second);
+        }
+        */
+        for(int i=0 ; i < frame_model->obj_name.size() ; i++){
+            frame_model->feature_name.push_back(frame_model->obj_name[i]);
         }            
     }
 
@@ -178,13 +183,16 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
         //use cache
         cout << "use cache" << endl;
         cout << "cache size:" << result_list_cached.size() <<endl;
+
         frame_model->frameList[frame_index_pyramid].feature.clear();
         frame_model->frameList[frame_index_pyramid].result_list.clear();
+
         for(int i = 0 ; i < result_list_cached.size() ; i++){            
             frame_model->frameList[frame_index_pyramid].feature.push_back(result_list_cached[i].size());
             frame_model->frameList[frame_index_pyramid].result_list.push_back(result_list_cached[i]);
-            //cout <<"i:" << i << " " <<result_list_cached[i].size() <<" ";        
+            cout <<"i:" << i << " " <<result_list_cached[i].size() <<" ";        
         }
+        cout << "frame_model->frameList[frame_index_pyramid].feature.size " << frame_model->frameList[frame_index_pyramid].feature.size() << endl;
         /*
         for(int i = 0 ; i < result_list_cached.size() ; i++){
             
