@@ -128,14 +128,14 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
         
         //Fill in the feature names
         frame_model->feature_name.clear();
-        
+
         for(int i=0 ; i < frame_model->obj_name.size() ; i++){
             frame_model->feature_name.push_back(frame_model->obj_name[i]);
         }            
     }
 
     
-
+    ////I forgot this is for what XD. Just leave it here now.
     name_of_frames = frame_model->name;
   
     //Detection using the ground truth data
