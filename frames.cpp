@@ -225,11 +225,12 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
                 playImage_with_detected_results(pause_when_detected, &frame);   
             }           
             
-            /*
+
             cout << "1" << endl;
             //Loading frames and put them into pyramid, level 1
             myTemporalPyramid->loadFrames_realtime(this);
             cout << "2" << endl;
+            /*
             //myTemporalPyramid->print_info("num_of_levels");
             myTemporalPyramid->showPyramid(0);
             cout << "3" << endl;
