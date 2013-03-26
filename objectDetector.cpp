@@ -125,16 +125,10 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
     if( frame_index_pyramid == 0){
         //frame_model->num_features = (int)myHaars.size();//Equal to num of object detectors
         frame_model->num_features = frame_model->obj_name.size();
-        //cout << "\n\n\n" << frame_model->num_features <<endl;
-        //exit(1);
+        
         //Fill in the feature names
         frame_model->feature_name.clear();
-        /*
-        map<int,string>::iterator it;
-        for(it = frame_model->obj_name.begin() ; it != frame_model->obj_name.end() ; it++){
-            frame_model->feature_name.push_back(it->second);
-        }
-        */
+        
         for(int i=0 ; i < frame_model->obj_name.size() ; i++){
             frame_model->feature_name.push_back(frame_model->obj_name[i]);
         }            
