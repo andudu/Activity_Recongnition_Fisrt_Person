@@ -142,8 +142,8 @@ bool  TemporalPyramid::showPyramid(int level_index){
         return false;
     }
     
-    cout << "Number of nodes in level " << level_index  << " => " << pyramid[level_index].size() <<endl;;
-    cout << "Node features" << endl;
+    cout << "=================================\n";
+    cout << "Level:" << level_index <<" node:" <<  pyramid[level_index].size() << endl;
     for (int i = 0 ;  i < pyramid[level_index].size(); i++) {
         for (int j = 0; j < pyramid[level_index][i].feature.size() ; j++) {
             cout << pyramid[level_index][i].feature[j] <<" "; 
@@ -299,6 +299,13 @@ bool TemporalPyramid::print_info(string info_id){
 
     if(info_id.compare("frame_per_node") == 0){
         cout << "frame_per_node:" << frame_per_node << endl;
+        return true;
+    }
+
+    if(info_id.compare("pyramid") == 0){
+        for(int l = 0 ; l < num_of_levels ; l++){
+            showPyramid(l);
+        }            
         return true;
     }
 
