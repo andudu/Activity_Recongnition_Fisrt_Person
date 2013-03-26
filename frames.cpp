@@ -140,59 +140,11 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
     cvNamedWindow("Obj Detection Result", CV_WINDOW_AUTOSIZE);
     cvMoveWindow("Obj Detection Result", 50, 0);
     
-    ////Laoding video file
-    /*
-    cout << "Laoding video file\n";
-    video_path = path;
-    
-    frame_count = capture.get(CV_CAP_PROP_FRAME_COUNT);
-    cout << "Frame Count : " << frame_count << endl;
-    FPS = capture.get(CV_CAP_PROP_FPS);
-    */
     FPS = 29;
     cout << "FPS :"<< FPS <<endl;
     
-    ////Grabbing frames from video
-    /*
-    cout << "Grabbing frames from the video\n";
-    if(end < 0 || end > frame_count)
-        end = frame_count;
-    if(start < 0 || start > frame_count)
-        start = 0;
-    */
     frame_count = end - start + 1;
     frame_start = start;
-    
-    //capture.set(CV_CAP_PROP_POS_FRAMES,start);
-    //cout << start <<endl;
-    //cout << "capture.Getprop:" << capture.get(CV_CAP_PROP_POS_FRAMES) << endl;
-
-    //Testing
-    /*
-    cout << "\n\n\n";
-    cout << "start:" << start <<endl;
-    cout << "end:" << end <<endl;
-
-    //frame  = capture.grqb();
-    //capture.read(grab_frame);
-    //frame = IplImage(grab_frame); 
-    //walk around temporally
-    char buffer [512];
-    sprintf (buffer, "/Users/hmliu/Documents/CMLab/Master/ADL_code/frames_P_05/%06d.jpg",start);
-    grab_frame = imread(buffer, CV_LOAD_IMAGE_COLOR);
-    frame = IplImage(grab_frame);
-
-    IplImage *dst = 0;       
-    float scale = 0.5; 
-    CvSize dst_cvsize;      
-    dst_cvsize.width = frame.width * scale;
-    dst_cvsize.height = frame.height * scale;
-    dst = cvCreateImage( dst_cvsize, frame.depth, frame.nChannels);
-    cvResize(&frame, dst, CV_INTER_LINEAR);
-    cvShowImage("Obj Detection Result", dst);
-    cvWaitKey();
-    exit(1);
-    */
 
     for(int i = 0 ; i < frame_count ; i ++)
     {   
@@ -200,9 +152,7 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
         
         //if(capture.read(grab_frame))
         if(true)
-        {   
-            //frame = IplImage(grab_frame);
-
+        {  
             //walk around Temporarily
             //sprintf (buffer, "/Users/hmliu/Documents/CMLab/Master/ADL_code/ADLdataset/ADL_videos/split_frames_%d/%06d.jpg",start+i);
             sprintf(buffer,"%s/%06d.jpg",path.c_str(),start+i);
@@ -233,7 +183,6 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
 
             //Build the pyramid
             cout << "frameList.size():" << frameList.size() <<endl;
-            cout << "FPS:" << FPS <<endl;
             cout << "level required:" << (int)log2(frameList.size()/FPS) + 1<<endl;
             myTemporalPyramid->buildPyramid((int)log2(frameList.size()/FPS) + 1);
 
