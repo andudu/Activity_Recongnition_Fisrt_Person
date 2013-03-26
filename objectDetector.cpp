@@ -145,7 +145,6 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
     //result_list_cached.clear();
 
     //Run through each obj
-    cout << "\n\n\n" << frame_model->num_features <<endl;
     for (int obj_index = 0; obj_index < frame_model->num_features; obj_index ++){
          vector<Rect> result;
          
@@ -173,10 +172,10 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
         frame_model->frameList[frame_index_pyramid].result_list.push_back(result); 
     }
 
-    if(use_cache){
+    if(frame_index_pyramid > 0 && use_cache ){
         //use cache
         cout << "use cache" << endl;
-        cout << "cache size:" << result_list_cached.size() <<endl;
+        //cout << "cache size:" << result_list_cached.size() <<endl;
 
         frame_model->frameList[frame_index_pyramid].feature.clear();
         frame_model->frameList[frame_index_pyramid].result_list.clear();
@@ -184,14 +183,9 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
         for(int i = 0 ; i < result_list_cached.size() ; i++){            
             frame_model->frameList[frame_index_pyramid].feature.push_back(result_list_cached[i].size());
             frame_model->frameList[frame_index_pyramid].result_list.push_back(result_list_cached[i]);
-            cout <<"i:" << i << " " <<result_list_cached[i].size() <<" ";        
+            //cout <<"i:" << i << " " <<result_list_cached[i].size() <<" ";        
         }
-        cout << "frame_model->frameList[frame_index_pyramid].feature.size " << frame_model->frameList[frame_index_pyramid].feature.size() << endl;
-        /*
-        for(int i = 0 ; i < result_list_cached.size() ; i++){
-            
-            cout <<"f:" << i << " " << frame_model->frameList[frame_index_pyramid].result_list[i].size() << " ";
-        }*/
+        //cout << "frame_model->frameList["<< frame_index_pyramid<<"].feature.size " << frame_model->frameList[frame_index_pyramid].feature.size() << endl;
     }else{
         //refresh the cache
         cout << "refresh the cache" << endl;

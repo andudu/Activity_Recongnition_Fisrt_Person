@@ -37,7 +37,6 @@ bool TemporalPyramid::observationSampling(){
 
 bool TemporalPyramid::loadFrames_realtime(FrameModel* frames){
     
-    cout << "a" << endl;
     int sliding_window_start = 0;
 
     //Clear the pyramid first
@@ -53,7 +52,6 @@ bool TemporalPyramid::loadFrames_realtime(FrameModel* frames){
     //Build the first level pyramid
     vector<node> tmp_node_array;
 
-    cout << "b" << endl;
     //Abandon earlier frames
     //暫定最多2^5的第一層node即可(已註解)
     /*
@@ -63,17 +61,14 @@ bool TemporalPyramid::loadFrames_realtime(FrameModel* frames){
 
     //Building pyramid ,level 1
     //stepping node by node
-    cout << "c" << endl;  
     for(int f = sliding_window_start ; f + frame_per_node < frames->num_frames ; f = f + frame_per_node){
-        cout << "f:" << f <<endl;
         //create a tmp node with the same number of features in a frame
         node tmp_node;
         for (int i = 0 ; i < frames->num_features ; i++){
-            cout << "frame_model->frameList[frame_index_pyramid].feature.size()" << frames->frameList[f].feature.size() <<endl;
-            cout << frames->frameList[f].feature.size() <<endl;
+            //cout << "frame_model->frameList["<<f<<"].feature.size()" << frames->frameList[f].feature.size() <<endl;
+            //cout << frames->frameList[f].feature.size() <<endl;
             tmp_node.feature.push_back(frames->frameList[f].feature[i]);
         }
-        cout << "f:1"  <<endl;
         //Summing frame features in an interval(FPN)
         for (int j = f+1; j < f + frame_per_node ; j++) {
             for (int i = 0 ; i < frames->num_features ; i++){
@@ -81,17 +76,13 @@ bool TemporalPyramid::loadFrames_realtime(FrameModel* frames){
                 tmp_node.feature[i] = frames->frameList[j].feature[i] + tmp_node.feature[i];
             } 
         }
-        cout << "f:2" <<endl;
         //push it into the temp node array
         tmp_node_array.push_back(tmp_node);
     }
-    cout << "d" << endl;
     
     //push it to the pyramid, level 1.    
     pyramid.push_back(tmp_node_array);
     num_of_levels = (int)pyramid.size();
-
-    cout << "e" << endl;
 
     return true;
 }
