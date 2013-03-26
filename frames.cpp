@@ -47,7 +47,7 @@ bool FrameModel::load_ground_truth_obj_annotation(string path){
     obj_info tmp_obj;
 
     //Read obj_list.txt first to get obj_name mapping
-    vector<string> file_obj_list = reader("translated_with_obj_name/obj_list");
+    vector<string> file_obj_list = reader("translated_with_obj_name/obj_list.txt");
 
     for(int i = 0 ; i < file_obj_list.size() ; i ++){
         split_vector_type SplitVec;
@@ -59,6 +59,7 @@ bool FrameModel::load_ground_truth_obj_annotation(string path){
         obj_name[tmp_obj_index] = tmp_obj_name;
     }
 
+    //cout << "\n\n\nframe_model->num_features:" << obj_name.size() <<endl;
     
     //Then read the ground truth data
     vector<string> file = reader(path);
@@ -77,11 +78,6 @@ bool FrameModel::load_ground_truth_obj_annotation(string path){
         tmp_obj.index = atoi(SplitVec[6].c_str());
         tmp_obj.exist = true;
 
-        if(obj_name.find(tmp_obj.index) == obj_name.end()){
-            obj_name[tmp_obj.index] = tmp_obj.name;
-            obj_name_reverse[tmp_obj.name] = tmp_obj.index;
-        }
-        
         if(ground_truth.find(tmp_obj.frame) == ground_truth.end()){
             frame_annotation tmp;
             tmp.objs[tmp_obj.index] = tmp_obj;
@@ -334,15 +330,17 @@ bool FrameModel::playImage_with_detected_results(bool pause_when_detected, IplIm
 
     int detection_counter = 0;
 
+    //cout << "num_features : " << num_features << endl;
+
     for(int feature_index = 0 ; feature_index < num_features ; feature_index ++)
     {   
-        //cout << "feature_index : " << feature_index << " " << feature_name[feature_index] << endl;
-        //cout << "num of detections : " << frameList.back().result_list[feature_index].size() << endl;
+        cout << "feature_index : " << feature_index << " " << feature_name[feature_index] << endl;
+        cout << "num of detections : " << frameList.back().result_list[feature_index].size() << endl;
         //cout << "feature_index" << feature_index <<endl;   
         for (int box = 0 ; box < frameList.back().result_list[feature_index].size() ; box++){     
             //cout << "drawing bboxes : " << box << endl;
             CvPoint point1, point2;  
-            
+            cout << "box:" << box <<endl; 
             point1.x = frameList.back().result_list[feature_index][box].x;  
             point2.x = frameList.back().result_list[feature_index][box].x + frameList.back().result_list[feature_index][box].width;  
             point1.y = frameList.back().result_list[feature_index][box].y;  
