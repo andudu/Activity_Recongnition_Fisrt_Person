@@ -463,6 +463,8 @@ bool FrameModel::playVideo_with_detected_results(bool pause_when_detected){
     cvDestroyWindow("Obj Detection Result"); 
     
     cvReleaseCapture(&capture);
+
+    cout << "1" << endl;
     
     return 0;
 }

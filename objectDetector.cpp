@@ -174,42 +174,6 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
         frame_model->frameList[frame_index_pyramid].result_list.push_back(result); 
     }
 
-    /*
-    map<int,string>::iterator it;
-    for(it = frame_model->obj_name.begin() ; it != frame_model->obj_name.end() ; it++){
-        vector<Rect> result;
-        int obj_index = it->first;
-        //cout << feature<< ":" <<it->first << " " << it->second <<endl;
-        //cout << "feature_index:" << feature << " obj_name:"<< frame_model->obj_name[feature] <<"  obj_index:" << obj_index <<endl;
-
-        if(annotation.objs.find(obj_index) != annotation.objs.end()){
-            //The obj cls is detected in this frame
-            //cout << "found!" <<endl;
-            //cout << "frame_index:"<< frame_index << " " << annotation.objs[obj_index].name << endl;
-            Rect tmp;
-            tmp.x = annotation.objs[obj_index].x;
-            tmp.y = annotation.objs[obj_index].y;
-            tmp.width = annotation.objs[obj_index].width;
-            tmp.height = annotation.objs[obj_index].height;
-            result.push_back(tmp);
-
-            //There is at least one detection in this frame.
-            //we dont use cache here, use this frame as new cache instead.
-            if(use_cache){
-                use_cache = false;
-                result_list_cached.clear();
-            }
-        }
-
-        tmp_result_list_cached.push_back(result);  
-        frame_model->frameList[frame_index_pyramid].feature.push_back(result.size());
-        frame_model->frameList[frame_index_pyramid].result_list.push_back(result);    
-
-        feature++;
-    }
-    */
-
-
     if(use_cache){
         //use cache
         cout << "use cache" << endl;
