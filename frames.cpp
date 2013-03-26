@@ -44,9 +44,24 @@ vector<string> reader(string path){
 bool FrameModel::load_ground_truth_obj_annotation(string path){
 
     typedef vector< string > split_vector_type;
-
-    vector<string> file = reader(path);
     obj_info tmp_obj;
+
+    //Read obj_list.txt first to get obj_name mapping
+    vector<string> file_obj_list = reader("translated_with_obj_name/obj_list");
+
+    for(int i = 0 ; i < file_obj_list.size() ; i ++){
+        split_vector_type SplitVec;
+        split( SplitVec, file_obj_list[i], is_any_of(" ") );
+        
+        int tmp_obj_index = atoi(SplitVec[0].c_str());
+        string tmp_obj_name = SplitVec[2];
+
+        obj_name[tmp_obj_index] = tmp_obj_name;
+    }
+
+    
+    //Then read the ground truth data
+    vector<string> file = reader(path);
 
     for(int i = 0 ; i < file.size() ; i ++){
 
