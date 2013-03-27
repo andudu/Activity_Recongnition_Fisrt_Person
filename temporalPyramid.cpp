@@ -146,7 +146,16 @@ bool  TemporalPyramid::showPyramid(int level_index){
     return true;
 }
 
-bool TemporalPyramid::buildPyramid(int level_required){
+bool TemporalPyramid::buildPyramid(int frame_size ,int FPS){
+
+    int level_required;
+
+    cout << "frameList.size():" << frame_size <<endl;
+    if((frame_size/FPS % 2 )!= 0){
+        level_required = (int)log2(frame_size/FPS);
+    }else{
+        level_required = (int)log2(frame_size/FPS) + 1;
+    }        
 
     if (num_of_levels > 1) {
         cout << "Pyramid already built. Use 'loadFrames' to re-initial the pyramid first.\n";
@@ -158,6 +167,8 @@ bool TemporalPyramid::buildPyramid(int level_required){
         return false;
     }
     
+    cout << "level required:" << level_required <<endl;
+
     for (int level = 1 ;  level < level_required ; level++) {
         
         vector<node> tmp__node_array;
