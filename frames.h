@@ -17,6 +17,7 @@
 #include <cxcore.h>
 #include <fstream>
 #include <map>
+#include <math.h>
 #include <boost/algorithm/string.hpp>
 
 #define MIN_NUM_ACT_SEQUENCE 3 //minimum number of nodes to make a possible "activity" sequence

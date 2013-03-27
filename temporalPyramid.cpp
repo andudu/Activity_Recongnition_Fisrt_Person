@@ -147,7 +147,7 @@ bool  TemporalPyramid::showPyramid(int level_index){
 }
 
 bool TemporalPyramid::buildPyramid(int level_required){
-    
+
     if (num_of_levels > 1) {
         cout << "Pyramid already built. Use 'loadFrames' to re-initial the pyramid first.\n";
         return false;
@@ -166,11 +166,13 @@ bool TemporalPyramid::buildPyramid(int level_required){
             //create a node with the same number of features
             node tmp_node;
             for (int i = 0 ; i < num_of_features ; i++){
-                tmp_node.feature.push_back(pyramid[level-1][n].feature[i]);
+                tmp_node.feature.push_back(0);
             }
             
             //In case the number of nodes in the last level is not even
-            if (n+1 < pyramid[level-1].size()) {
+            if (n+1 >= pyramid[level-1].size()) {
+                break;
+            }else{               
                 //Summing node features in a interval and avrage them(2 nodes)
                 for (int k = 0; k < num_of_features; k++) {
                     tmp_node.feature[k] = (tmp_node.feature[k] + pyramid[level-1][n+1].feature[k])/2;
