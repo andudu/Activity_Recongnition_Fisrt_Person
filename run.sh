@@ -4,16 +4,15 @@ index="02"
 #video="/Users/hmliu/Documents/CMLab/Master/ADL_code/ADLdataset/ADL_videos/P_${index}.MP4"
 video="/Users/hmliu/Documents/CMLab/Master/ADL_code/ADLdataset/ADL_videos/split_frames_P_${index}"
 annotation="translated_with_obj_name/object_annot_P_${index}_translated_with_obj_name.txt"
-#start="10000"
 start="300"
-length="120"
-indicate="1"
-#show=""
+length="30"
+indicate="-indicate -1"
+indicate="3"
 show="-show"
-pause=""
 #pause="-pause"
+ground_truth_detect="-ground_truth"
 
-cmd="./FP_ADL.out -i ${video} -start ${start} -length ${length} -an ${annotation} ${show} ${pause} -indicate ${indicate}"
+cmd="./FP_ADL.out -i ${video} -start ${start} -length ${length} -an ${annotation} ${show} ${pause} ${indicate} ${ground_truth_detect}"
 
 echo $cmd
 

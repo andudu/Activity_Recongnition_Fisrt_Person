@@ -77,7 +77,7 @@ public:
     map<string, int> obj_name_reverse;
     
     //constructor
-	FrameModel();
+	FrameModel(bool);
 	~FrameModel();
     
     //public functions
@@ -92,6 +92,7 @@ public:
     
 private:
     string video_path;
+    bool ground_truth_detect;
     bool ground_truth_obj_annotation_reader(int video_index);    
 };
 

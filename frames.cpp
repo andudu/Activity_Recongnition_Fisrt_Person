@@ -163,13 +163,13 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
             num_frames++;
             frameList.push_back(temp);
 
-            //Ground truth detect
-            myObjDetector->ground_truth_detect(this, i, &frame , frame_start);
-
-            //Real detect
-            //myObjDetector->detect(this, i, frame);
-
-            //cout << frameList.size() << endl;
+            if(ground_truth_detect){
+                //Ground truth detect
+                myObjDetector->ground_truth_detect(this, i, &frame , frame_start);
+            }else{
+                //Real detect
+                myObjDetector->detect(this, i, &frame);
+            }            
             
             if(show_detection_result){
                 playImage_with_detected_results(pause_when_detected, &frame);   
@@ -337,7 +337,8 @@ bool FrameModel::print_info(string info_id){
     return false;
 }
 
-FrameModel::FrameModel(){
+FrameModel::FrameModel(bool _ground_truth_detect){
+    ground_truth_detect = _ground_truth_detect;
     num_frames = 0;
 }
 

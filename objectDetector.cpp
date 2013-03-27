@@ -34,7 +34,6 @@ ObjectDetector::ObjectDetector(int indicate){
             //Limit the number of detectors
             if(limit!= -1 && counter == limit)break;   
             
-
             int width_mean=0,height_mean=0,width_std=0,height_std=0;
             for(int i=0;i<mean_std_list.size();i++){
                 if(mean_std_list[i].classifier_name.compare(file_name)){

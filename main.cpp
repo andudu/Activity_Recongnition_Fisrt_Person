@@ -25,6 +25,7 @@ int main (int argc, const char * argv[])
     bool do_activity_detection = false;
     bool show_detection_result = false;
     bool pause_when_detected = false;
+    bool ground_truth_detect = false;
     int start_frame = -1;
     int end_frame = -1;
     int indicate = -1;
@@ -55,12 +56,6 @@ int main (int argc, const char * argv[])
 
         if(tmp.compare("-start") == 0){
             start_frame = atoi(argv[i+1]);
-            /*
-            if(start_frame%30!=0){
-                cout << "start_frame:Only multiples of 30 is acceptable." << endl;
-                return 0;
-            }
-            */
             i++;
         }
 
@@ -86,6 +81,10 @@ int main (int argc, const char * argv[])
         if(tmp.compare("-indicate") == 0){
             indicate = atoi(argv[i+1]);
             i++;
+        }
+
+        if(tmp.compare("-ground_truth") == 0){
+            ground_truth_detect = true;
         }    
     }
     
@@ -96,7 +95,8 @@ int main (int argc, const char * argv[])
     cout << "run crf: " << do_activity_detection << endl;
     cout << "show frames: " << show_detection_result << endl;
     cout << "pause when object detected: " << pause_when_detected << endl;
-    cout << "indicate object index:" << indicate <<endl;
+    cout << "indicate object index: " << indicate <<endl;
+    cout << "ground truth detect: " << ground_truth_detect <<endl;
 
     if (input_video.compare("") == 0){
         cout << "Invalid input video path !\n" << endl;
@@ -106,7 +106,7 @@ int main (int argc, const char * argv[])
     //
     //Components initializtion
     //
-    FrameModel* myFrames = new FrameModel();
+    FrameModel* myFrames = new FrameModel(ground_truth_detect);
 
 
     //Load ground truth obj annotation
@@ -150,6 +150,15 @@ int main (int argc, const char * argv[])
     */
     delete myFrames;
     
+    cout << "================================" << "\nfinished!" << endl;
+    cout  << "input video: " << input_video << endl;
+    cout << "start/end frame: " << start_frame << "/" <<end_frame <<endl;
+    cout << "run crf: " << do_activity_detection << endl;
+    cout << "show frames: " << show_detection_result << endl;
+    cout << "pause when object detected: " << pause_when_detected << endl;
+    cout << "indicate object index: " << indicate <<endl;
+    cout << "ground truth detect: " << ground_truth_detect <<endl;
+
     return 0;
 }
 
