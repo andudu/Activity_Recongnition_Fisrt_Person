@@ -61,10 +61,6 @@ int main (int argc, const char * argv[])
 
         if(tmp.compare("-length") == 0){
             length = atoi(argv[i+1]);
-            if(length%30!=0){
-                cout << "length:Only multiples of 30 is acceptable." << endl;
-                return 0;
-            }
             i++;
         }
 
@@ -119,36 +115,6 @@ int main (int argc, const char * argv[])
     myFrames->loadVideo_realtime(input_video, pause_when_detected, show_detection_result, start_frame , end_frame, indicate);
     cout << "Frames : " << myFrames->frame_count << endl;
 
-    /*
-    //
-    //Show detection result
-    //
-    if(show_detection_result)
-        myFrames->playVideo_with_detected_results(pause_when_detected);
-    
-    //
-    //Building temporal pyramid
-    //
-    cout << "Building temporal pyramid\n";
-    myTemporalPyramid->loadFrames(myFrames);
-    myTemporalPyramid->showPyramid(0);
-    myTemporalPyramid->buildPyramid(2);
-    cout << "number of levels : " << myTemporalPyramid->num_of_levels << endl;
-    myTemporalPyramid->showPyramid(1);
-    
-    
-    //
-    //Activity Detection
-    //
-    if(do_activity_detection)
-        myTemporalPyramid->activity_detect(myFrames);
-    
-    
-    
-    
-    delete myTemporalPyramid;
-    */
-    delete myFrames;
     
     cout << "================================" << "\nfinished!" << endl;
     cout  << "input video: " << input_video << endl;
@@ -159,6 +125,7 @@ int main (int argc, const char * argv[])
     cout << "indicate object index: " << indicate <<endl;
     cout << "ground truth detect: " << ground_truth_detect <<endl;
 
+    delete myFrames;
     return 0;
 }
 
