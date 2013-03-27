@@ -148,75 +148,62 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
 
     for(int i = 0 ; i < frame_count ; i ++)
     {   
-        //cout << i + 1<< "/" << frame_count << endl;
+        //cout << i + 1<< "/" << frame_count << endl;            
+        sprintf(buffer,"%s/%06d.jpg",path.c_str(),start+i);
+        //cout << buffer <<endl;
+        grab_frame = imread(buffer, CV_LOAD_IMAGE_COLOR);
+        frame = IplImage(grab_frame);
+
+        num_frames++;
+        frameList.push_back(temp);
+
+        if(ground_truth_detect){
+            //Ground truth detect
+            myObjDetector->ground_truth_detect(this, i, &frame , frame_start);
+        }else{
+            //Real detect
+            myObjDetector->detect(this, i, &frame);
+        }            
         
-        //if(capture.read(grab_frame))
-        if(true)
-        {  
-            //walk around Temporarily
-            //sprintf (buffer, "/Users/hmliu/Documents/CMLab/Master/ADL_code/ADLdataset/ADL_videos/split_frames_%d/%06d.jpg",start+i);
-            sprintf(buffer,"%s/%06d.jpg",path.c_str(),start+i);
-            //cout << buffer <<endl;
-            grab_frame = imread(buffer, CV_LOAD_IMAGE_COLOR);
-            frame = IplImage(grab_frame);
+        if(show_detection_result){
+            playImage_with_detected_results(pause_when_detected, &frame);   
+        }           
+        
+        //Loading frames and put them into pyramid, level 1
+        myTemporalPyramid->loadFrames_realtime(this);
 
-            num_frames++;
-            frameList.push_back(temp);
+        //myTemporalPyramid->print_info("num_of_levels");
 
-            if(ground_truth_detect){
-                //Ground truth detect
-                myObjDetector->ground_truth_detect(this, i, &frame , frame_start);
-            }else{
-                //Real detect
-                myObjDetector->detect(this, i, &frame);
-            }            
-            
-            if(show_detection_result){
-                playImage_with_detected_results(pause_when_detected, &frame);   
-            }           
-            
-            //Loading frames and put them into pyramid, level 1
+        //Build the pyramid
+        cout << "frameList.size():" << frameList.size() <<endl;
+        cout << "level required:" << (int)log2(frameList.size()/FPS) + 1<<endl;
+        myTemporalPyramid->buildPyramid((int)log2(frameList.size()/FPS) + 1);
+
+        //Showing pyramids
+        myTemporalPyramid->print_info("pyramid");
+
+        /*
+        if((i%FPS) == 0){
+            ObjectDetector_Evaluation(i,myTemporalPyramid);  
+        }
+        */
+
+        /*
+        //Building pyramid
+        if(frameList.size()/FPS >= MIN_NUM_ACT_SEQUENCE){
             myTemporalPyramid->loadFrames_realtime(this);
-
-            //myTemporalPyramid->print_info("num_of_levels");
-            myTemporalPyramid->showPyramid(0);
-
-            //Build the pyramid
-            cout << "frameList.size():" << frameList.size() <<endl;
-            cout << "level required:" << (int)log2(frameList.size()/FPS) + 1<<endl;
-            myTemporalPyramid->buildPyramid((int)log2(frameList.size()/FPS) + 1);
+            //cout << "num of levels in pyramids:" << myTemporalPyramid->num_of_levels <<endl;
+            //cout << (int)log2(frameList.size()/FPS) <<endl; 
+            myTemporalPyramid->buildPyramid((int)log2(frameList.size()/FPS));
 
             //Showing pyramids
-            myTemporalPyramid->print_info("pyramid");
+            for(int l = 0 ; l < myTemporalPyramid->num_of_levels ; l++)
+                myTemporalPyramid->showPyramid(l);
 
-            /*
-            if((i%FPS) == 0){
-                ObjectDetector_Evaluation(i,myTemporalPyramid);  
-            }
-            */
-
-            /*
-            //Building pyramid
-            if(frameList.size()/FPS >= MIN_NUM_ACT_SEQUENCE){
-                myTemporalPyramid->loadFrames_realtime(this);
-                //cout << "num of levels in pyramids:" << myTemporalPyramid->num_of_levels <<endl;
-                //cout << (int)log2(frameList.size()/FPS) <<endl; 
-                myTemporalPyramid->buildPyramid((int)log2(frameList.size()/FPS));
-
-                //Showing pyramids
-                for(int l = 0 ; l < myTemporalPyramid->num_of_levels ; l++)
-                    myTemporalPyramid->showPyramid(l);
-
-                //Activity Detection
-                myTemporalPyramid->activity_detect(this, MIN_NUM_ACT_SEQUENCE);
-            }
-            */
+            //Activity Detection
+            myTemporalPyramid->activity_detect(this, MIN_NUM_ACT_SEQUENCE);
         }
-        else
-        {
-            break;
-        }
-
+        */
         if(cvWaitKey(10) >= 0)
             break;
     }
