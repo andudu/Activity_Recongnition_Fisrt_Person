@@ -84,7 +84,7 @@ public:
     //public functions
     int getFPS();
     bool load_ground_truth_obj_annotation(string path);
-    bool loadVideo_realtime(string path, bool pause_when_detected, bool show_detection_result, int start, int end ,int indicate);
+    bool loadVideo_realtime(string path, bool pause_when_detected, bool show_detection_result, int start, int end ,int indicate, bool do_activity_detection);
     bool playVideo();
     bool showFeature(int index);
     bool playVideo_with_detected_results(bool pause_when_detected);

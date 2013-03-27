@@ -112,7 +112,7 @@ int main (int argc, const char * argv[])
     //
     //Loading input video(feature detection included)
     //
-    myFrames->loadVideo_realtime(input_video, pause_when_detected, show_detection_result, start_frame , end_frame, indicate);
+    myFrames->loadVideo_realtime(input_video, pause_when_detected, show_detection_result, start_frame , end_frame, indicate ,do_activity_detection);
     cout << "Frames : " << myFrames->frame_count << endl;
 
     

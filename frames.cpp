@@ -127,7 +127,7 @@ int FrameModel::getFPS(){
     return FPS;
 }
 
-bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool show_detection_result,int start, int end, int indicate){
+bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool show_detection_result,int start, int end, int indicate, bool do_activity_detection){
     
     ObjectDetector* myObjDetector = new ObjectDetector(indicate);
     TemporalPyramid* myTemporalPyramid = new TemporalPyramid;
@@ -183,23 +183,16 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
             ObjectDetector_Evaluation(i,myTemporalPyramid);  
         }
         */
+        
+        //Activity Detection
+        if(do_activity_detection && (i%FPS) == 0){
+            //myTemporalPyramid->activity_detect(this, MIN_NUM_ACT_SEQUENCE);
+        }else{
 
-        /*
-        //Building pyramid
-        if(frameList.size()/FPS >= MIN_NUM_ACT_SEQUENCE){
-            myTemporalPyramid->loadFrames_realtime(this);
-            //cout << "num of levels in pyramids:" << myTemporalPyramid->num_of_levels <<endl;
-            //cout << (int)log2(frameList.size()/FPS) <<endl; 
-            myTemporalPyramid->buildPyramid((int)log2(frameList.size()/FPS));
-
-            //Showing pyramids
-            for(int l = 0 ; l < myTemporalPyramid->num_of_levels ; l++)
-                myTemporalPyramid->showPyramid(l);
-
-            //Activity Detection
-            myTemporalPyramid->activity_detect(this, MIN_NUM_ACT_SEQUENCE);
         }
-        */
+        
+        
+
         if(cvWaitKey(10) >= 0)
             break;
     }
