@@ -86,3 +86,4 @@
 86 : active_large_container
 87 : active_mop
 88 : active_bed
+89 : active_blanket

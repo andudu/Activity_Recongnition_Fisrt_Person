@@ -89,12 +89,12 @@ bool FrameModel::load_ground_truth_obj_annotation(string path){
     }
 
     cout << "annotation file:" << path << "is loaded."<<endl;
-    /*
+    
     map<int, string>::iterator it;
     cout << "ground_truth:" <<endl;
     for(it = obj_name.begin() ; it != obj_name.end() ; it++)
         cout<<it->first<<" "<<it->second<<endl;
-    
+    /*
     map<string,int>::iterator it2;
     cout << "ground_truth:" <<endl;
     for(it2 = obj_name_reverse.begin() ; it2 != obj_name_reverse.end() ; it2++)
@@ -172,17 +172,13 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
         //Loading frames and put them into pyramid, level 0
         myTemporalPyramid->loadFrames_realtime(this);
 
-        //Build the pyramid
-        myTemporalPyramid->buildPyramid(num_frames, FPS);
-
-        //Showing pyramids
-        myTemporalPyramid->print_info("pyramid");
-
-        /*
         if((i%FPS) == 0){
-            ObjectDetector_Evaluation(i,myTemporalPyramid);  
+            //Build the pyramid
+            myTemporalPyramid->buildPyramid(num_frames, FPS);
+
+            //Showing pyramids
+            myTemporalPyramid->print_info("pyramid");
         }
-        */
         
         //Activity Detection
         if(do_activity_detection && (i%FPS) == 0){
@@ -191,7 +187,11 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
 
         }
         
-        
+        /*
+        if((i%FPS) == 0){
+            ObjectDetector_Evaluation(i,myTemporalPyramid);  
+        }
+        */
 
         if(cvWaitKey(10) >= 0)
             break;
