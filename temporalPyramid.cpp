@@ -30,11 +30,6 @@ TemporalPyramid::TemporalPyramid(){
 TemporalPyramid::~TemporalPyramid(){
 }
 
-bool TemporalPyramid::observationSampling(){
-    
-    return true;
-}
-
 bool TemporalPyramid::loadFrames_realtime(FrameModel* frames){
     
     int sliding_window_start = 0;
@@ -198,99 +193,6 @@ bool TemporalPyramid::buildPyramid(int frame_size ,int FPS){
     
     num_of_levels = (int)pyramid.size();
     
-    return true;
-}
-
-string TemporalPyramid::run_crf(FrameModel *frames, int level){
-    
-    FILE* fp; //Output file for CRF++
-    vector<string> feature_names;
-    string line;
-    vector<string> tmp;
-    
-    //run through the nodes in the level 
-    for (int node = 0 ;  node < pyramid[level].size(); node++) {
-        
-        float max = 0;
-        string feature_name = "";
-        
-        //run through the features in the node
-        for (int _feature = 0; _feature < pyramid[level][node].feature.size() ; _feature++) {
-            
-            if (pyramid[level][node].feature[_feature] > max && pyramid[level][node].feature[_feature] > frame_per_node/3) {
-                max = pyramid[level][node].feature[_feature];
-                feature_name = frames->feature_name[_feature];
-            }
-        }
-        
-        feature_names.push_back(feature_name);
-    }
-    
-    //Node number checking
-    if(feature_names.size() < 3){
-        char msg[] = "Not enough nodes in level";
-        sprintf(msg, "Failed: %s %d !", msg, level);
-        return  msg;
-    }
-    
-    cout << "Features: ";
-    /*
-    for (int i  = 0 ;  i < feature_names.size() ; i ++) {
-        cout << feature_names[i] << " ";
-    }
-    */
-    cout << feature_names[feature_names.size()-3] << ", " << feature_names[feature_names.size()-2] << ", " << feature_names[feature_names.size()-1] << endl;
-    fp = fopen("crf/test.crf", "w");
-    
-    fprintf(fp, "%s\n",feature_names[feature_names.size()-3].c_str());
-    fprintf(fp, "%s\n",feature_names[feature_names.size()-2].c_str());
-    fprintf(fp, "%s\n",feature_names[feature_names.size()-1].c_str());
-    
-    fclose(fp);
-    
-    //Run CRF++
-    system("crf_test -m crf/model.crf crf/test.crf > crf/result.txt");
-    
-    //Read result 
-    ifstream myfile("crf/result.txt");
-    if (myfile.is_open())
-    {   
-        //cout << "Reading result from CRF++\n";
-        while ( myfile.good() )
-        {
-            getline (myfile,line);
-            tmp.push_back(line);
-            //cout << line <<endl;
-        }
-        
-    }else {
-        cout << "Unable to open file";
-    }
-    
-    myfile.close();
-
-    typedef vector< string > split_vector_type;
-    
-    split_vector_type SplitVec;
-    split( SplitVec, tmp[tmp.size() - 3 ], is_any_of("\t") ); 
-    
-    return SplitVec[1];
-}
-
-bool TemporalPyramid::activity_detect(FrameModel *frames, int min_num_act_seq){
-    string result;
-    for(int level = 0 ; level < num_of_levels ; level++){
-        if(pyramid[level].size() >= min_num_act_seq){
-            cout << "Level:" << level << endl;
-            result = run_crf(frames, level);
-            cout << "\nResult from CRF++:"  << result <<endl<<endl;
-            
-        }else{
-            cout << "Level:" << level << " Not enough nodes" <<endl;
-        }
-        
-    }
-        
     return true;
 }
 

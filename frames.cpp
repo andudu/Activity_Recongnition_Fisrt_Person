@@ -9,6 +9,7 @@
 #include "frames.h"
 #include "objectDetector.h"
 #include "temporalPyramid.h"
+#include "activityDetector.h"
 
 float ObjectDetector_Evaluation(int frame_index,TemporalPyramid* my_pyramid){
 
@@ -36,7 +37,8 @@ int FrameModel::getFPS(){
 bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool show_detection_result,int start, int end, int indicate, bool do_activity_detection, string annotation_file){
     
     ObjectDetector* myObjDetector = new ObjectDetector(indicate);
-    TemporalPyramid* myTemporalPyramid = new TemporalPyramid;
+    TemporalPyramid* myTemporalPyramid = new TemporalPyramid();
+    ActivityDetector* myActivityDetector = new ActivityDetector();
     VideoCapture capture(path.c_str());
     Mat grab_frame;
     IplImage frame;
@@ -91,8 +93,9 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
         
         //Activity Detection
         if(do_activity_detection && (i%FPS) == 0){
+
             //myTemporalPyramid->activity_detect(this, MIN_NUM_ACT_SEQUENCE);
-        }else{
+            myActivityDetector->activity_detect(myTemporalPyramid);
 
         }
         
