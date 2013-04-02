@@ -106,13 +106,12 @@ int main (int argc, const char * argv[])
 
 
     //Load ground truth obj annotation
-    //myFrames->load_ground_truth_obj_annotation("translated_with_obj_name/object_annot_P_02_translated_with_obj_name.txt");
-    myFrames->load_ground_truth_obj_annotation(annotation_file);
+    //myFrames->load_ground_truth_obj_annotation(annotation_file);
 
     //
     //Loading input video(feature detection included)
     //
-    myFrames->loadVideo_realtime(input_video, pause_when_detected, show_detection_result, start_frame , end_frame, indicate ,do_activity_detection);
+    myFrames->loadVideo_realtime(input_video, pause_when_detected, show_detection_result, start_frame , end_frame, indicate, do_activity_detection, annotation_file);
     cout << "Frames : " << myFrames->frame_count << endl;
 
     

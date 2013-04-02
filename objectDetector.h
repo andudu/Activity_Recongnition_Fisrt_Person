@@ -39,6 +39,26 @@ public:
 
 };
 
+class obj_info{
+
+public:
+    bool exist;
+    int frame,x,y,width,height,index;
+    string name;
+
+    obj_info(){
+        exist = false;
+    }
+};
+
+
+class frame_annotation{
+
+public:
+    // <obj_index,obj_info>
+    map<int,obj_info> objs;
+};
+
 
 class ObjectDetector{
 	
@@ -50,8 +70,13 @@ public:
     string name_of_frames;
     int num_of_detectors;
     
+    map<int, frame_annotation> ground_truth;//<frame_index,frame_annotation>
+    map<int, string> obj_name;
+    map<string, int> obj_name_reverse;
+    
     //public functions
     bool detect(FrameModel* frame_model , int frame_index ,IplImage* image);
+    bool load_ground_truth_obj_annotation(string path);
     bool ground_truth_detect(FrameModel* frame_model , int frame_index ,IplImage* image, int frame_start);
     
     //constructor
@@ -65,6 +90,8 @@ private:
     vector<mean_std> mean_std_list;
 
     bool mean_std_reader();
+    vector<string> reader(string path);
+    bool ground_truth_obj_annotation_reader(int video_index);
 };
 
 

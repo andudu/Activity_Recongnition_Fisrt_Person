@@ -113,7 +113,7 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
 
     /*
     frame_index : the frame index in temporal pyramid level 1
-    so I have to add the offset 'frame_start' to get the corresponding frame in the video
+    so I have to add the offset 'frame_start' to get to the corresponding frame in the video
     */
     int frame_index_pyramid = frame_index;
     int frame_index_video = frame_index + frame_start;
@@ -122,14 +122,14 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
     
     //If this is the first frame
     if( frame_index_pyramid == 0){
-        //frame_model->num_features = (int)myHaars.size();//Equal to num of object detectors
-        frame_model->num_features = frame_model->obj_name.size();
+        
+        frame_model->num_features = obj_name.size();
         
         //Fill in the feature names
         frame_model->feature_name.clear();
 
-        for(int i=0 ; i < frame_model->obj_name.size() ; i++){
-            frame_model->feature_name.push_back(frame_model->obj_name[i]);
+        for(int i=0 ; i < obj_name.size() ; i++){
+            frame_model->feature_name.push_back(obj_name[i]);
         }            
     }
 
@@ -138,7 +138,7 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
     name_of_frames = frame_model->name;
   
     //Detection using the ground truth data
-    frame_annotation annotation = frame_model->ground_truth[frame_index_video];
+    frame_annotation annotation = ground_truth[frame_index_video];
 
     int feature = 0;
     //result_list_cached.clear();
@@ -173,7 +173,7 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
 
     if(frame_index_pyramid > 0 && use_cache ){
         //use cache
-        cout << "use cache" << endl;
+        //cout << "use cache" << endl;
         //cout << "cache size:" << result_list_cached.size() <<endl;
 
         frame_model->frameList[frame_index_pyramid].feature.clear();
@@ -196,18 +196,17 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
     return true;
 }
 
-
-vector<string> reader(){
+vector<string> ObjectDetector::reader(string path){
 
     string line;
-    ifstream myfile ("cascade_0305/mean_std.txt");
+    ifstream myfile (path.c_str());
     vector<string> list;
     if (myfile.is_open())
     {
         while ( myfile.good() )
         {   
             getline (myfile,line);
-
+            
             /*
             注意最後一行的問題
             可能會把最後空行讀進來!
@@ -216,15 +215,13 @@ vector<string> reader(){
             if(line.size() == 0)
                 break;
 
-            //cout << line << endl;
-            
             list.push_back(line);
         }
         
         myfile.close();
         
     }else{
-         cout << "Unable to open mean_std file!\n";    
+         cout << "Unable to open the file!\n";    
     }
 
     return list;
@@ -234,7 +231,7 @@ bool ObjectDetector::mean_std_reader(){
 
     typedef vector< string > split_vector_type;
 
-    vector<string> list = reader();
+    vector<string> list = reader("cascade_0305/mean_std.txt");
 
     for(int i = 0 ; i < list.size() ; i ++){
         mean_std tmp;
@@ -259,6 +256,69 @@ bool ObjectDetector::mean_std_reader(){
              << mean_std_list[i].height_std <<endl;
     }
     */
+    return true;
+}
+
+bool ObjectDetector::load_ground_truth_obj_annotation(string path){
+
+    typedef vector< string > split_vector_type;
+    obj_info tmp_obj;
+
+    //Read obj_list.txt first to get obj_name mapping
+    vector<string> file_obj_list = reader("translated_with_obj_name/obj_list.txt");
+
+    for(int i = 0 ; i < file_obj_list.size() ; i ++){
+        split_vector_type SplitVec;
+        split( SplitVec, file_obj_list[i], is_any_of(" ") );
+        
+        int tmp_obj_index = atoi(SplitVec[0].c_str());
+        string tmp_obj_name = SplitVec[2];
+
+        obj_name[tmp_obj_index] = tmp_obj_name;
+    }
+
+    //cout << "\n\n\nframe_model->num_features:" << obj_name.size() <<endl;
+    
+    //Then read the ground truth data
+    vector<string> file = reader(path);
+
+    for(int i = 0 ; i < file.size() ; i ++){
+
+        split_vector_type SplitVec;
+        split( SplitVec, file[i], is_any_of(" ") );
+
+        tmp_obj.name = SplitVec[7];
+        tmp_obj.frame = atoi(SplitVec[4].c_str());
+        tmp_obj.x = atoi(SplitVec[0].c_str())*2;
+        tmp_obj.y = atoi(SplitVec[1].c_str())*2;
+        tmp_obj.width = atoi(SplitVec[2].c_str())*2 - atoi(SplitVec[0].c_str())*2;
+        tmp_obj.height = atoi(SplitVec[3].c_str())*2 - atoi(SplitVec[1].c_str())*2;
+        tmp_obj.index = atoi(SplitVec[6].c_str());
+        tmp_obj.exist = true;
+
+        if(ground_truth.find(tmp_obj.frame) == ground_truth.end()){
+            frame_annotation tmp;
+            tmp.objs[tmp_obj.index] = tmp_obj;
+            ground_truth[tmp_obj.frame] = tmp;
+        }else{
+            ground_truth[tmp_obj.frame].objs[tmp_obj.index] = tmp_obj;
+        }
+            
+    }
+
+    cout << "annotation file:" << path << "is loaded."<<endl;
+    
+    map<int, string>::iterator it;
+    cout << "ground_truth:" <<endl;
+    for(it = obj_name.begin() ; it != obj_name.end() ; it++)
+        cout<<it->first<<" "<<it->second<<endl;
+    /*
+    map<string,int>::iterator it2;
+    cout << "ground_truth:" <<endl;
+    for(it2 = obj_name_reverse.begin() ; it2 != obj_name_reverse.end() ; it2++)
+        cout<<it2->first<<" "<<it2->second<<endl;
+    */
+
     return true;
 }
 
