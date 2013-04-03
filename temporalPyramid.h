@@ -13,8 +13,11 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <cmath>
 #include <boost/algorithm/string.hpp>
 #include "frames.h"
+
+#define CORRELATION_THRES 0.3
 
 using namespace boost;
 using namespace std;

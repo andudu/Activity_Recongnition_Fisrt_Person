@@ -56,10 +56,24 @@ bool TemporalPyramid::loadFrames_realtime(FrameModel* frames, int frame_index){
         }
 
         //Similarity check with the latest node
+        bool similar = true;
+        if ( pyramid[0].size() >= 1){
+            for (int i = 0 ; i < frames->num_features ; i++){
+                float diff =  abs(pyramid[0].back().feature[i] - tmp_node.feature[i]);
+                
+                if(diff/frame_per_node > CORRELATION_THRES){
+                    similar = false;
+                    break;
+                }
+            }
+        }else{
+            similar = false;
+        }
 
-
-        //push it to the pyramid level 1
-        pyramid[0].push_back(tmp_node);
+        if(!similar){
+            pyramid[0].push_back(tmp_node);
+        }
+        
     }
 
     return true;
@@ -178,40 +192,6 @@ bool TemporalPyramid::buildPyramid_realtime(FrameModel* frames){
         }
     }
     
-
-    /*
-    vector<node> tmp_node_array = pyramid[0];
-    pyramid.clear();
-    pyramid.push_back(tmp_node_array);
-    
-    for (int level = 1 ;  level < level_required ; level++) {
-        
-        vector<node> tmp__node_array;
-        for(int n = 0 ; n < pyramid[level-1].size() ; n = n + 2){
-            
-            //create a node with the same number of features
-            node tmp_node;
-            for (int i = 0 ; i < num_of_features ; i++){
-                tmp_node.feature.push_back(0);
-            }
-            
-            //In case the number of nodes in the last level is not even
-            if (n+1 >= pyramid[level-1].size()) {
-                break;
-            }else{               
-                //Summing node features in a interval and avrage them(2 nodes)
-                for (int k = 0; k < num_of_features; k++) {
-                    tmp_node.feature[k] = (tmp_node.feature[k] + pyramid[level-1][n+1].feature[k])/2;
-                }
-            }            
-            
-            tmp__node_array.push_back(tmp_node);
-        }
-        
-        pyramid.push_back(tmp__node_array);
-    }
-    */    
-
     num_of_levels = (int)pyramid.size();
     
     return true;
