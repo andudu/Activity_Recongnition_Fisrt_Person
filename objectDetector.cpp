@@ -128,7 +128,7 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
         //Fill in the feature names
         frame_model->feature_name.clear();
 
-        for(int i = 0 ; i < obj_name.size() ; i++){
+        for(int i = 1 ; i <= obj_name.size() ; i++){
             frame_model->feature_name.push_back(obj_name[i]);
         }            
     }

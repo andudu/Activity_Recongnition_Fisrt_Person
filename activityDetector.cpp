@@ -45,7 +45,7 @@ vector<string> ActivityDetector::run_crf(TemporalPyramid *my_pyramid,int level, 
     FILE* fp; //Output file for CRF++
     vector<string> activity_detected;
     
-    float thres = my_pyramid->frame_per_node / thres_factor; //This is a critical factor
+    float thres = my_pyramid->frame_per_node / thres_factor; //This is critical
 
     fp = fopen("crf/test.crf", "w");
 
