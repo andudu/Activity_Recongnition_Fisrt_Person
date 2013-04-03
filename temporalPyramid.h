@@ -19,15 +19,25 @@
 using namespace boost;
 using namespace std;
 
+class table_element{
+
+public:
+    
+    string activity;
+    
+    float prob;
+
+    class last_node{
+        int level;
+        int node;
+    };
+};
 
 class node{
     
 public:
     vector<float> feature;
-
-    string activity;
-    float prob;
-    
+    table_element table[2][2];   
 };
 
 
