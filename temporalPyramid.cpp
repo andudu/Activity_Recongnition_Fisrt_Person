@@ -139,16 +139,16 @@ bool  TemporalPyramid::showPyramid(int level_index){
 }
 
 
-bool TemporalPyramid::buildPyramid_realtime(FrameModel* frames){
+bool TemporalPyramid::buildPyramid_realtime(){
 
     int level_required;
-    int frame_size = frames->frameList.size();
+    int pyramid_base_size = pyramid[0].size();
 
-    cout << "frameList.size():" << frame_size <<endl;
-    if((frame_size/frame_per_node % 2 )!= 0){
-        level_required = (int)log2(frame_size/frame_per_node);
+    cout << "pyramid_base_size:" << pyramid_base_size <<endl;
+    if((pyramid_base_size % 2 )!= 0){
+        level_required = (int)log2(pyramid_base_size);
     }else{
-        level_required = (int)log2(frame_size/frame_per_node) + 1;
+        level_required = (int)log2(pyramid_base_size) + 1;
     }
 
     if (level_required <= 1) {
