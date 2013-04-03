@@ -34,11 +34,11 @@ int FrameModel::getFPS(){
     return FPS;
 }
 
-bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool show_detection_result,int start, int end, int indicate, bool do_activity_detection, string annotation_file){
+bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool show_detection_result,int start, int end, int indicate, bool do_activity_detection, string annotation_file, int thres_factor){
     
     ObjectDetector* myObjDetector = new ObjectDetector(indicate);
     TemporalPyramid* myTemporalPyramid = new TemporalPyramid();
-    ActivityDetector* myActivityDetector = new ActivityDetector();
+    ActivityDetector* myActivityDetector = new ActivityDetector(thres_factor);
     VideoCapture capture(path.c_str());
     Mat grab_frame;
     IplImage frame;

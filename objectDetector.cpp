@@ -149,8 +149,8 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
          
          if(annotation.objs.find(obj_index) != annotation.objs.end()){
             //The obj cls is detected in this frame
-            //cout << "found!" <<endl;
-            //cout << "frame_index:"<< frame_index << " " << annotation.objs[obj_index].name << endl;
+            cout << "found!" <<endl;
+            cout << "frame_index:"<< frame_index << " " << annotation.objs[obj_index].name << endl;
             Rect tmp;
             tmp.x = annotation.objs[obj_index].x;
             tmp.y = annotation.objs[obj_index].y;
@@ -166,7 +166,7 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
             }
         }
 
-        tmp_result_list_cached.push_back(result);  
+        tmp_result_list_cached.push_back(result);
         frame_model->frameList[frame_index_pyramid].feature.push_back(result.size());
         frame_model->frameList[frame_index_pyramid].result_list.push_back(result); 
     }

@@ -146,7 +146,7 @@ bool TemporalPyramid::buildPyramid(int frame_size ,int FPS){
         return false;
     }
     
-    cout << "level required:" << level_required <<endl;
+    cout << "level to be built:" << level_required <<endl;
 
     for (int level = 1 ;  level < level_required ; level++) {
         

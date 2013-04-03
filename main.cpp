@@ -30,6 +30,7 @@ int main (int argc, const char * argv[])
     int end_frame = -1;
     int indicate = -1;
     int length = 60;
+    int thres_factor = 2;
 
     if(argc == 1){
         cout << "need arguments!\n";
@@ -81,6 +82,11 @@ int main (int argc, const char * argv[])
 
         if(tmp.compare("-ground_truth") == 0){
             ground_truth_detect = true;
+        }
+
+        if(tmp.compare("-thres_factor") == 0){
+            thres_factor = atoi(argv[i+1]);
+            i++;
         }    
     }
     
@@ -93,6 +99,7 @@ int main (int argc, const char * argv[])
     cout << "pause when object detected: " << pause_when_detected << endl;
     cout << "indicate object index: " << indicate <<endl;
     cout << "ground truth detect: " << ground_truth_detect <<endl;
+    cout << "thres_factor: " << thres_factor <<endl;
 
     if (input_video.compare("") == 0){
         cout << "Invalid input video path !\n" << endl;
@@ -107,7 +114,7 @@ int main (int argc, const char * argv[])
     //
     //Loading input video(feature detection included)
     //
-    myFrames->loadVideo_realtime(input_video, pause_when_detected, show_detection_result, start_frame , end_frame, indicate, do_activity_detection, annotation_file);
+    myFrames->loadVideo_realtime(input_video, pause_when_detected, show_detection_result, start_frame , end_frame, indicate, do_activity_detection, annotation_file, thres_factor);
     cout << "Frames : " << myFrames->frame_count << endl;
 
     

@@ -44,7 +44,8 @@ vector<string> ActivityDetector::run_crf(TemporalPyramid *my_pyramid,int level, 
     typedef vector< string > split_vector_type;
     FILE* fp; //Output file for CRF++
     vector<string> activity_detected;
-    float thres = 10.0;
+    
+    float thres = my_pyramid->frame_per_node / thres_factor; //This is a critical factor
 
     fp = fopen("crf/test.crf", "w");
 
@@ -52,10 +53,8 @@ vector<string> ActivityDetector::run_crf(TemporalPyramid *my_pyramid,int level, 
 
     for (int i = 0 ; i < my_pyramid->num_of_features ; i++){
         if(my_pyramid->pyramid[level][node].feature[i] >= thres){
-            //features.push_back(1);
             fprintf(fp, "%d ",1);
         }else{
-            //features.push_back(0);
             fprintf(fp, "%d ",0);
         }
     }
@@ -63,21 +62,13 @@ vector<string> ActivityDetector::run_crf(TemporalPyramid *my_pyramid,int level, 
     fprintf(fp, "\n");
 
     fclose(fp);
-
     
     //Run CRF++
-    system("crf_test -v1 -m crf/model_fold_1.crf crf/test.crf > crf/result.txt");
-    
+    system("crf_test -v1 -m crf/model_fold_1.crf crf/test.crf > crf/result.txt");    
 
     vector<string> file_list = reader("crf/result.txt");
     split_vector_type SplitVec;
     split( SplitVec, file_list[1], is_any_of("\t/") );
-        
-    /*
-    for(int i = 0 ; i < SplitVec.size() ; i ++){
-        cout << " SplitVec: " << i << SplitVec[i] << endl;
-    }
-    */
 
     activity_detected.push_back(*(SplitVec.rbegin() + 1)); //The second last element is the prob get from CRF
     activity_detected.push_back(SplitVec.back()); //The last element is the corresponding activity detected
@@ -113,7 +104,8 @@ bool ActivityDetector::print_info(string info_id){
     return false;
 }
 
-ActivityDetector::ActivityDetector(){
+ActivityDetector::ActivityDetector(int thres){
+    thres_factor = thres;
 }
 
 ActivityDetector::~ActivityDetector(){

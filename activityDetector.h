@@ -26,9 +26,10 @@ class ActivityDetector{
 public:
 	
     ////variable
-    
+    int thres_factor;
+
     ////constructor
-	ActivityDetector();
+	ActivityDetector(int);
 	~ActivityDetector();
     
     ////public functions
