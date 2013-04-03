@@ -99,11 +99,6 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
 
         }
         
-        /*
-        if((i%FPS) == 0){
-            ObjectDetector_Evaluation(i,myTemporalPyramid);  
-        }
-        */
 
         if(cvWaitKey(10) >= 0)
             break;
