@@ -60,7 +60,7 @@ public:
     ////public functions
     //load frames and build the first level pyramid(nodes)
     bool loadFrames(FrameModel* frames);
-    bool loadFrames_realtime(FrameModel* frames);
+    bool loadFrames_realtime(FrameModel* frames, int frame_index);
     bool buildPyramid(int frame_size ,int fps);
     bool showPyramid(int level_index);//start from level 0
     bool print_info(string info_id);
