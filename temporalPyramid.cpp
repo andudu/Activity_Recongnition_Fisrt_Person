@@ -61,7 +61,7 @@ bool TemporalPyramid::loadFrames_realtime(FrameModel* frames, int frame_index){
         //push it to the pyramid level 1
         pyramid[0].push_back(tmp_node);
     }
-    
+
     return true;
 }
 
@@ -120,6 +120,99 @@ bool  TemporalPyramid::showPyramid(int level_index){
         cout << " | " << endl;
         cout << "activity : " << pyramid[level_index][node].table[0][0].activity << " / " << pyramid[level_index][node].table[0][0].prob << endl << endl;
     }
+    
+    return true;
+}
+
+
+bool TemporalPyramid::buildPyramid_realtime(FrameModel* frames){
+
+    int level_required;
+    int frame_size = frames->frameList.size();
+
+    cout << "frameList.size():" << frame_size <<endl;
+    if((frame_size/frame_per_node % 2 )!= 0){
+        level_required = (int)log2(frame_size/frame_per_node);
+    }else{
+        level_required = (int)log2(frame_size/frame_per_node) + 1;
+    }
+
+    if (level_required <= 1) {
+        cout << "Invalid number for levels\n";
+        return false;
+    }
+    
+    cout << "level to be built:" << level_required <<endl;
+    
+    //level in pyramid start from 0
+    for (int level = 1 ;  level < level_required ; level++){
+            
+        //The first node in this level
+        if( pyramid.size() < level + 1){
+            vector<node> tmp_node_array;
+            pyramid.push_back(tmp_node_array);
+        }
+
+
+        int nodes_already_in_this_level = pyramid[level].size();
+
+        for(int n = nodes_already_in_this_level*2 ; n < pyramid[level-1].size() ; n = n + 2){
+            
+            //create a node with the same number of features
+            node tmp_node;
+            for (int i = 0 ; i < num_of_features ; i++){
+                tmp_node.feature.push_back(0);
+            }
+            
+            //In case the number of nodes in the last level is not even
+            if (n+1 >= pyramid[level-1].size()) {
+                break;
+            }else{               
+                //Summing node features in a interval and avrage them(2 nodes)
+                for (int k = 0; k < num_of_features; k++) {
+                    tmp_node.feature[k] = (tmp_node.feature[k] + pyramid[level-1][n+1].feature[k])/2;
+                }
+            }            
+            
+            pyramid[level].push_back(tmp_node);
+        }
+    }
+    
+
+    /*
+    vector<node> tmp_node_array = pyramid[0];
+    pyramid.clear();
+    pyramid.push_back(tmp_node_array);
+    
+    for (int level = 1 ;  level < level_required ; level++) {
+        
+        vector<node> tmp__node_array;
+        for(int n = 0 ; n < pyramid[level-1].size() ; n = n + 2){
+            
+            //create a node with the same number of features
+            node tmp_node;
+            for (int i = 0 ; i < num_of_features ; i++){
+                tmp_node.feature.push_back(0);
+            }
+            
+            //In case the number of nodes in the last level is not even
+            if (n+1 >= pyramid[level-1].size()) {
+                break;
+            }else{               
+                //Summing node features in a interval and avrage them(2 nodes)
+                for (int k = 0; k < num_of_features; k++) {
+                    tmp_node.feature[k] = (tmp_node.feature[k] + pyramid[level-1][n+1].feature[k])/2;
+                }
+            }            
+            
+            tmp__node_array.push_back(tmp_node);
+        }
+        
+        pyramid.push_back(tmp__node_array);
+    }
+    */    
+
+    num_of_levels = (int)pyramid.size();
     
     return true;
 }

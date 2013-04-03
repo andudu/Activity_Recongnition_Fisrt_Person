@@ -85,7 +85,7 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
             myTemporalPyramid->loadFrames_realtime(this, i);
              
             //Build the pyramid
-            myTemporalPyramid->buildPyramid(num_frames, FPS);
+            myTemporalPyramid->buildPyramid_realtime(this);
              
             //Activity Detection
             if(do_activity_detection){
