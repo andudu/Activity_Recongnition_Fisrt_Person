@@ -15,7 +15,7 @@ annotation="translated_with_obj_name/object_annot_P_${index}_translated_with_obj
 # start="500"
 
 start="500"
-length="500"
+length="120"
 indicate="-indicate 2"
 show="-show"
 #pause="-pause"
