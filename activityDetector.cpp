@@ -93,7 +93,9 @@ bool ActivityDetector::activity_detect(TemporalPyramid *my_pyramid){
     for(int level = 0 ; level < my_pyramid->num_of_levels ; level++){
         for (int node = 0 ; node < my_pyramid->pyramid[level].size() ; node ++){
             activity_detected = run_crf(my_pyramid,level,node);
-            cout << " level: "<<level<<" node : " << node << " activity: "<< activity_detected[0] << "/" << activity_detected[1] <<endl;
+            //cout << " level: "<<level<<" node : " << node << " activity: "<< activity_detected[0] << "/" << activity_detected[1] <<endl;
+            my_pyramid->pyramid[level][node].activity = activity_detected[0];
+            my_pyramid->pyramid[level][node].prob = atof(activity_detected[1].c_str());
         }
     }
     
