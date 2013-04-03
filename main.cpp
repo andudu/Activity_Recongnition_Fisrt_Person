@@ -104,10 +104,6 @@ int main (int argc, const char * argv[])
     //
     FrameModel* myFrames = new FrameModel(ground_truth_detect);
 
-
-    //Load ground truth obj annotation
-    //myFrames->load_ground_truth_obj_annotation(annotation_file);
-
     //
     //Loading input video(feature detection included)
     //
