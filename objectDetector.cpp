@@ -128,7 +128,7 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
         //Fill in the feature names
         frame_model->feature_name.clear();
 
-        for(int i=0 ; i < obj_name.size() ; i++){
+        for(int i = 0 ; i < obj_name.size() ; i++){
             frame_model->feature_name.push_back(obj_name[i]);
         }            
     }
@@ -144,13 +144,15 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
     //result_list_cached.clear();
 
     //Run through each obj
-    for (int obj_index = 0; obj_index < frame_model->num_features; obj_index ++){
+    //Beware to start from 1 to 89, not 0 to 88!!
+    //Since our obj_index : obj_name pairs start from 1.
+    for (int obj_index = 1; obj_index <= frame_model->num_features; obj_index ++){
          vector<Rect> result;
          
          if(annotation.objs.find(obj_index) != annotation.objs.end()){
             //The obj cls is detected in this frame
-            cout << "found!" <<endl;
-            cout << "frame_index:"<< frame_index << " " << annotation.objs[obj_index].name << endl;
+            //cout << "found!" <<endl;
+            //cout << "frame_index:"<< frame_index << " obj_index:" << obj_index << " obj_name:" << annotation.objs[obj_index].name << endl;
             Rect tmp;
             tmp.x = annotation.objs[obj_index].x;
             tmp.y = annotation.objs[obj_index].y;
