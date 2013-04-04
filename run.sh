@@ -15,7 +15,7 @@ start="69235"
 # start="500"
 
 length="30"
-indicate="-indicate 5"
+indicate="-indicate 1"
 show="-show"
 #pause="-pause"
 #ground_truth_detect="-ground_truth"
