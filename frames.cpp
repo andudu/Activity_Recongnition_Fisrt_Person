@@ -80,20 +80,21 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
         }           
 
         if((i%FPS) == 0){
+
             //Loading frames and put them into pyramid, level 0
             myTemporalPyramid->loadFrames_realtime(this, i);
-             
+
             //Build the pyramid
             myTemporalPyramid->buildPyramid_realtime();
-             
+            
             //Activity Detection
-            if(do_activity_detection){
+            cout << "num_features:" << num_features << endl;
+            if(do_activity_detection && num_features == NUM_FEATURE_TOTAL){
                 myActivityDetector->activity_detect(myTemporalPyramid);
             }
-             
+            
             //Showing pyramids
             myTemporalPyramid->print_info("pyramid");
-             
         }
         
 
@@ -171,7 +172,7 @@ bool FrameModel::playImage_with_detected_results(bool pause_when_detected, IplIm
             point1.y = frameList.back().result_list[feature_index][box].y;  
             point2.y = frameList.back().result_list[feature_index][box].y + frameList.back().result_list[feature_index][box].height;  
             //cout << "x1:" << point1.x << " x2:" << point2.x << " y1:"<< point1.y << " y2:" <<point2.y <<endl;
-            cout << "width:" << point2.x - point1.x << " height:" << point2.y - point1.y << endl;
+            //Scout << "width:" << point2.x - point1.x << " height:" << point2.y - point1.y << endl;
             cvRectangle(tempFrame, point1, point2, CV_RGB(0,255,0), 3, 8, 0);
             /*
              Put the object name on the box

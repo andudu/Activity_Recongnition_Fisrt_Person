@@ -20,7 +20,7 @@
 #include <math.h>
 #include <boost/algorithm/string.hpp>
 
-//#define MIN_NUM_ACT_SEQUENCE 3 //minimum number of nodes to make a possible "activity" sequence
+#define NUM_FEATURE_TOTAL 89
 
 using namespace std;
 using namespace cv;

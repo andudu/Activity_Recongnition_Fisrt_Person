@@ -14,8 +14,8 @@ start="69235"
 # Brushing teeth in P02
 # start="500"
 
-length="30"
-indicate="-indicate 1"
+length="300"
+indicate="-indicate 2"
 show="-show"
 #pause="-pause"
 #ground_truth_detect="-ground_truth"

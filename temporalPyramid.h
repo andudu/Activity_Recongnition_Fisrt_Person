@@ -34,6 +34,11 @@ public:
         int level;
         int node;
     };
+
+    table_element(){
+        activity = "NULL";
+        prob = -1;
+    };
 };
 
 class node{
