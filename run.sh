@@ -15,12 +15,12 @@ start="69235"
 # start="500"
 
 length="300"
-indicate="-indicate 2"
-show="-show"
+#indicate="-indicate 2"
+#show="-show"
 #pause="-pause"
-#ground_truth_detect="-ground_truth"
+ground_truth_detect="-ground_truth"
 crf="-crf"
-thres_factor="-thres_factor 3"
+thres_factor="-thres_factor 2"
 
 cmd="./FP_ADL.out -i ${video} -start ${start} -length ${length} -an ${annotation} ${show} ${pause} ${indicate} ${ground_truth_detect} ${crf} ${thres_factor}"
 

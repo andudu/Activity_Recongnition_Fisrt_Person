@@ -93,9 +93,17 @@ bool ObjectDetector::detect(FrameModel* frame_model , int frame_index ,IplImage*
         if( frame_index == 0)
             frame_model->feature_name.push_back(myHaars[cls].name);//If this is the first detection
             
-        //cout << "detecting:" <<<< "/" << frame_model->frameList.size()-1 << endl; 
+        //cout << "detecting:" << "/" << frame_model->frameList.size()-1 << endl;
+        //cout << "detecting obj: " << cls << endl;
         vector<Rect> result_list = myHaars[cls].detect(image);
-        frame_model->frameList[frame_index].feature.push_back(result_list.size());
+
+        //Consider "existence", ignore the number shown in a frame
+        if(result_list.size()>=1){
+            frame_model->frameList[frame_index].feature.push_back(1);
+        }else{
+            frame_model->frameList[frame_index].feature.push_back(0);
+        }
+        
         frame_model->frameList[frame_index].result_list.push_back(result_list);
         
         
