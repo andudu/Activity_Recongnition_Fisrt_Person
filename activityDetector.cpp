@@ -64,7 +64,7 @@ vector<string> ActivityDetector::run_crf(TemporalPyramid *my_pyramid,int level, 
     fclose(fp);
     
     //Run CRF++
-    system("crf_test -v1 -m crf/model_fold_1.crf crf/test.crf > crf/result.txt");    
+    system("crf_test -v1 -m crf/multi_stage/model_fold_1.crf crf/test.crf > crf/result.txt");    
 
     vector<string> file_list = reader("crf/result.txt");
     split_vector_type SplitVec;
@@ -82,7 +82,13 @@ bool ActivityDetector::activity_detect(TemporalPyramid *my_pyramid){
 
     for(int level = 0 ; level < my_pyramid->num_of_levels ; level++){
         for (int node = 0 ; node < my_pyramid->pyramid[level].size() ; node ++){
+
+            if(node < my_pyramid->pyramid[level].size() - 1){
+                
+            }
+
             activity_detected = run_crf(my_pyramid,level,node);
+
             //cout << " level: "<<level<<" node : " << node << " activity: "<< activity_detected[0] << "/" << activity_detected[1] <<endl;
             if(atof(activity_detected[1].c_str()) > ACTIVITY_DETECT_THRESHOLD){
                 my_pyramid->pyramid[level][node].table[0][0].activity = activity_detected[0];
