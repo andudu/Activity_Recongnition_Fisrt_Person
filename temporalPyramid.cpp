@@ -132,7 +132,11 @@ bool  TemporalPyramid::showPyramid(int level_index){
             cout << pyramid[level_index][node].feature[f] <<" "; 
         }
         cout << " | " << endl;
-        cout << "activity : " << pyramid[level_index][node].table[0][0].activity << " / " << pyramid[level_index][node].table[0][0].prob << endl << endl;
+        cout << "activity as 1 stage action : " << pyramid[level_index][node].table[0][0].activity << " / " << pyramid[level_index][node].table[0][0].prob << endl << endl;
+        if(node != 0){
+            cout << "activity as 2 stages action: " << pyramid[level_index][node].table[1][0].activity << " / " << pyramid[level_index][node].table[1][0].prob << " , ";
+            cout << pyramid[level_index][node].table[1][1].activity << " / " << pyramid[level_index][node].table[1][1].prob << endl << endl;
+        }
     }
     
     return true;

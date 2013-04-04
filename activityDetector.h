@@ -38,6 +38,7 @@ public:
     bool print_info(string info_id);
     bool activity_detect(TemporalPyramid *my_pyramid);
     vector<string> run_crf(TemporalPyramid *my_pyramid,int level, int node);
+    vector<string> run_crf(TemporalPyramid *my_pyramid, int level_1, int node_1, int level_2, int node_2);
 
 
 private:
