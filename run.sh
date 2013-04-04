@@ -6,7 +6,7 @@ annotation="translated_with_obj_name/object_annot_P_${index}_translated_with_obj
 
 # Good results
 # Watching TV in P02
-# start="69235"
+start="69235"
 
 # using computer in  P02
 # start="74335"
@@ -14,12 +14,11 @@ annotation="translated_with_obj_name/object_annot_P_${index}_translated_with_obj
 # Brushing teeth in P02
 # start="500"
 
-start="500"
-length="500"
-indicate="-indicate 2"
+length="30"
+indicate="-indicate 5"
 show="-show"
 #pause="-pause"
-ground_truth_detect="-ground_truth"
+#ground_truth_detect="-ground_truth"
 crf="-crf"
 thres_factor="-thres_factor 3"
 

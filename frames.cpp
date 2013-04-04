@@ -39,7 +39,6 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
     ObjectDetector* myObjDetector = new ObjectDetector(indicate);
     TemporalPyramid* myTemporalPyramid = new TemporalPyramid();
     ActivityDetector* myActivityDetector = new ActivityDetector(thres_factor);
-    VideoCapture capture(path.c_str());
     Mat grab_frame;
     IplImage frame;
     frameNode temp;
@@ -102,8 +101,6 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
             break;
     }
     
-    //cvReleaseCapture(&capture);
-    capture.release();    
     cvDestroyWindow("Obj Detection Result");
     delete myObjDetector;
     delete myTemporalPyramid;
@@ -174,6 +171,7 @@ bool FrameModel::playImage_with_detected_results(bool pause_when_detected, IplIm
             point1.y = frameList.back().result_list[feature_index][box].y;  
             point2.y = frameList.back().result_list[feature_index][box].y + frameList.back().result_list[feature_index][box].height;  
             //cout << "x1:" << point1.x << " x2:" << point2.x << " y1:"<< point1.y << " y2:" <<point2.y <<endl;
+            cout << "width:" << point2.x - point1.x << " height:" << point2.y - point1.y << endl;
             cvRectangle(tempFrame, point1, point2, CV_RGB(0,255,0), 3, 8, 0);
             /*
              Put the object name on the box

@@ -14,8 +14,7 @@ ObjectDetector::ObjectDetector(int indicate){
     struct dirent *ent;
     string file_name;
     
-    int counter = 0;
-    int limit = -1;
+    int counter = 1;
 
     //Reade the mean std file first
     mean_std_reader();
@@ -30,26 +29,25 @@ ObjectDetector::ObjectDetector(int indicate){
                file_name.compare("mean_std.txt") == 0){
                 continue; 
             }
-            
-            //Limit the number of detectors
-            if(limit!= -1 && counter == limit)break;   
-            
+
             int width_mean=0,height_mean=0,width_std=0,height_std=0;
-            for(int i=0;i<mean_std_list.size();i++){
-                if(mean_std_list[i].classifier_name.compare(file_name)){
+            for(int i = 0 ; i < mean_std_list.size() ; i++){
+                if(mean_std_list[i].classifier_name.compare(file_name) == 0){
                     width_mean = mean_std_list[i].width_mean;
                     height_mean = mean_std_list[i].height_mean;
                     width_std = mean_std_list[i].width_std;
                     height_std = mean_std_list[i].height_std;
+                    break;
                 }
             }
+
             
             if(indicate!=-1){
-                //Indicate the only one I want to evaluate
+                //Indicate the only object detector I want to evaluate
                 if (counter == indicate){
                     string path = HAAR_PATH;
                     path.append(file_name);
-                    
+
                     Haar_cascade tmp_classifier = Haar_cascade(path , file_name,width_mean,height_mean,width_std,height_std);
                     myHaars.push_back(tmp_classifier);
                 }                
@@ -232,8 +230,9 @@ vector<string> ObjectDetector::reader(string path){
 bool ObjectDetector::mean_std_reader(){
 
     typedef vector< string > split_vector_type;
-
-    vector<string> list = reader("cascade_0305/mean_std.txt");
+    string path = HAAR_PATH;
+    path.append("/mean_std.txt");
+    vector<string> list = reader(path);
 
     for(int i = 0 ; i < list.size() ; i ++){
         mean_std tmp;
@@ -258,6 +257,7 @@ bool ObjectDetector::mean_std_reader(){
              << mean_std_list[i].height_std <<endl;
     }
     */
+    
     return true;
 }
 
