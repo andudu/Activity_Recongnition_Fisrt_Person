@@ -45,7 +45,12 @@ class node{
     
 public:
     vector<float> feature;
-    table_element table[2][2];   
+    table_element table[2][2];
+    bool abandoned;
+
+    node(){
+        abandoned = false;
+    };
 };
 
 
@@ -71,6 +76,7 @@ public:
     bool loadFrames_realtime(FrameModel* frames, int frame_index);
     bool buildPyramid(int frame_size ,int fps);
     bool buildPyramid_realtime();
+    bool refreshPyramid_realtime();
     bool showPyramid(int level_index);//start from level 0
     bool print_info(string info_id);
 

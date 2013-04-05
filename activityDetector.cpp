@@ -133,6 +133,11 @@ bool ActivityDetector::activity_detect(TemporalPyramid *my_pyramid){
     for(int level = 0 ; level < my_pyramid->num_of_levels ; level++){
         for(int node = 0 ; node < my_pyramid->pyramid[level].size() ; node ++){
 
+            //Skip if this is a abandoned node
+            if(my_pyramid->pyramid[level][node].abandoned){
+                continue;
+            }
+
             activity_detected = run_crf(my_pyramid,level,node);
 
             //cout << " level: "<<level<<" node : " << node << " activity: "<< activity_detected[0] << "/" << activity_detected[1] <<endl;
@@ -150,6 +155,11 @@ bool ActivityDetector::activity_detect(TemporalPyramid *my_pyramid){
                 for(int level_before = 0 ; level_before < my_pyramid->num_of_levels ; level_before ++ ){
                     for(int node_before = 0 ; node_before < my_pyramid->pyramid[level_before].size() ; node_before ++){
                         
+                        //Skip abandoned nodes
+                        if(my_pyramid->pyramid[level_before][node_before].abandoned){
+                            continue;
+                        }                            
+
                         //Skip the nodes produced not before this node
                         if(level_before < level){
 
@@ -168,7 +178,7 @@ bool ActivityDetector::activity_detect(TemporalPyramid *my_pyramid){
 
                         }
 
-                        //Runs 2 stage crf prediction and get the highest prediction
+                        //Runs 2 stage crf prediction and get the highest scored prediction
                         activity_detected = run_crf(my_pyramid,level_before,node_before,level,node);
 
                         if(atof(activity_detected[3].c_str()) > max_prob){

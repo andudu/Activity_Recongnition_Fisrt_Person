@@ -89,13 +89,16 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
             //Build the pyramid
             myTemporalPyramid->buildPyramid_realtime();
             
+            //Refresh the Pyramid
+            myTemporalPyramid->refreshPyramid_realtime();
+
             //Activity Detection
             //cout << "num_features:" << num_features << endl;
             if(do_activity_detection && num_features == NUM_FEATURE_TOTAL){
                 myActivityDetector->activity_detect(myTemporalPyramid);
             }
             
-            //Showing pyramids
+            //Display pyramids
             myTemporalPyramid->print_info("pyramid");
         }
         

@@ -128,11 +128,21 @@ bool  TemporalPyramid::showPyramid(int level_index){
     cout << "=================================\n";
     cout << "Level:" << level_index <<" node:" <<  pyramid[level_index].size() << endl << endl;
     for (int node = 0 ;  node < pyramid[level_index].size(); node++) {
+
+        cout << "node " << node << " : ";
+
+        if(pyramid[level_index][node].abandoned){
+            cout << "This is an abandoned node!\n\n";
+            continue;
+        }
+
         for (int f = 0; f < pyramid[level_index][node].feature.size() ; f++) {
             cout << pyramid[level_index][node].feature[f] <<" "; 
         }
+
         cout << " | " << endl;
         cout << "activity as 1 stage action : " << pyramid[level_index][node].table[0][0].activity << " / " << pyramid[level_index][node].table[0][0].prob << endl << endl;
+
         if(node != 0){
             cout << "activity as 2 stages action: " << pyramid[level_index][node].table[1][0].activity << " / " << pyramid[level_index][node].table[1][0].prob << " , ";
             cout << pyramid[level_index][node].table[1][1].activity << " / " << pyramid[level_index][node].table[1][1].prob << endl << endl;
@@ -253,6 +263,31 @@ bool TemporalPyramid::buildPyramid(int frame_size ,int FPS){
     
     num_of_levels = (int)pyramid.size();
     
+    return true;
+}
+
+bool abandon_decision(int index, int length){
+
+    float abandoned_coeff = 0.3;
+    //cout << "\n\n\n\n" <<(float)(index+1)/length << "\n\n\n\n";
+    if( (float)(index+1)/length  < abandoned_coeff){
+        return true;
+    }else{
+        return false;
+    }
+
+}
+
+bool TemporalPyramid::refreshPyramid_realtime(){
+    
+    for(int level = 0 ; level < num_of_levels ; level++){
+        for(int node = 0 ; node < pyramid[level].size() ; node ++){
+            if ( abandon_decision(node, pyramid[level].size())){
+                pyramid[level][node].abandoned = true;
+            }
+        }
+    }
+
     return true;
 }
 
