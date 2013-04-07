@@ -99,7 +99,8 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
             }
             
             //Display pyramids
-            myTemporalPyramid->print_info("pyramid");
+            //myTemporalPyramid->print_info("pyramid");
+            myTemporalPyramid->print_info("current_prediction");
         }
         
 

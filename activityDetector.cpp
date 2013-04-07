@@ -136,7 +136,7 @@ bool ActivityDetector::activity_detect(TemporalPyramid *my_pyramid){
     for(int level = 0 ; level < my_pyramid->num_of_levels ; level++){
         for(int node = my_pyramid->pyramid[level].size()-1 ; node < my_pyramid->pyramid[level].size() ; node ++){
             
-            //Skip if this is a abandoned node
+            //Skip if this is an abandoned node
             if(my_pyramid->pyramid[level][node].abandoned){
                 continue;
             }

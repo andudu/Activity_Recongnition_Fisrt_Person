@@ -88,6 +88,7 @@ public:
     bool buildPyramid_realtime();
     bool refreshPyramid_realtime();
     bool showPyramid(int level_index);//start from level 0
+    bool showCurrentPrediction();
     bool print_info(string info_id);
 
 };

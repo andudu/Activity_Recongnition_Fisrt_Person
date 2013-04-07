@@ -152,6 +152,33 @@ bool  TemporalPyramid::showPyramid(int level_index){
     return true;
 }
 
+bool  TemporalPyramid::showCurrentPrediction(){
+    
+    cout << "=================================\n";
+
+    for(int i = 0 ; i < current_prediction.size() ; i++){
+
+        node tmp_node = pyramid[current_prediction[i].level][current_prediction[i].node];
+        int row = current_prediction[i].table_row;
+        int col = current_prediction[i].table_col;
+
+        cout << "Level:" << current_prediction[i].level <<" node:" <<  current_prediction[i].node << endl ;
+        cout << "table_row:" << row << "table_col:" << col <<endl;
+        cout << tmp_node.table[row][col].activity <<" / " <<  tmp_node.table[row][col].prob << endl << endl;
+        /*
+        if(current_prediction[i].table_row == 0){
+            cout << tmp_node.table[0][0].activity <<" / " <<  tmp_node.table[0][0].prob << endl << endl;
+        }else{
+            cout << tmp_node.table[1][0].activity <<" / " << tmp_node.table[1][0].prob << " , " << tmp_node.table[1][1].activity <<" / " << tmp_node.table[1][1].prob << endl << endl;
+        }
+        */
+
+    }  
+    
+    
+    return true;
+}
+
 
 bool TemporalPyramid::buildPyramid_realtime(){
 
@@ -307,6 +334,11 @@ bool TemporalPyramid::print_info(string info_id){
         for(int l = 0 ; l < num_of_levels ; l++){
             showPyramid(l);
         }            
+        return true;
+    }
+
+    if(info_id.compare("current_prediction") == 0){
+            showCurrentPrediction();
         return true;
     }
 
