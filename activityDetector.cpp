@@ -141,6 +141,11 @@ bool ActivityDetector::activity_detect(TemporalPyramid *my_pyramid){
                 continue;
             }
 
+            //Skip if this is not a new node
+            if(!my_pyramid->pyramid[level][node].new_node){
+                continue;
+            }
+
             //Skip if this node's table has already been filled
             if(my_pyramid->pyramid[level][node].table_filled){
                 continue;
@@ -234,6 +239,8 @@ bool ActivityDetector::activity_detect(TemporalPyramid *my_pyramid){
 
                 my_pyramid->pyramid[level][node].table_filled = true;
             }
+
+            my_pyramid->pyramid[level][node].new_node = false;
         }
     }
     
