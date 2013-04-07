@@ -21,7 +21,6 @@
 using namespace boost;
 using namespace std;
 
-
 class ActivityDetector{
 	
     

@@ -129,12 +129,20 @@ vector<string> ActivityDetector::run_crf(TemporalPyramid *my_pyramid, int level_
 bool ActivityDetector::activity_detect(TemporalPyramid *my_pyramid){
  
     vector<string> activity_detected;
+    my_pyramid->current_prediction.clear();
+    prediction_unit tmp_prediction;
+
 
     for(int level = 0 ; level < my_pyramid->num_of_levels ; level++){
-        for(int node = 0 ; node < my_pyramid->pyramid[level].size() ; node ++){
-
+        for(int node = my_pyramid->pyramid[level].size()-1 ; node < my_pyramid->pyramid[level].size() ; node ++){
+            
             //Skip if this is a abandoned node
             if(my_pyramid->pyramid[level][node].abandoned){
+                continue;
+            }
+
+            //Skip if this node's table has already been filled
+            if(my_pyramid->pyramid[level][node].table_filled){
                 continue;
             }
 
@@ -149,9 +157,18 @@ bool ActivityDetector::activity_detect(TemporalPyramid *my_pyramid){
                 my_pyramid->pyramid[level][node].table[0][0].prob = atof(activity_detected[1].c_str());
             }
 
+            tmp_prediction.level = level;
+            tmp_prediction.node = node;
+            tmp_prediction.table_row = 0;
+            tmp_prediction.table_col = 0;
+
+            my_pyramid->current_prediction.push_back(tmp_prediction);
+
             //Not the first node in this level
             if(node != 0){
+
                 float max_prob = -1;
+
                 for(int level_before = 0 ; level_before < my_pyramid->num_of_levels ; level_before ++ ){
                     for(int node_before = 0 ; node_before < my_pyramid->pyramid[level_before].size() ; node_before ++){
                         
@@ -199,6 +216,23 @@ bool ActivityDetector::activity_detect(TemporalPyramid *my_pyramid){
                         }
                     }
                 }
+
+
+                tmp_prediction.level = level;
+                tmp_prediction.node = node;
+                tmp_prediction.table_row = 1;
+                tmp_prediction.table_col = 0;
+
+                my_pyramid->current_prediction.push_back(tmp_prediction);
+
+                tmp_prediction.level = level;
+                tmp_prediction.node = node;
+                tmp_prediction.table_row = 1;
+                tmp_prediction.table_col = 1;
+
+                my_pyramid->current_prediction.push_back(tmp_prediction);
+
+                my_pyramid->pyramid[level][node].table_filled = true;
             }
         }
     }

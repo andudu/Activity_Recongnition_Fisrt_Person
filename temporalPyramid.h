@@ -47,12 +47,21 @@ public:
     vector<float> feature;
     table_element table[2][2];
     bool abandoned;
+    bool table_filled;
 
     node(){
         abandoned = false;
+        table_filled = false;
     };
 };
 
+class prediction_unit{
+public:
+    int level;
+    int node;
+    int table_row;
+    int table_col;
+};
 
 class TemporalPyramid{
 	
@@ -65,7 +74,8 @@ public:
     int num_of_features;
     int num_of_levels;
     vector< vector<node> > pyramid;
-    
+    vector<prediction_unit> current_prediction;//The prediction made in this time step
+
     ////constructor
 	TemporalPyramid();
 	~TemporalPyramid();
