@@ -193,23 +193,24 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected, bool 
                 //cout << "num_features:" << num_features << endl;
                 if(do_activity_detection && num_features == NUM_FEATURE_TOTAL && i > 0){
                     myActivityDetector->activity_detect(myTemporalPyramid);
-                }               
+                }
+
+                if(show_activity_prediction){
+                    activity_result = myTemporalPyramid->showCurrentPrediction();
+                    //cout <<  activity_result[0] << endl;
+                    //Output the activity detected for further evaluation
+                    if(activity_result[0].compare("NULL") != 0){
+                        fprintf(fp, "%d %s\n",i+frame_start,get_activity_index(activity_result[0]).c_str());
+                    }                
+                }              
             }else{
                 cout << "Not adding new node because its similar to the latest one!" << endl;
-                cout << "Taking latest prediction" << endl;
+                cout << "Remaining latest prediction" << endl;
             }           
 
             //Display
             if(show_pyramid){
                 myTemporalPyramid->print_info("pyramid");
-            }
-            if(show_activity_prediction){
-                activity_result = myTemporalPyramid->showCurrentPrediction();
-                //cout <<  activity_result[0] << endl;
-                //Output the activity detected for further evaluation
-                if(activity_result[0].compare("NULL") != 0){
-                    fprintf(fp, "%d %s\n",i+frame_start,get_activity_index(activity_result[0]).c_str());
-                }                
             }
         }
         
