@@ -14,6 +14,7 @@
 #include <fstream>
 #include <vector>
 #include <cmath>
+#include <string>
 #include <boost/algorithm/string.hpp>
 #include "frames.h"
 
@@ -88,7 +89,7 @@ public:
     bool buildPyramid_realtime();
     bool refreshPyramid_realtime();
     bool showPyramid(int level_index);//start from level 0
-    bool showCurrentPrediction();
+    vector<string> showCurrentPrediction();
     bool print_info(string info_id);
 
 };

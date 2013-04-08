@@ -43,6 +43,7 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected, bool 
     IplImage frame;
     frameNode temp;
     char buffer [512];
+    vector<string> activity_result;
 
     cvNamedWindow("Obj Detection Result", CV_WINDOW_AUTOSIZE);
     cvMoveWindow("Obj Detection Result", 50, 0);
@@ -81,13 +82,13 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected, bool 
         if((i%FPN) == 0){
 
             cout << "=================================\n";
-            
+
             //Loading frames and put them into pyramid, level 0
             //Return false if it is similar to the latest one
             if(myTemporalPyramid->loadFrames_realtime(this, i)){
                 //Build the pyramid
                  myTemporalPyramid->buildPyramid_realtime();
-            
+                
                 //Refresh the Pyramid
                 myTemporalPyramid->refreshPyramid_realtime();
 
@@ -95,21 +96,22 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected, bool 
                 //cout << "num_features:" << num_features << endl;
                 if(do_activity_detection && num_features == NUM_FEATURE_TOTAL && i > 0){
                     myActivityDetector->activity_detect(myTemporalPyramid);
-                }
-                
-                //Display
-                if(show_pyramid){
-                    myTemporalPyramid->print_info("pyramid");
-                }
-                if(show_activity_prediction){
-                    myTemporalPyramid->print_info("current_prediction");    
-                }                
-                
+                }               
             }else{
                 cout << "Not adding new node because its similar to the latest one!" << endl;
-                cout << "Taking latest prediction:" << endl;
-                myTemporalPyramid->print_info("current_prediction");
+                cout << "Taking latest prediction" << endl;
             }           
+
+            //Display
+            if(show_pyramid){
+                myTemporalPyramid->print_info("pyramid");
+            }
+            if(show_activity_prediction){
+                activity_result = myTemporalPyramid->showCurrentPrediction();
+                //cout <<  activity_result[0] << endl;
+                //Output the activity detected to further evaluate
+                
+            }
         }
         
 

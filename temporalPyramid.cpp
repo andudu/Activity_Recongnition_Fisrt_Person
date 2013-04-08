@@ -153,7 +153,7 @@ bool  TemporalPyramid::showPyramid(int level_index){
     return true;
 }
 
-bool  TemporalPyramid::showCurrentPrediction(){
+vector<string>  TemporalPyramid::showCurrentPrediction(){
 
     node max;
 
@@ -163,6 +163,8 @@ bool  TemporalPyramid::showCurrentPrediction(){
     int max_node = -1;
     int max_row = -1;
     int max_col = -1;
+
+    vector<string> result;
 
     for(int i = 0 ; i < current_prediction.size() ; i++){
 
@@ -185,14 +187,21 @@ bool  TemporalPyramid::showCurrentPrediction(){
     }  
     
     if(max_level == -1 || max_node == -1 || max_col == -1 || max_row == -1){
-        return false;
+        result.push_back("NULL");
+        return result;
     }
 
     cout << "Level: " << max_level <<" node: " <<  max_node << endl ;
     cout << "table_row: " << max_row << " table_col: " << max_col <<endl;
     cout << max.table[max_row][max_col].activity <<" / " <<  max.table[max_row][max_col].prob << endl << endl;
+
+    char str[32]  = "";
+    float f = max.table[max_row][max_col].prob;
+    sprintf(str, "%f", f);
+    result.push_back(max.table[max_row][max_col].activity);
+    result.push_back(str);
     
-    return true;
+    return result;
 }
 
 
