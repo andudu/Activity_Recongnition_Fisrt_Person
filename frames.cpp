@@ -38,24 +38,24 @@ int FrameModel::getFPN(){
 string get_activity_index(string activity){
 
     if(activity.compare("combing_hair") == 0 ){
-        return "1";
+        return "1 0";
     }
     if(activity.compare("make_up") == 0 ){
-        return "2";
+        return "2 0";
     }
     if(activity.compare("brushing_teeth") == 0 ){
-        return "3";
+        return "3 0";
     }
     if(activity.compare("dental_floss") == 0 ){
-        return "4";
+        return "4 0";
     }
     if(activity.compare("washing_hands_face") == 0 ){
-        return "5";
+        return "5 0";
     }
 
 
     if(activity.compare("laundry") == 0 ){
-        return "9";
+        return "9 0";
     }
     if(activity.compare("laundry_stage_1") == 0 ){
         return "9 1";
@@ -64,13 +64,13 @@ string get_activity_index(string activity){
         return "9 2";
     }
     if(activity.compare("washing_dishes") == 0 ){
-        return "10";
+        return "10 0";
     } 
     if(activity.compare("moving_dishes") == 0 ){
-        return "11";
+        return "11 0";
     }
     if(activity.compare("making_tea") == 0 ){
-        return "12";
+        return "12 0";
     }
     if(activity.compare("making_tea_stage_1") == 0 ){
         return "12 1";
@@ -79,7 +79,7 @@ string get_activity_index(string activity){
         return "12 2";
     }
     if(activity.compare("making_coffee") == 0 ){
-        return "13";
+        return "13 0";
     }
     if(activity.compare("making_coffee_stage_1") == 0 ){
         return "13 1";
@@ -88,13 +88,13 @@ string get_activity_index(string activity){
         return "13 2";
     }
     if(activity.compare("drinking_water_bottle") == 0 ){
-        return "14";
+        return "14 0";
     }
     if(activity.compare("drinking_water_tap") == 0 ){
-        return "15";
+        return "15 0";
     }
     if(activity.compare("making_hot_food") == 0 ){
-        return "16";
+        return "16 0";
     }
     if(activity.compare("making_hot_food_stage_1") == 0 ){
         return "16 1";
@@ -105,18 +105,18 @@ string get_activity_index(string activity){
 
 
     if(activity.compare("vacuuming") == 0 ){
-        return "20";
+        return "20 0";
     }
 
 
     if(activity.compare("watching_tv") == 0 ){
-        return "22";
+        return "22 0";
     } 
     if(activity.compare("using_computer") == 0 ){
-        return "23";
+        return "23 0";
     }
     if(activity.compare("using_cell") == 0 ){
-        return "24";
+        return "24 0";
     }
 
     /*
@@ -125,7 +125,7 @@ string get_activity_index(string activity){
     }
     */
 
-    return "-1";
+    return "-1 0";
 }
 
 
