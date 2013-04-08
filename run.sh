@@ -12,11 +12,11 @@ annotation="translated_with_obj_name/object_annot_P_${index}_translated_with_obj
 # start="74335"
 
 # Brushing teeth in P02
-start="1"
+start="3000"
 
 #length="28673"
 
-length="10000"
+length="300"
 
 #indicate="-indicate 2"
 show="-show"
