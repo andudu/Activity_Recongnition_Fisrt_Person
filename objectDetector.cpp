@@ -195,10 +195,12 @@ bool ObjectDetector::ground_truth_detect(FrameModel* frame_model , int frame_ind
         //cout << "frame_model->frameList["<< frame_index_pyramid<<"].feature.size " << frame_model->frameList[frame_index_pyramid].feature.size() << endl;
     }else{
         //refresh the cache
-        cout << "refresh the cache" << endl;
+        
         result_list_cached = tmp_result_list_cached;
-        cout << "tmp cache size:" << tmp_result_list_cached.size() <<endl;
-        cout << "cache size:" << result_list_cached.size() <<endl;        
+        //cout << "refresh the cache" << endl;
+        //cout << "tmp cache size:" << tmp_result_list_cached.size() <<endl;
+        //cout << "cache size:" << result_list_cached.size() <<endl;        
+        
     }
 
     return true;

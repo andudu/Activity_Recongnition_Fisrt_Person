@@ -154,20 +154,43 @@ bool  TemporalPyramid::showPyramid(int level_index){
 }
 
 bool  TemporalPyramid::showCurrentPrediction(){
+
+    node max;
+
+    float max_prob = -1;
     
-    cout << "=================================\n";
+    int max_level = -1;
+    int max_node = -1;
+    int max_row = -1;
+    int max_col = -1;
 
     for(int i = 0 ; i < current_prediction.size() ; i++){
 
         node tmp_node = pyramid[current_prediction[i].level][current_prediction[i].node];
         int row = current_prediction[i].table_row;
-        int col = current_prediction[i].table_col;
+        int col = current_prediction[i].table_col;       
 
-        cout << "Level: " << current_prediction[i].level <<" node: " <<  current_prediction[i].node << endl ;
-        cout << "table_row: " << row << " table_col: " << col <<endl;
-        cout << tmp_node.table[row][col].activity <<" / " <<  tmp_node.table[row][col].prob << endl << endl;
+        //cout << "Level: " << current_prediction[i].level <<" node: " <<  current_prediction[i].node << endl ;
+        //cout << "table_row: " << row << " table_col: " << col <<endl;
+        //cout << tmp_node.table[row][col].activity <<" / " <<  tmp_node.table[row][col].prob << endl << endl;
+
+        //Consider single stage or 2 stages only
+        if( ((row == 1 && col == 1)||(row == 0 && col == 0)) && tmp_node.table[row][col].prob > max_prob){
+            max = pyramid[current_prediction[i].level][current_prediction[i].node];
+            max_level = current_prediction[i].level;
+            max_node = current_prediction[i].node;
+            max_row = row;
+            max_col = col;
+        }
     }  
     
+    if(max_level == -1 || max_node == -1 || max_col == -1 || max_row == -1){
+        return false;
+    }
+
+    cout << "Level: " << max_level <<" node: " <<  max_node << endl ;
+    cout << "table_row: " << max_row << " table_col: " << max_col <<endl;
+    cout << max.table[max_row][max_col].activity <<" / " <<  max.table[max_row][max_col].prob << endl << endl;
     
     return true;
 }

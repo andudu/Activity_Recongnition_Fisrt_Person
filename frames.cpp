@@ -80,6 +80,8 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected, bool 
 
         if((i%FPN) == 0){
 
+            cout << "=================================\n";
+            
             //Loading frames and put them into pyramid, level 0
             //Return false if it is similar to the latest one
             if(myTemporalPyramid->loadFrames_realtime(this, i)){
@@ -105,6 +107,8 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected, bool 
                 
             }else{
                 cout << "Not adding new node because its similar to the latest one!" << endl;
+                cout << "Taking latest prediction:" << endl;
+                myTemporalPyramid->print_info("current_prediction");
             }           
         }
         
