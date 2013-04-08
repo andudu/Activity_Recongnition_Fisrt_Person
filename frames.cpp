@@ -29,9 +29,9 @@ float ObjectDetector_Evaluation(int frame_index,TemporalPyramid* my_pyramid){
 }
 
 
-int FrameModel::getFPS(){
+int FrameModel::getFPN(){
 
-    return FPS;
+    return FPN;
 }
 
 bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected, bool show_obj_detection, int start, int end ,int indicate, bool do_activity_detection, string annotation_file, int thres_factor, bool show_pyramid, bool show_activity_prediction){
@@ -49,9 +49,6 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected, bool 
     
     //Load ground truth obj annotation
     myObjDetector->load_ground_truth_obj_annotation(annotation_file);
-
-    FPS = 29;
-    cout << "FPS :"<< FPS <<endl;
     
     frame_count = end - start + 1;
     frame_start = start;
@@ -81,7 +78,7 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected, bool 
             playImage_with_detected_results(pause_when_detected, &frame);   
         }           
 
-        if((i%FPS) == 0){
+        if((i%FPN) == 0){
 
             //Loading frames and put them into pyramid, level 0
             //Return false if it is similar to the latest one
@@ -231,9 +228,10 @@ bool FrameModel::print_info(string info_id){
     return false;
 }
 
-FrameModel::FrameModel(bool _ground_truth_detect){
+FrameModel::FrameModel(bool _ground_truth_detect, int _FPN){
     ground_truth_detect = _ground_truth_detect;
     num_frames = 0;
+    FPN = _FPN;
 }
 
 FrameModel::~FrameModel(){

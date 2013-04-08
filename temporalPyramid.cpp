@@ -22,7 +22,7 @@ bool TemporalPyramid::loadFrames_realtime(FrameModel* frames, int frame_index){
         pyramid.clear();
 
         //Setting the 'frame per node' number
-        frame_per_node = frames->FPS;
+        frame_per_node = frames->FPN;
         num_of_features = frames->num_features;
     
         //this->print_info("frame_per_node");
@@ -87,7 +87,7 @@ bool TemporalPyramid::loadFrames(FrameModel* frames){
     
     //Setting the 'frame per node' number
     //frame_per_node = FPN;
-    frame_per_node = frames->FPS;
+    frame_per_node = frames->FPN;
     num_of_features = frames->num_features;
     
     cout << "FPN: " << frame_per_node << endl;
@@ -231,15 +231,15 @@ bool TemporalPyramid::buildPyramid_realtime(){
     return true;
 }
 
-bool TemporalPyramid::buildPyramid(int frame_size ,int FPS){
+bool TemporalPyramid::buildPyramid(int frame_size ,int FPN){
 
     int level_required;
 
     cout << "frameList.size():" << frame_size <<endl;
-    if((frame_size/FPS % 2 )!= 0){
-        level_required = (int)log2(frame_size/FPS);
+    if((frame_size/FPN % 2 )!= 0){
+        level_required = (int)log2(frame_size/FPN);
     }else{
-        level_required = (int)log2(frame_size/FPS) + 1;
+        level_required = (int)log2(frame_size/FPN) + 1;
     }        
 
     if (num_of_levels > 1) {

@@ -44,7 +44,7 @@ public:
     //variable
     string name;
     vector<frameNode> frameList;
-    int FPS;
+    int FPN;
     int frame_start;
     int frame_count;
     int num_frames;
@@ -52,11 +52,11 @@ public:
     vector<string> feature_name;//This is for use in showing detection result
     
     //constructor
-	FrameModel(bool);
+	FrameModel(bool ground_truth_detect, int FPN);
 	~FrameModel();
     
     //public functions
-    int getFPS();
+    int getFPN();
     bool loadVideo_realtime(string path, bool pause_when_detected, bool show_detection_result, int start, int end ,int indicate, bool do_activity_detection, string annotation_file, int thres_factor, bool show_pyramid, bool show_activity_prediction);
     bool playVideo();
     bool showFeature(int index);

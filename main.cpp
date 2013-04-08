@@ -35,6 +35,7 @@ int main (int argc, const char * argv[])
     int indicate = -1;
     int length = 60;
     int thres_factor = 2;
+    int FPN = 30;
 
     if(argc == 1){
         cout << "need arguments!\n";
@@ -93,6 +94,11 @@ int main (int argc, const char * argv[])
             i++;
         }
 
+        if(tmp.compare("-FPN") == 0){
+            FPN = atoi(argv[i+1]);
+            i++;
+        }
+
         if(tmp.compare("-pyramid") == 0){
             show_pyramid = true;
         }
@@ -104,8 +110,9 @@ int main (int argc, const char * argv[])
     
     end_frame = start_frame + length;
 
-    cout  << "input video: " << input_video << endl;
+    cout << "input video: " << input_video << endl;
     cout << "start/end frame: " << start_frame << "/" <<end_frame <<endl;
+    cout << "FPN: " << FPN <<endl;
     cout << "run crf: " << do_activity_detection << endl;
     cout << "show_obj_detection: " << show_obj_detection << endl;
     cout << "pause when object detected: " << pause_when_detected << endl;
@@ -121,7 +128,7 @@ int main (int argc, const char * argv[])
     //
     //Components initializtion
     //
-    FrameModel* myFrames = new FrameModel(ground_truth_detect);
+    FrameModel* myFrames = new FrameModel(ground_truth_detect, FPN);
 
     //
     //Loading input video(feature detection included)
@@ -130,14 +137,15 @@ int main (int argc, const char * argv[])
     cout << "Frames : " << myFrames->frame_count << endl;
 
     
-    cout << "================================" << "\nfinished!" << endl;
-    cout  << "input video: " << input_video << endl;
+    cout << "input video: " << input_video << endl;
     cout << "start/end frame: " << start_frame << "/" <<end_frame <<endl;
+    cout << "FPN: " << FPN <<endl;
     cout << "run crf: " << do_activity_detection << endl;
     cout << "show_obj_detection: " << show_obj_detection << endl;
     cout << "pause when object detected: " << pause_when_detected << endl;
     cout << "indicate object index: " << indicate <<endl;
     cout << "ground truth detect: " << ground_truth_detect <<endl;
+    cout << "thres_factor: " << thres_factor <<endl;
 
     delete myFrames;
     return 0;
