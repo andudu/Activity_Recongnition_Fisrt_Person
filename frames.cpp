@@ -44,6 +44,8 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected, bool 
     frameNode temp;
     char buffer [512];
     vector<string> activity_result;
+    FILE* fp; //Output file for evaluation
+    fp = fopen("activity_result.txt", "w");
 
     cvNamedWindow("Obj Detection Result", CV_WINDOW_AUTOSIZE);
     cvMoveWindow("Obj Detection Result", 50, 0);
@@ -110,7 +112,9 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected, bool 
                 activity_result = myTemporalPyramid->showCurrentPrediction();
                 //cout <<  activity_result[0] << endl;
                 //Output the activity detected to further evaluate
-                
+                if(activity_result[0].compare("NULL") != 0){
+                    fprintf(fp, "%d %s\n",i+frame_start,activity_result[0].c_str());
+                }                
             }
         }
         
@@ -122,7 +126,8 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected, bool 
     cvDestroyWindow("Obj Detection Result");
     delete myObjDetector;
     delete myTemporalPyramid;
-    
+    fclose(fp);
+
     return true;
 }
 

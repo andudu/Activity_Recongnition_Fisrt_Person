@@ -23,7 +23,7 @@ activity_prediction="-activity_prediction"
 #pause="-pause"
 ground_truth_detect="-ground_truth"
 crf="-crf"
-FPN="-FPN 30"
+FPN="-FPN 150"
 thres_factor="-thres_factor 2"
 
 cmd="./FP_ADL.out -i ${video} -start ${start} -length ${length} -an ${annotation} ${show} ${pause} ${indicate} ${ground_truth_detect} ${crf} ${thres_factor} ${pyramid} ${activity_prediction} ${FPN}"
