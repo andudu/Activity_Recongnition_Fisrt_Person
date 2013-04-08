@@ -34,6 +34,101 @@ int FrameModel::getFPN(){
     return FPN;
 }
 
+
+string get_activity_index(string activity){
+
+    if(activity.compare("combing_hair") == 0 ){
+        return "1";
+    }
+    if(activity.compare("make_up") == 0 ){
+        return "2";
+    }
+    if(activity.compare("brushing_teeth") == 0 ){
+        return "3";
+    }
+    if(activity.compare("dental_floss") == 0 ){
+        return "4";
+    }
+    if(activity.compare("washing_hands_face") == 0 ){
+        return "5";
+    }
+
+
+    if(activity.compare("laundry") == 0 ){
+        return "9";
+    }
+    if(activity.compare("laundry_stage_1") == 0 ){
+        return "9 1";
+    }
+    if(activity.compare("laundry_stage_2") == 0 ){
+        return "9 2";
+    }
+    if(activity.compare("washing_dishes") == 0 ){
+        return "10";
+    } 
+    if(activity.compare("moving_dishes") == 0 ){
+        return "11";
+    }
+    if(activity.compare("making_tea") == 0 ){
+        return "12";
+    }
+    if(activity.compare("making_tea_stage_1") == 0 ){
+        return "12 1";
+    }
+    if(activity.compare("making_tea_stage_2") == 0 ){
+        return "12 2";
+    }
+    if(activity.compare("making_coffee") == 0 ){
+        return "13";
+    }
+    if(activity.compare("making_coffee_stage_1") == 0 ){
+        return "13 1";
+    }
+    if(activity.compare("making_coffee_stage_2") == 0 ){
+        return "13 2";
+    }
+    if(activity.compare("drinking_water_bottle") == 0 ){
+        return "14";
+    }
+    if(activity.compare("drinking_water_tap") == 0 ){
+        return "15";
+    }
+    if(activity.compare("making_hot_food") == 0 ){
+        return "16";
+    }
+    if(activity.compare("making_hot_food_stage_1") == 0 ){
+        return "16 1";
+    }
+    if(activity.compare("making_hot_food_stage_2") == 0 ){
+        return "16 2";
+    }
+
+
+    if(activity.compare("vacuuming") == 0 ){
+        return "20";
+    }
+
+
+    if(activity.compare("watching_tv") == 0 ){
+        return "22";
+    } 
+    if(activity.compare("using_computer") == 0 ){
+        return "23";
+    }
+    if(activity.compare("using_cell") == 0 ){
+        return "24";
+    }
+
+    /*
+    if(activity.compare("Low_Prob") == 0 ){
+        return "-1";
+    }
+    */
+
+    return "-1";
+}
+
+
 bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected, bool show_obj_detection, int start, int end ,int indicate, bool do_activity_detection, string annotation_file, int thres_factor, bool show_pyramid, bool show_activity_prediction){
     
     ObjectDetector* myObjDetector = new ObjectDetector(indicate);
@@ -111,9 +206,9 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected, bool 
             if(show_activity_prediction){
                 activity_result = myTemporalPyramid->showCurrentPrediction();
                 //cout <<  activity_result[0] << endl;
-                //Output the activity detected to further evaluate
+                //Output the activity detected for further evaluation
                 if(activity_result[0].compare("NULL") != 0){
-                    fprintf(fp, "%d %s\n",i+frame_start,activity_result[0].c_str());
+                    fprintf(fp, "%d %s\n",i+frame_start,get_activity_index(activity_result[0]).c_str());
                 }                
             }
         }
