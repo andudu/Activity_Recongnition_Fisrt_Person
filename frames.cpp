@@ -34,7 +34,7 @@ int FrameModel::getFPS(){
     return FPS;
 }
 
-bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool show_detection_result,int start, int end, int indicate, bool do_activity_detection, string annotation_file, int thres_factor){
+bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected, bool show_obj_detection, int start, int end ,int indicate, bool do_activity_detection, string annotation_file, int thres_factor, bool show_pyramid, bool show_activity_prediction){
     
     ObjectDetector* myObjDetector = new ObjectDetector(indicate);
     TemporalPyramid* myTemporalPyramid = new TemporalPyramid();
@@ -77,30 +77,38 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected ,bool 
             myObjDetector->detect(this, i, &frame);
         }            
         
-        if(show_detection_result){
+        if(show_obj_detection){
             playImage_with_detected_results(pause_when_detected, &frame);   
         }           
 
         if((i%FPS) == 0){
 
             //Loading frames and put them into pyramid, level 0
-            myTemporalPyramid->loadFrames_realtime(this, i);
-
-            //Build the pyramid
-            myTemporalPyramid->buildPyramid_realtime();
+            //Return false if it is similar to the latest one
+            if(myTemporalPyramid->loadFrames_realtime(this, i)){
+                //Build the pyramid
+                 myTemporalPyramid->buildPyramid_realtime();
             
-            //Refresh the Pyramid
-            myTemporalPyramid->refreshPyramid_realtime();
+                //Refresh the Pyramid
+                myTemporalPyramid->refreshPyramid_realtime();
 
-            //Activity Detection
-            //cout << "num_features:" << num_features << endl;
-            if(do_activity_detection && num_features == NUM_FEATURE_TOTAL && i > 0){
-                myActivityDetector->activity_detect(myTemporalPyramid);
-            }
-            
-            //Display pyramids
-            myTemporalPyramid->print_info("pyramid");
-            //myTemporalPyramid->print_info("current_prediction");
+                //Activity Detection
+                //cout << "num_features:" << num_features << endl;
+                if(do_activity_detection && num_features == NUM_FEATURE_TOTAL && i > 0){
+                    myActivityDetector->activity_detect(myTemporalPyramid);
+                }
+                
+                //Display
+                if(show_pyramid){
+                    myTemporalPyramid->print_info("pyramid");
+                }
+                if(show_activity_prediction){
+                    myTemporalPyramid->print_info("current_prediction");    
+                }                
+                
+            }else{
+                cout << "Not adding new node because its similar to the latest one!" << endl;
+            }           
         }
         
 

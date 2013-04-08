@@ -22,10 +22,14 @@ int main (int argc, const char * argv[])
     
     string input_video = "";
     string annotation_file = "";
+
     bool do_activity_detection = false;
-    bool show_detection_result = false;
+    bool show_obj_detection = false;
+    bool show_activity_prediction = false;
+    bool show_pyramid = false;
     bool pause_when_detected = false;
     bool ground_truth_detect = false;
+    
     int start_frame = -1;
     int end_frame = -1;
     int indicate = -1;
@@ -48,7 +52,7 @@ int main (int argc, const char * argv[])
         }
 
         if(tmp.compare("-show") == 0){
-            show_detection_result = true;
+            show_obj_detection = true;
         }         
 
         if(tmp.compare("-pause") == 0){
@@ -87,6 +91,14 @@ int main (int argc, const char * argv[])
         if(tmp.compare("-thres_factor") == 0){
             thres_factor = atoi(argv[i+1]);
             i++;
+        }
+
+        if(tmp.compare("-pyramid") == 0){
+            show_pyramid = true;
+        }
+
+        if(tmp.compare("-activity_prediction") == 0){
+            show_activity_prediction = true;
         }    
     }
     
@@ -95,7 +107,7 @@ int main (int argc, const char * argv[])
     cout  << "input video: " << input_video << endl;
     cout << "start/end frame: " << start_frame << "/" <<end_frame <<endl;
     cout << "run crf: " << do_activity_detection << endl;
-    cout << "show frames: " << show_detection_result << endl;
+    cout << "show_obj_detection: " << show_obj_detection << endl;
     cout << "pause when object detected: " << pause_when_detected << endl;
     cout << "indicate object index: " << indicate <<endl;
     cout << "ground truth detect: " << ground_truth_detect <<endl;
@@ -114,7 +126,7 @@ int main (int argc, const char * argv[])
     //
     //Loading input video(feature detection included)
     //
-    myFrames->loadVideo_realtime(input_video, pause_when_detected, show_detection_result, start_frame , end_frame, indicate, do_activity_detection, annotation_file, thres_factor);
+    myFrames->loadVideo_realtime(input_video, pause_when_detected, show_obj_detection, start_frame , end_frame, indicate, do_activity_detection, annotation_file, thres_factor, show_pyramid, show_activity_prediction);
     cout << "Frames : " << myFrames->frame_count << endl;
 
     
@@ -122,7 +134,7 @@ int main (int argc, const char * argv[])
     cout  << "input video: " << input_video << endl;
     cout << "start/end frame: " << start_frame << "/" <<end_frame <<endl;
     cout << "run crf: " << do_activity_detection << endl;
-    cout << "show frames: " << show_detection_result << endl;
+    cout << "show_obj_detection: " << show_obj_detection << endl;
     cout << "pause when object detected: " << pause_when_detected << endl;
     cout << "indicate object index: " << indicate <<endl;
     cout << "ground truth detect: " << ground_truth_detect <<endl;

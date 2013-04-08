@@ -72,11 +72,12 @@ bool TemporalPyramid::loadFrames_realtime(FrameModel* frames, int frame_index){
 
         if(!similar){
             pyramid[0].push_back(tmp_node);
+            return true;
+        }else{
+            return false;
         }
         
     }
-
-    return true;
 }
 
 bool TemporalPyramid::loadFrames(FrameModel* frames){
@@ -162,17 +163,9 @@ bool  TemporalPyramid::showCurrentPrediction(){
         int row = current_prediction[i].table_row;
         int col = current_prediction[i].table_col;
 
-        cout << "Level:" << current_prediction[i].level <<" node:" <<  current_prediction[i].node << endl ;
-        cout << "table_row:" << row << "table_col:" << col <<endl;
+        cout << "Level: " << current_prediction[i].level <<" node: " <<  current_prediction[i].node << endl ;
+        cout << "table_row: " << row << " table_col: " << col <<endl;
         cout << tmp_node.table[row][col].activity <<" / " <<  tmp_node.table[row][col].prob << endl << endl;
-        /*
-        if(current_prediction[i].table_row == 0){
-            cout << tmp_node.table[0][0].activity <<" / " <<  tmp_node.table[0][0].prob << endl << endl;
-        }else{
-            cout << tmp_node.table[1][0].activity <<" / " << tmp_node.table[1][0].prob << " , " << tmp_node.table[1][1].activity <<" / " << tmp_node.table[1][1].prob << endl << endl;
-        }
-        */
-
     }  
     
     
