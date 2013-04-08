@@ -64,7 +64,8 @@ vector<string> ActivityDetector::run_crf(TemporalPyramid *my_pyramid,int level, 
     fclose(fp);
     
     //Run CRF++
-    system("crf_test -v1 -m crf/multi_stage/model_fold_1.crf crf/test.crf > crf/result.txt");    
+    string cmd = "crf_test -v1 -m " + crf_model + " crf/test.crf > crf/result.txt";
+    system(cmd.c_str());    
 
     vector<string> file_list = reader("crf/result.txt");
     split_vector_type SplitVec;
@@ -109,7 +110,8 @@ vector<string> ActivityDetector::run_crf(TemporalPyramid *my_pyramid, int level_
     fclose(fp);
     
     //Run CRF++
-    system("crf_test -v1 -m crf/multi_stage/model_fold_1.crf crf/test.crf > crf/result.txt");    
+    string cmd = "crf_test -v1 -m " + crf_model + " crf/test.crf > crf/result.txt";
+    system(cmd.c_str());    
 
     vector<string> file_list = reader("crf/result.txt");
     split_vector_type SplitVec;
@@ -263,7 +265,8 @@ bool ActivityDetector::print_info(string info_id){
     return false;
 }
 
-ActivityDetector::ActivityDetector(int thres){
+ActivityDetector::ActivityDetector(int thres, string _crf_model){
+    crf_model = _crf_model;    
     thres_factor = thres;
 }
 

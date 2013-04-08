@@ -28,9 +28,10 @@ public:
 	
     ////variable
     int thres_factor;
+    string crf_model;
 
     ////constructor
-	ActivityDetector(int);
+	ActivityDetector(int, string);
 	~ActivityDetector();
     
     ////public functions
