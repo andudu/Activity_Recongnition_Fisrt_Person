@@ -59,7 +59,7 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected, bool 
     for(int i = 0 ; i < frame_count ; i ++)
     {   
         
-        //cout << i << "/" << frame_count - 1<< endl;            
+        cout << i << "/" << frame_count - 1<< endl;            
 
         sprintf(buffer,"%s/%06d.jpg",path.c_str(),start+i);
         //cout << buffer <<endl;

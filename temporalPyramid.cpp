@@ -207,6 +207,11 @@ vector<string>  TemporalPyramid::showCurrentPrediction(){
 
 bool TemporalPyramid::buildPyramid_realtime(){
 
+    //Maximun level of the pyramid
+    if(num_of_levels > MAX_LEVEL_PYRAMID){
+        return false;
+    }
+
     int level_required;
     int pyramid_base_size = pyramid[0].size();
 
@@ -320,7 +325,7 @@ bool TemporalPyramid::buildPyramid(int frame_size ,int FPN){
 
 bool abandon_decision(int index, int length){
 
-    float abandoned_coeff = 0.3;
+    float abandoned_coeff = 0.05;
     //cout << "\n\n\n\n" <<(float)(index+1)/length << "\n\n\n\n";
     if( (float)(index+1)/length  < abandoned_coeff){
         return true;

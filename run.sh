@@ -1,6 +1,6 @@
 echo "run by shell"
 
-index="02"
+index="01"
 video="/Users/hmliu/Documents/CMLab/Master/ADL_code/ADLdataset/ADL_videos/split_frames_P_${index}"
 annotation="translated_with_obj_name/object_annot_P_${index}_translated_with_obj_name.txt"
 
@@ -12,10 +12,10 @@ annotation="translated_with_obj_name/object_annot_P_${index}_translated_with_obj
 # start="74335"
 
 # Brushing teeth in P02
- start="500"
+start="1"
 
 #start="29130"
-length="300"
+length="150"
 #indicate="-indicate 2"
 show="-show"
 #pyramid="-pyramid"

@@ -156,7 +156,7 @@ bool ActivityDetector::activity_detect(TemporalPyramid *my_pyramid){
                 my_pyramid->pyramid[level][node].table[0][0].activity = activity_detected[0];
                 my_pyramid->pyramid[level][node].table[0][0].prob = atof(activity_detected[1].c_str());
             }else{
-                my_pyramid->pyramid[level][node].table[0][0].activity = "Low Prob";
+                my_pyramid->pyramid[level][node].table[0][0].activity = "Low_Prob";
                 my_pyramid->pyramid[level][node].table[0][0].prob = atof(activity_detected[1].c_str());
             }
 
@@ -212,7 +212,7 @@ bool ActivityDetector::activity_detect(TemporalPyramid *my_pyramid){
                         }else{
                             my_pyramid->pyramid[level][node].table[1][0].activity = activity_detected[0];
                             my_pyramid->pyramid[level][node].table[1][0].prob = atof(activity_detected[1].c_str());
-                            my_pyramid->pyramid[level][node].table[1][1].activity = "Low Prob";
+                            my_pyramid->pyramid[level][node].table[1][1].activity = "Low_Prob";
                             my_pyramid->pyramid[level][node].table[1][1].prob = atof(activity_detected[3].c_str());
                         }
 
