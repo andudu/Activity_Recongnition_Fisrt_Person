@@ -195,6 +195,7 @@ vector<string>  TemporalPyramid::showCurrentPrediction(){
     cout << "table_row: " << max_row << " table_col: " << max_col <<endl;
     cout << max.table[max_row][max_col].activity <<" / " <<  max.table[max_row][max_col].prob << endl << endl;
 
+    /*
     if(max.table[max_row][max_col].activity.compare("Low_Prob") != 0 && max_row == 1){
         //2 stage activity
         char str[32]  = "";
@@ -215,7 +216,29 @@ vector<string>  TemporalPyramid::showCurrentPrediction(){
         result.push_back(max.table[max_row][max_col].activity);
         result.push_back(str);
     }    
+    */
     
+    if(max_row == 1){
+        //2 stage activity
+        char str[32]  = "";
+        float f = max.table[max_row][max_col-1].prob;
+        sprintf(str, "%f", f);
+        result.push_back(max.table[max_row][max_col-1].activity);
+        result.push_back(str);
+
+        f = max.table[max_row][max_col].prob;
+        sprintf(str, "%f", f);
+        result.push_back(max.table[max_row][max_col].activity);
+        result.push_back(str);
+    }else{
+        //Single stage activity
+        char str[32]  = "";
+        float f = max.table[max_row][max_col].prob;
+        sprintf(str, "%f", f);
+        result.push_back(max.table[max_row][max_col].activity);
+        result.push_back(str);
+    } 
+
     return result;
 }
 

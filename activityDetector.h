@@ -16,7 +16,7 @@
 #include <boost/algorithm/string.hpp>
 #include "temporalPyramid.h"
 
-#define ACTIVITY_DETECT_THRESHOLD 0.45
+#define ACTIVITY_DETECT_THRESHOLD 0.5
 
 using namespace boost;
 using namespace std;

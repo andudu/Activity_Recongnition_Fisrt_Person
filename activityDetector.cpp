@@ -152,6 +152,7 @@ bool ActivityDetector::activity_detect(TemporalPyramid *my_pyramid){
             activity_detected = run_crf(my_pyramid,level,node);
 
             //cout << " level: "<<level<<" node : " << node << " activity: "<< activity_detected[0] << "/" << activity_detected[1] <<endl;
+            /*
             if(atof(activity_detected[1].c_str()) > ACTIVITY_DETECT_THRESHOLD){
                 my_pyramid->pyramid[level][node].table[0][0].activity = activity_detected[0];
                 my_pyramid->pyramid[level][node].table[0][0].prob = atof(activity_detected[1].c_str());
@@ -159,6 +160,9 @@ bool ActivityDetector::activity_detect(TemporalPyramid *my_pyramid){
                 my_pyramid->pyramid[level][node].table[0][0].activity = "Low_Prob";
                 my_pyramid->pyramid[level][node].table[0][0].prob = atof(activity_detected[1].c_str());
             }
+            */
+            my_pyramid->pyramid[level][node].table[0][0].activity = activity_detected[0];
+            my_pyramid->pyramid[level][node].table[0][0].prob = atof(activity_detected[1].c_str());
 
             tmp_prediction.level = level;
             tmp_prediction.node = node;
@@ -204,6 +208,7 @@ bool ActivityDetector::activity_detect(TemporalPyramid *my_pyramid){
 
                     if(atof(activity_detected[3].c_str()) > max_prob){
                         
+                        /*
                         if(atof(activity_detected[3].c_str()) > ACTIVITY_DETECT_THRESHOLD){
                             my_pyramid->pyramid[level][node].table[1][0].activity = activity_detected[0];
                             my_pyramid->pyramid[level][node].table[1][0].prob = atof(activity_detected[1].c_str());
@@ -215,7 +220,12 @@ bool ActivityDetector::activity_detect(TemporalPyramid *my_pyramid){
                             my_pyramid->pyramid[level][node].table[1][1].activity = "Low_Prob";
                             my_pyramid->pyramid[level][node].table[1][1].prob = atof(activity_detected[3].c_str());
                         }
-
+                        */
+                        my_pyramid->pyramid[level][node].table[1][0].activity = activity_detected[0];
+                        my_pyramid->pyramid[level][node].table[1][0].prob = atof(activity_detected[1].c_str());
+                        my_pyramid->pyramid[level][node].table[1][1].activity = activity_detected[2];
+                        my_pyramid->pyramid[level][node].table[1][1].prob = atof(activity_detected[3].c_str());
+                        
                         max_prob = atof(activity_detected[3].c_str());
                     }
                 }

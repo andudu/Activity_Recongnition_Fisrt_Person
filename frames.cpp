@@ -119,12 +119,6 @@ string get_activity_index(string activity){
         return "24 0";
     }
 
-    /*
-    if(activity.compare("Low_Prob") == 0 ){
-        return "-1";
-    }
-    */
-
     return "-1 0";
 }
 
@@ -200,7 +194,7 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected, bool 
                     //cout <<  activity_result[0] << endl;
                     //Output the activity detected for further evaluation
                     if(activity_result[0].compare("NULL") != 0){
-                        fprintf(fp, "%d %s\n",i+frame_start,get_activity_index(activity_result[0]).c_str());
+                        fprintf(fp, "%d %s %s\n",i+frame_start,get_activity_index(activity_result[0]).c_str(),activity_result[1].c_str());
                     }                
                 }              
             }else{
