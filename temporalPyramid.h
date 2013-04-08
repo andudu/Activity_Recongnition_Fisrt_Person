@@ -48,12 +48,10 @@ public:
     table_element table[2][2];
     bool abandoned;
     bool table_filled;
-    bool new_node;
 
     node(){
         abandoned = false;
         table_filled = false;
-        new_node = true;
     };
 };
 
