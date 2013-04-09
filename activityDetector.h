@@ -27,7 +27,7 @@ class ActivityDetector{
 public:
 	
     ////variable
-    int thres_factor;
+    float thres_factor;
     string crf_model;
 
     ////constructor
