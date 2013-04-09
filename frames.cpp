@@ -103,6 +103,10 @@ string get_activity_index(string activity){
         return "16 2";
     }
 
+    if(activity.compare("making_cold_food_snack") == 0 ){
+        return "17 0";
+    }
+    
 
     if(activity.compare("vacuuming") == 0 ){
         return "20 0";
