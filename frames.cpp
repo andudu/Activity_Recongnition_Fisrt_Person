@@ -171,7 +171,9 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected, bool 
         }            
         
         if(show_obj_detection){
-            playImage_with_detected_results(pause_when_detected, &frame);   
+            string activity = "act";
+            string prob = "prob";
+            playImage_with_detected_results(pause_when_detected, &frame, activity, prob);   
         }           
 
         if((i%FPN) == 0){
@@ -272,7 +274,7 @@ bool FrameModel::showFeature(int index){
     return true;
 }
 
-bool FrameModel::playImage_with_detected_results(bool pause_when_detected, IplImage *tempFrame){
+bool FrameModel::playImage_with_detected_results(bool pause_when_detected, IplImage *tempFrame, string activity, string prob){
 
     int detection_counter = 0;
 
@@ -303,6 +305,11 @@ bool FrameModel::playImage_with_detected_results(bool pause_when_detected, IplIm
             detection_counter++;
         } 
     }
+
+    CvFont font_act_label;
+    cvInitFont(&font_act_label, CV_FONT_HERSHEY_SIMPLEX, 1.0, 1.0, 0, 3, CV_AA);
+    cvPutText(tempFrame, activity.c_str(), cvPoint(20, 30), &font_act_label, cvScalar(0, 255, 0, 0));
+    cvPutText(tempFrame, prob.c_str(), cvPoint(20 , 70), &font_act_label, cvScalar(0, 255, 0, 0));
     
     /*
      scale down the image since it's 720x1280 sometimes exceeds the monitor size
