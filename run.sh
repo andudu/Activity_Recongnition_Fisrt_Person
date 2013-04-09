@@ -1,6 +1,6 @@
 echo "run by shell"
 
-index="01"
+index="02"
 video="/Users/hmliu/Documents/CMLab/Master/ADL_code/ADLdataset/ADL_videos/split_frames_P_${index}"
 annotation="translated_with_obj_name/object_annot_P_${index}_translated_with_obj_name.txt"
 #crf_model_path="crf/multi_stage/5_fold/model_fold_1.crf"
@@ -17,8 +17,8 @@ crf_model_path="crf/multi_stage/1_vs_all_more_segment/model_1.crf"
 # Brushing teeth in P02
 #start="500"
 
-start="9601"
-length="53804"
+start="500"
+length="500"
 
 #indicate="-indicate 2"
 show="-show"

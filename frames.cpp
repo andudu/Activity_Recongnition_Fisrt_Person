@@ -171,9 +171,9 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected, bool 
         }            
         
         if(show_obj_detection){
-            string activity = "act";
-            string prob = "prob";
-            playImage_with_detected_results(pause_when_detected, &frame, activity, prob);   
+            //string activity = "act";
+            //string prob = "prob";
+            playImage_with_detected_results(pause_when_detected, &frame, myTemporalPyramid->current_best_activity, myTemporalPyramid->current_best_prob);   
         }           
 
         if((i%FPN) == 0){
