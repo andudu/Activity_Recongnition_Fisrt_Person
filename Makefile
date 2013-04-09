@@ -1,6 +1,21 @@
-INCLUDE+=-I/usr/local/include -I/usr/local/include/opencv -I/usr/local/include/opencv2 -I/Users/hmliu/boost_1_53_0
+#Macbook
 
-LINKING+=-L/usr/lib -lopencv_core.2.4.3 -lopencv_highgui.2.4.3 -lopencv_imgproc.2.4.3 -lopencv_objdetect.2.4.3
+#INCLUDE+=-I/usr/local/include -I/usr/local/include/opencv -I/usr/local/include/opencv2
+
+#LINKING+=-L/usr/local/lib -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_objdetect
+
+##################################################################################################
+
+#Ubuntu
+
+INCLUDE+=-I/usr/local/include
+
+LINKING+=-L/usr/local/lib
+
+CV_CONF=`pkg-config opencv --cflags`
+CV_CONF_2=`pkg-config opencv --libs`
+
+#################################################################################################
 
 CXX=g++
 #CXX=ccache g++
@@ -12,7 +27,7 @@ EXE=FP_ADL.out
 OPT=-O0
 
 all:
-	$(CXX) $(OPT) $(INCLUDE) $(LINKING) $(SRC) -o $(EXE)
+	$(CXX) $(CV_CONF) $(OPT) $(INCLUDE) $(LINKING) $(SRC) -o $(EXE) $(CV_CONF_2)
 
 clean:
 	rm -f *.o *.a *.out
