@@ -77,7 +77,9 @@ public:
     int num_of_levels;
     vector< vector<node> > pyramid;
     vector<prediction_unit> current_prediction;//The prediction made in this time step
-
+    string current_best_activity;
+    string current_best_prob;
+    
     ////constructor
 	TemporalPyramid();
 	~TemporalPyramid();

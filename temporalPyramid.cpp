@@ -9,6 +9,8 @@
 #include "temporalPyramid.h"
 
 TemporalPyramid::TemporalPyramid(){
+    current_best_activity="NULL";
+    current_best_prob="NULL";
 }
 
 TemporalPyramid::~TemporalPyramid(){
@@ -239,6 +241,21 @@ vector<string>  TemporalPyramid::showCurrentPrediction(){
         result.push_back(str);
     } 
 
+
+    //current_best_activity
+    if(result.size() == 4){
+        //fprintf(fp, "%d %s %s\n",i+frame_start-FPN,get_activity_index(activity_result[2]).c_str(),activity_result[3].c_str());
+        current_best_activity = result[2];
+        current_best_prob = result[3];
+    }else if(result.size() == 2){
+        //fprintf(fp, "%d %s %s\n",i+frame_start-FPN,get_activity_index(activity_result[0]).c_str(),activity_result[1].c_str());
+        current_best_activity = result[0];
+        current_best_prob = result[1];
+    }else{
+        //Do nothing
+        current_best_activity = "NULL";
+        current_best_prob = "NULL";
+    } 
     return result;
 }
 
