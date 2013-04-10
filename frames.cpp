@@ -52,6 +52,9 @@ string get_activity_index(string activity){
     if(activity.compare("washing_hands_face") == 0 ){
         return "5 0";
     }
+    if(activity.compare("drying_hands_face") == 0 ){
+        return "6 0";
+    }
 
 
     if(activity.compare("laundry") == 0 ){
