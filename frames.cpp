@@ -308,7 +308,6 @@ bool FrameModel::playImage_with_detected_results(bool pause_when_detected, IplIm
             detection_counter++;
         } 
     }
-
     CvFont font_act_label;
     cvInitFont(&font_act_label, CV_FONT_HERSHEY_SIMPLEX, 1.0, 1.0, 0, 3, CV_AA);
     cvPutText(tempFrame, activity.c_str(), cvPoint(20, 30), &font_act_label, cvScalar(0, 255, 0, 0));
