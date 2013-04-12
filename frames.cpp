@@ -187,7 +187,7 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected, bool 
             //Return false if it is similar to the latest one
             if(myTemporalPyramid->loadFrames_realtime(this, i)){
                 //Build the pyramid
-                 myTemporalPyramid->buildPyramid_realtime();
+                myTemporalPyramid->buildPyramid_realtime();
                 
                 //Refresh the Pyramid
                 myTemporalPyramid->refreshPyramid_realtime();

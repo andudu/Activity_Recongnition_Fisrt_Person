@@ -1,11 +1,11 @@
 echo "run by shell"
 
-index="13"
+index="20"
 video="/Users/hmliu/Documents/CMLab/Master/ADL_code/ADLdataset/ADL_videos/split_frames_P_${index}"
 annotation="translated_with_obj_name/object_annot_P_${index}_translated_with_obj_name.txt"
 #crf_model_path="crf/multi_stage/5_fold/model_fold_1.crf"
 #crf_model_path="crf/multi_stage/1_vs_all/model_13.crf"
-crf_model_path="crf/multi_stage/1_vs_all_more_segment_2/model_13.crf"
+crf_model_path="crf/multi_stage/1_vs_all_more_segment_2/model_20.crf"
 
 # Good results
 # Watching TV in P02
@@ -17,7 +17,7 @@ crf_model_path="crf/multi_stage/1_vs_all_more_segment_2/model_13.crf"
 # Brushing teeth in P02
 #start="500"
 
-start="23400"
+start="11701"
 length="10000"
 
 #indicate="-indicate 2"
