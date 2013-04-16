@@ -302,27 +302,9 @@ bool TemporalPyramid::buildPyramid_realtime(){
         int nodes_already_in_this_level = pyramid[level].size();
 
         for(int n = nodes_already_in_this_level*2 ; n < pyramid[level-1].size() ; n = n + 2){
-            
-            /*
-            //create a node with the same number of features
-            node tmp_node;
-            for (int i = 0 ; i < num_of_features ; i++){
-                tmp_node.feature.push_back(0);
-            }
-            
-            //In case the number of nodes in the last level is not even
-            if (n+1 >= pyramid[level-1].size()) {
-                break;
-            }else{               
-                //Summing node features in a interval and avrage them(2 nodes)
-                for (int k = 0; k < num_of_features; k++) {
-                    tmp_node.feature[k] = (tmp_node.feature[k] + pyramid[level-1][n+1].feature[k])/2;
-                }
-            }            
-            */
 
             node tmp_node;
-            
+
             if (n+1 >= pyramid[level-1].size()) {
                 break;
             }else{               
