@@ -168,15 +168,16 @@ vector<string>  TemporalPyramid::showCurrentPrediction(){
 
     vector<string> result;
 
+    cout << "====candidates:====" << endl;
     for(int i = 0 ; i < current_prediction.size() ; i++){
 
         node tmp_node = pyramid[current_prediction[i].level][current_prediction[i].node];
         int row = current_prediction[i].table_row;
         int col = current_prediction[i].table_col;       
 
-        //cout << "Level: " << current_prediction[i].level <<" node: " <<  current_prediction[i].node << endl ;
-        //cout << "table_row: " << row << " table_col: " << col <<endl;
-        //cout << tmp_node.table[row][col].activity <<" / " <<  tmp_node.table[row][col].prob << endl << endl;
+        cout << "Level: " << current_prediction[i].level <<" node: " <<  current_prediction[i].node << endl ;
+        cout << "table_row: " << row << " table_col: " << col <<endl;
+        cout << tmp_node.table[row][col].activity <<" / " <<  tmp_node.table[row][col].prob << endl << endl;
 
         //Consider single stage or 2 stages only
         if( ((row == 1 && col == 1)||(row == 0 && col == 0)) && tmp_node.table[row][col].prob > max_prob){
@@ -185,6 +186,9 @@ vector<string>  TemporalPyramid::showCurrentPrediction(){
             max_node = current_prediction[i].node;
             max_row = row;
             max_col = col;
+            cout << tmp_node.table[row][col].prob << " > " << max_prob <<endl;
+            max_prob = tmp_node.table[row][col].prob;
+
         }
     }  
     
@@ -193,6 +197,7 @@ vector<string>  TemporalPyramid::showCurrentPrediction(){
         return result;
     }
 
+    cout << "\n====final result:===="<< endl ;
     cout << "Level: " << max_level <<" node: " <<  max_node << endl ;
     cout << "table_row: " << max_row << " table_col: " << max_col <<endl;
     cout << max.table[max_row][max_col].activity <<" / " <<  max.table[max_row][max_col].prob << endl << endl;
@@ -298,6 +303,7 @@ bool TemporalPyramid::buildPyramid_realtime(){
 
         for(int n = nodes_already_in_this_level*2 ; n < pyramid[level-1].size() ; n = n + 2){
             
+            /*
             //create a node with the same number of features
             node tmp_node;
             for (int i = 0 ; i < num_of_features ; i++){
@@ -313,7 +319,19 @@ bool TemporalPyramid::buildPyramid_realtime(){
                     tmp_node.feature[k] = (tmp_node.feature[k] + pyramid[level-1][n+1].feature[k])/2;
                 }
             }            
+            */
+
+            node tmp_node;
             
+            if (n+1 >= pyramid[level-1].size()) {
+                break;
+            }else{               
+                //Summing node features in a interval and avrage them(2 nodes)
+                for (int k = 0; k < num_of_features; k++) {
+                    tmp_node.feature.push_back((pyramid[level-1][n].feature[k] + pyramid[level-1][n+1].feature[k])/2);
+                }
+            } 
+
             pyramid[level].push_back(tmp_node);
         }
     }

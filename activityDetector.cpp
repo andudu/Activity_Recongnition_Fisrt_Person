@@ -203,75 +203,70 @@ bool ActivityDetector::activity_detect(TemporalPyramid *my_pyramid){
 
             my_pyramid->current_prediction.push_back(tmp_prediction);
         }
-
-        my_pyramid->pyramid[level][node].table_filled = true;
         
-        if(build_pyramid){
-            //If this node's 2 stage activity is not yet detected and Not the first node in this level
-            if(node != 0 && my_pyramid->pyramid[level][node].table[1][0].activity.compare("NULL") == 0){
+        //If this node's 2 stage activity is not yet detected and Not the first node in this level
+        if(node != 0 && my_pyramid->pyramid[level][node].table[1][0].activity.compare("NULL") == 0){
 
-                float max_prob = -1;
+            float max_prob = -1;
 
-                for(int level_before = 0 ; level_before < my_pyramid->num_of_levels ; level_before ++ ){
-                    for(int node_before = 0 ; node_before < my_pyramid->pyramid[level_before].size() ; node_before ++){
-                        
-                        //Skip abandoned nodes
-                        if(my_pyramid->pyramid[level_before][node_before].abandoned){
+            for(int level_before = 0 ; level_before < my_pyramid->num_of_levels ; level_before ++ ){
+                for(int node_before = 0 ; node_before < my_pyramid->pyramid[level_before].size() ; node_before ++){
+                    
+                    //Skip abandoned nodes
+                    if(my_pyramid->pyramid[level_before][node_before].abandoned){
+                        continue;
+                    }                            
+
+                    //Skip the nodes produced not before this node
+                    if(level_before < level){
+
+                        if(node_before >= node*(pow( 2, (float)level - level_before)))
                             continue;
-                        }                            
 
-                        //Skip the nodes produced not before this node
-                        if(level_before < level){
+                    }else if(level_before == level){
 
-                            if(node_before >= node*(pow( 2, (float)level - level_before)))
-                                continue;
+                        if(node_before >= node)
+                            continue;
 
-                        }else if(level_before == level){
+                    }else{
 
-                            if(node_before >= node)
-                                continue;
+                        if(node_before*(pow( 2, (float)level_before - level)) >= node)
+                            continue;
 
-                        }else{
+                    }
 
-                            if(node_before*(pow( 2, (float)level_before - level)) >= node)
-                                continue;
+                    //Runs 2 stage crf prediction and get the highest scored prediction
+                    activity_detected = run_crf(my_pyramid,level_before,node_before,level,node);
 
-                        }
-
-                        //Runs 2 stage crf prediction and get the highest scored prediction
-                        activity_detected = run_crf(my_pyramid,level_before,node_before,level,node);
-
-                        if(atof(activity_detected[3].c_str()) > max_prob){
-                            
-                            my_pyramid->pyramid[level][node].table[1][0].activity = activity_detected[0];
-                            my_pyramid->pyramid[level][node].table[1][0].prob = atof(activity_detected[1].c_str());
-                            my_pyramid->pyramid[level][node].table[1][1].activity = activity_detected[2];
-                            my_pyramid->pyramid[level][node].table[1][1].prob = atof(activity_detected[3].c_str());
-                            
-                            max_prob = atof(activity_detected[3].c_str());
-                        }
+                    if(atof(activity_detected[3].c_str()) > max_prob){
+                        
+                        my_pyramid->pyramid[level][node].table[1][0].activity = activity_detected[0];
+                        my_pyramid->pyramid[level][node].table[1][0].prob = atof(activity_detected[1].c_str());
+                        my_pyramid->pyramid[level][node].table[1][1].activity = activity_detected[2];
+                        my_pyramid->pyramid[level][node].table[1][1].prob = atof(activity_detected[3].c_str());
+                        
+                        max_prob = atof(activity_detected[3].c_str());
                     }
                 }
-
-
-                tmp_prediction.level = level;
-                tmp_prediction.node = node;
-                tmp_prediction.table_row = 1;
-                tmp_prediction.table_col = 0;
-
-                my_pyramid->current_prediction.push_back(tmp_prediction);
-
-                tmp_prediction.level = level;
-                tmp_prediction.node = node;
-                tmp_prediction.table_row = 1;
-                tmp_prediction.table_col = 1;
-
-                my_pyramid->current_prediction.push_back(tmp_prediction);
-
-                my_pyramid->pyramid[level][node].table_filled = true;
             }
+
+
+            tmp_prediction.level = level;
+            tmp_prediction.node = node;
+            tmp_prediction.table_row = 1;
+            tmp_prediction.table_col = 0;
+
+            my_pyramid->current_prediction.push_back(tmp_prediction);
+
+            tmp_prediction.level = level;
+            tmp_prediction.node = node;
+            tmp_prediction.table_row = 1;
+            tmp_prediction.table_col = 1;
+
+            my_pyramid->current_prediction.push_back(tmp_prediction);
+
+            my_pyramid->pyramid[level][node].table_filled = true;
         }
-        my_pyramid->pyramid[level][node].table_filled = true;
     }    
 
     return true;

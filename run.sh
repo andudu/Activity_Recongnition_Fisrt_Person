@@ -1,33 +1,35 @@
 echo "run by shell"
 
-index="13"
+index="20"
 video="/Users/hmliu/Documents/CMLab/Master/ADL_code/ADLdataset/ADL_videos/split_frames_P_${index}"
 annotation="translated_with_obj_name/object_annot_P_${index}_translated_with_obj_name.txt"
 #crf_model_path="crf/multi_stage/5_fold/model_fold_1.crf"
-#crf_model_path="crf/multi_stage/1_vs_all/model_20.crf"
-crf_model_path="crf/multi_stage/1_vs_all_more_segment_2/model_13.crf"
+#crf_model_path="crf/multi_stage/1_vs_all/model_13.crf"
+crf_model_path="crf/multi_stage/1_vs_all_more_segment_2/model_${index}.crf"
 
 # Good results
 # Watching TV in P02
-# start="69235"
+#start="69235"
 
 # using computer in  P02
-#start="74335"
+# start="74335"
 
 # Brushing teeth in P02
-#start="500"
+# start="500"
 
 # making tea stage 1 in P13 
-start="500"
+#start="500"
 # making tea stage 2 in P13 
-start="21810"
+#start="21810"
+
+start="13000"
 
 length="10000"
 
 #indicate="-indicate 2"
 show="-show"
-#show_pyramid="-show_pyramid"
-build_pyramid="-build_pyramid"
+show_pyramid="-show_pyramid"
+#build_pyramid="-build_pyramid"
 activity_prediction="-activity_prediction"
 #pause="-pause"
 ground_truth_detect="-ground_truth"
