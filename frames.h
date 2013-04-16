@@ -57,7 +57,7 @@ public:
     
     //public functions
     int getFPN();
-    bool loadVideo_realtime(string path, bool pause_when_detected, bool show_obj_detection, int start, int end ,int indicate, bool do_activity_detection, string annotation_file, int thres_factor, bool show_pyramid, bool show_activity_prediction, string crf_model);
+    bool loadVideo_realtime(string path, bool pause_when_detected, bool show_obj_detection, int start, int end ,int indicate, bool do_activity_detection, string annotation_file, int thres_factor, bool show_pyramid, bool show_activity_prediction, string crf_model, bool build_pyramid);
     bool playVideo();
     bool showFeature(int index);
     bool playImage_with_detected_results(bool pause_when_detected, IplImage *tempFrame, string activity, string prob);

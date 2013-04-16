@@ -130,11 +130,11 @@ string get_activity_index(string activity){
 }
 
 
-bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected, bool show_obj_detection, int start, int end ,int indicate, bool do_activity_detection, string annotation_file, int thres_factor, bool show_pyramid, bool show_activity_prediction, string crf_model){
+bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected, bool show_obj_detection, int start, int end ,int indicate, bool do_activity_detection, string annotation_file, int thres_factor, bool show_pyramid, bool show_activity_prediction, string crf_model, bool build_pyramid){
     
     ObjectDetector* myObjDetector = new ObjectDetector(indicate);
     TemporalPyramid* myTemporalPyramid = new TemporalPyramid();
-    ActivityDetector* myActivityDetector = new ActivityDetector(thres_factor, crf_model);
+    ActivityDetector* myActivityDetector = new ActivityDetector(thres_factor, crf_model, build_pyramid);
     Mat grab_frame;
     IplImage frame;
     frameNode temp;
@@ -187,7 +187,9 @@ bool FrameModel::loadVideo_realtime(string path, bool pause_when_detected, bool 
             //Return false if it is similar to the latest one
             if(myTemporalPyramid->loadFrames_realtime(this, i)){
                 //Build the pyramid
-                myTemporalPyramid->buildPyramid_realtime();
+                if(build_pyramid){
+                    myTemporalPyramid->buildPyramid_realtime();    
+                }                
                 
                 //Refresh the Pyramid
                 myTemporalPyramid->refreshPyramid_realtime();

@@ -1,11 +1,11 @@
 echo "run by shell"
 
-index="20"
+index="13"
 video="/Users/hmliu/Documents/CMLab/Master/ADL_code/ADLdataset/ADL_videos/split_frames_P_${index}"
 annotation="translated_with_obj_name/object_annot_P_${index}_translated_with_obj_name.txt"
 #crf_model_path="crf/multi_stage/5_fold/model_fold_1.crf"
-#crf_model_path="crf/multi_stage/1_vs_all/model_13.crf"
-crf_model_path="crf/multi_stage/1_vs_all_more_segment_2/model_20.crf"
+#crf_model_path="crf/multi_stage/1_vs_all/model_20.crf"
+crf_model_path="crf/multi_stage/1_vs_all_more_segment_2/model_13.crf"
 
 # Good results
 # Watching TV in P02
@@ -17,12 +17,17 @@ crf_model_path="crf/multi_stage/1_vs_all_more_segment_2/model_20.crf"
 # Brushing teeth in P02
 #start="500"
 
-start="11701"
+# making tea stage 1 in P13 
+start="500"
+# making tea stage 2 in P13 
+start="21810"
+
 length="10000"
 
 #indicate="-indicate 2"
 show="-show"
-#pyramid="-pyramid"
+#show_pyramid="-show_pyramid"
+build_pyramid="-build_pyramid"
 activity_prediction="-activity_prediction"
 #pause="-pause"
 ground_truth_detect="-ground_truth"
@@ -30,7 +35,7 @@ crf="-crf"
 FPN="-FPN 300"
 thres_factor="-thres_factor 5"
 
-cmd="./FP_ADL.out -i ${video} -start ${start} -length ${length} -crf_model_path ${crf_model_path} -an ${annotation} ${show} ${pause} ${indicate} ${ground_truth_detect} ${crf} ${thres_factor} ${pyramid} ${activity_prediction} ${FPN}"
+cmd="./FP_ADL.out -i ${video} -start ${start} -length ${length} -crf_model_path ${crf_model_path} -an ${annotation} ${show} ${pause} ${indicate} ${ground_truth_detect} ${crf} ${thres_factor} ${show_pyramid} ${build_pyramid} ${activity_prediction} ${FPN}"
 
 echo $cmd
 

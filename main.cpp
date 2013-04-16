@@ -30,6 +30,7 @@ int main (int argc, const char * argv[])
     bool show_pyramid = false;
     bool pause_when_detected = false;
     bool ground_truth_detect = false;
+    bool build_pyramid = false;
     
     int start_frame = -1;
     int end_frame = -1;
@@ -105,8 +106,12 @@ int main (int argc, const char * argv[])
             i++;
         }
 
-        if(tmp.compare("-pyramid") == 0){
+        if(tmp.compare("-show_pyramid") == 0){
             show_pyramid = true;
+        }
+
+        if(tmp.compare("-build_pyramid") == 0){
+            build_pyramid = true;
         }
 
         if(tmp.compare("-activity_prediction") == 0){
@@ -125,6 +130,7 @@ int main (int argc, const char * argv[])
     cout << "indicate object index: " << indicate <<endl;
     cout << "ground truth detect: " << ground_truth_detect <<endl;
     cout << "thres_factor: " << thres_factor <<endl;
+    cout << "build pyramid: " << build_pyramid <<endl;
 
     if (input_video.compare("") == 0){
         cout << "Invalid input video path !\n" << endl;
@@ -139,7 +145,7 @@ int main (int argc, const char * argv[])
     //
     //Loading input video(feature detection included)
     //
-    myFrames->loadVideo_realtime(input_video, pause_when_detected, show_obj_detection, start_frame , end_frame, indicate, do_activity_detection, annotation_file, thres_factor, show_pyramid, show_activity_prediction, crf_model_path);
+    myFrames->loadVideo_realtime(input_video, pause_when_detected, show_obj_detection, start_frame , end_frame, indicate, do_activity_detection, annotation_file, thres_factor, show_pyramid, show_activity_prediction, crf_model_path, build_pyramid);
     cout << "Frames : " << myFrames->frame_count << endl;
 
     

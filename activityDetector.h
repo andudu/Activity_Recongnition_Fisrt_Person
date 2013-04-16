@@ -29,9 +29,10 @@ public:
     ////variable
     float thres_factor;
     string crf_model;
+    bool build_pyramid;
 
     ////constructor
-	ActivityDetector(int, string);
+	ActivityDetector(int thres, string crf_model, bool build_pyramid);
 	~ActivityDetector();
     
     ////public functions
