@@ -21,23 +21,23 @@ crf_model_path="crf/multi_stage/1_vs_all_more_segment_2/model_${index}.crf"
 # length="1200"
 
 # making tea stage 1 in P13 
-start="500"
-length="600"
+#start="500"
+#length="600"
 # making tea stage 2 in P13 
-#start="21810"
-length="900"
+# start="21810"
+# length="900"
 
 # A temporal pyramid demo P20 washing dishes
 # start="13000"
-# length="900"
+# length="800"
 
 # making cold food snack in P10
 # start="1000"
 # length="2000"
 
 # A 3 activities demo in P13
-# start="42800"
-# length="1800"
+start="42800"
+length="1600"
 
 #indicate="-indicate 2"
 show="-show"
