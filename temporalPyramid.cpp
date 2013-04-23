@@ -174,11 +174,11 @@ vector<string>  TemporalPyramid::showCurrentPrediction(){
         node tmp_node = pyramid[current_prediction[i].level][current_prediction[i].node];
         int row = current_prediction[i].table_row;
         int col = current_prediction[i].table_col;       
-
+        /*
         cout << "Level: " << current_prediction[i].level <<" node: " <<  current_prediction[i].node << endl ;
         cout << "table_row: " << row << " table_col: " << col <<endl;
         cout << tmp_node.table[row][col].activity <<" / " <<  tmp_node.table[row][col].prob << endl << endl;
-
+        */
         //Consider single stage or 2 stages only
         if( ((row == 1 && col == 1)||(row == 0 && col == 0)) && tmp_node.table[row][col].prob > max_prob){
             max = pyramid[current_prediction[i].level][current_prediction[i].node];
@@ -186,9 +186,7 @@ vector<string>  TemporalPyramid::showCurrentPrediction(){
             max_node = current_prediction[i].node;
             max_row = row;
             max_col = col;
-            cout << tmp_node.table[row][col].prob << " > " << max_prob <<endl;
             max_prob = tmp_node.table[row][col].prob;
-
         }
     }  
     
@@ -197,11 +195,12 @@ vector<string>  TemporalPyramid::showCurrentPrediction(){
         return result;
     }
 
+    /*
     cout << "\n====final result:===="<< endl ;
     cout << "Level: " << max_level <<" node: " <<  max_node << endl ;
     cout << "table_row: " << max_row << " table_col: " << max_col <<endl;
     cout << max.table[max_row][max_col].activity <<" / " <<  max.table[max_row][max_col].prob << endl << endl;
-
+    */
     /*
     if(max.table[max_row][max_col].activity.compare("Low_Prob") != 0 && max_row == 1){
         //2 stage activity

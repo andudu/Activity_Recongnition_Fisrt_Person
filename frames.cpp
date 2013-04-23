@@ -311,9 +311,9 @@ bool FrameModel::playImage_with_detected_results(bool pause_when_detected, IplIm
         } 
     }
     CvFont font_act_label;
-    cvInitFont(&font_act_label, CV_FONT_HERSHEY_SIMPLEX, 1.0, 1.0, 0, 3, CV_AA);
-    cvPutText(tempFrame, activity.c_str(), cvPoint(20, 30), &font_act_label, cvScalar(0, 255, 0, 0));
-    cvPutText(tempFrame, prob.c_str(), cvPoint(20 , 70), &font_act_label, cvScalar(0, 255, 0, 0));
+    cvInitFont(&font_act_label, CV_FONT_HERSHEY_SIMPLEX, 1.5, 1.5, 0, 3, CV_AA);
+    cvPutText(tempFrame, activity.c_str(), cvPoint(20, 50), &font_act_label, cvScalar(0, 255, 0, 0));
+    cvPutText(tempFrame, prob.c_str(), cvPoint(20 , 100), &font_act_label, cvScalar(0, 255, 0, 0));
     
     /*
      scale down the image since it's 720x1280 sometimes exceeds the monitor size

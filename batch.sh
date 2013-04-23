@@ -40,22 +40,23 @@ do
 
   echo $length
   #indicate="-indicate 2"
-  show="-show"
-  #pyramid="-pyramid"
+  #show="-show"
+  #show_pyramid="-show_pyramid"
+  build_pyramid="-build_pyramid"
   activity_prediction="-activity_prediction"
   #pause="-pause"
   ground_truth_detect="-ground_truth"
   crf="-crf"
   FPN="-FPN 300"
-  thres_factor="-thres_factor 3"
+  thres_factor="-thres_factor 5"
 
-  cmd="./FP_ADL.out -i ${video} -start ${start} -length ${length} -crf_model_path ${crf_model_path} -an ${annotation} ${show} ${pause} ${indicate} ${ground_truth_detect} ${crf} ${thres_factor} ${pyramid} ${activity_prediction} ${FPN}"
+  cmd="./FP_ADL.out -i ${video} -start ${start} -length ${length} -crf_model_path ${crf_model_path} -an ${annotation} ${show} ${pause} ${indicate} ${ground_truth_detect} ${crf} ${thres_factor} ${show_pyramid} ${build_pyramid} ${activity_prediction} ${FPN}"
 
   echo $cmd
 
   $cmd
 
-  cmd="mv activity_result.txt crf/result/more_segment/result_${index}.txt"
+  cmd="mv activity_result.txt crf/result/0416/result_${index}.txt"
 
   echo $cmd
 
@@ -79,22 +80,22 @@ do
 
   echo $length
   #indicate="-indicate 2"
-  show="-show"
-  #pyramid="-pyramid"
+  #show="-show"
+  build_pyramid="-build_pyramid"
   activity_prediction="-activity_prediction"
   #pause="-pause"
   ground_truth_detect="-ground_truth"
   crf="-crf"
   FPN="-FPN 300"
-  thres_factor="-thres_factor 3"
+  thres_factor="-thres_factor 5"
 
-  cmd="./FP_ADL.out -i ${video} -start ${start} -length ${length} -crf_model_path ${crf_model_path} -an ${annotation} ${show} ${pause} ${indicate} ${ground_truth_detect} ${crf} ${thres_factor} ${pyramid} ${activity_prediction} ${FPN}"
+  cmd="./FP_ADL.out -i ${video} -start ${start} -length ${length} -crf_model_path ${crf_model_path} -an ${annotation} ${show} ${pause} ${indicate} ${ground_truth_detect} ${crf} ${thres_factor} ${show_pyramid} ${build_pyramid} ${activity_prediction} ${FPN}"
 
   echo $cmd
 
   $cmd
 
-  cmd="mv activity_result.txt crf/result/more_segment/result_${index}.txt"
+  cmd="mv activity_result.txt crf/result/0416/result_${index}.txt"
 
   echo $cmd
 

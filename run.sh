@@ -21,10 +21,11 @@ crf_model_path="crf/multi_stage/1_vs_all_more_segment_2/model_${index}.crf"
 # length="1200"
 
 # making tea stage 1 in P13 
-# start="500"
+start="500"
+length="600"
 # making tea stage 2 in P13 
 #start="21810"
-# length="900"
+length="900"
 
 # A temporal pyramid demo P20 washing dishes
 # start="13000"
@@ -35,8 +36,8 @@ crf_model_path="crf/multi_stage/1_vs_all_more_segment_2/model_${index}.crf"
 # length="2000"
 
 # A 3 activities demo in P13
-start="42800"
-length="2000"
+# start="42800"
+# length="1800"
 
 #indicate="-indicate 2"
 show="-show"
@@ -47,7 +48,7 @@ activity_prediction="-activity_prediction"
 ground_truth_detect="-ground_truth"
 crf="-crf"
 FPN="-FPN 300"
-thres_factor="-thres_factor 5"
+thres_factor="-thres_factor 10"
 
 cmd="./FP_ADL.out -i ${video} -start ${start} -length ${length} -crf_model_path ${crf_model_path} -an ${annotation} ${show} ${pause} ${indicate} ${ground_truth_detect} ${crf} ${thres_factor} ${show_pyramid} ${build_pyramid} ${activity_prediction} ${FPN}"
 

@@ -51,7 +51,7 @@ vector<string> ActivityDetector::run_crf(TemporalPyramid *my_pyramid,int level, 
 
     vector<int> features;
 
-    /*
+    
     for (int i = 0 ; i < my_pyramid->num_of_features ; i++){
         if(my_pyramid->pyramid[level][node].feature[i] >= thres){
             fprintf(fp, "%d ",1);
@@ -59,16 +59,7 @@ vector<string> ActivityDetector::run_crf(TemporalPyramid *my_pyramid,int level, 
             fprintf(fp, "%d ",0);
         }
     }
-    */
-
-    for (int i = 0 ; i < my_pyramid->num_of_features ; i++){
-        if(my_pyramid->pyramid[level][node].feature[i] > 0){
-            fprintf(fp, "%d ",1);
-        }else{
-            fprintf(fp, "%d ",0);
-        }
-    }
-
+    
     fprintf(fp, "\n");
 
     fclose(fp);
@@ -97,7 +88,7 @@ vector<string> ActivityDetector::run_crf(TemporalPyramid *my_pyramid, int level_
 
     fp = fopen("crf/test.crf", "w");
 
-    /*
+    
     for (int i = 0 ; i < my_pyramid->num_of_features ; i++){
         if(my_pyramid->pyramid[level_1][node_1].feature[i] >= thres){
             fprintf(fp, "%d ",1);
@@ -115,25 +106,7 @@ vector<string> ActivityDetector::run_crf(TemporalPyramid *my_pyramid, int level_
             fprintf(fp, "%d ",0);
         }
     }
-    */
-
-    for (int i = 0 ; i < my_pyramid->num_of_features ; i++){
-        if(my_pyramid->pyramid[level_1][node_1].feature[i] > 0){
-            fprintf(fp, "%d ",1);
-        }else{
-            fprintf(fp, "%d ",0);
-        }
-    }
-
-    fprintf(fp, "\n");
-
-    for (int i = 0 ; i < my_pyramid->num_of_features ; i++){
-        if(my_pyramid->pyramid[level_2][node_2].feature[i] > 0 ){
-            fprintf(fp, "%d ",1);
-        }else{
-            fprintf(fp, "%d ",0);
-        }
-    }
+    
 
     fprintf(fp, "\n");
 
