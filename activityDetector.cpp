@@ -157,15 +157,6 @@ bool ActivityDetector::activity_detect(TemporalPyramid *my_pyramid){
             activity_detected = run_crf(my_pyramid,level,node);
 
             //cout << " level: "<<level<<" node : " << node << " activity: "<< activity_detected[0] << "/" << activity_detected[1] <<endl;
-            /*
-            if(atof(activity_detected[1].c_str()) > ACTIVITY_DETECT_THRESHOLD){
-                my_pyramid->pyramid[level][node].table[0][0].activity = activity_detected[0];
-                my_pyramid->pyramid[level][node].table[0][0].prob = atof(activity_detected[1].c_str());
-            }else{
-                my_pyramid->pyramid[level][node].table[0][0].activity = "Low_Prob";
-                my_pyramid->pyramid[level][node].table[0][0].prob = atof(activity_detected[1].c_str());
-            }
-            */
             my_pyramid->pyramid[level][node].table[0][0].activity = activity_detected[0];
             my_pyramid->pyramid[level][node].table[0][0].prob = atof(activity_detected[1].c_str());
 
