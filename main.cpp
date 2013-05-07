@@ -87,7 +87,7 @@ int main (int argc, const char * argv[])
             show_activity_prediction = true;
             load_video_args["show_activity_prediction"] = "true";
         }    
-        
+
         if(tmp.compare("-start") == 0){
             start_frame = atoi(argv[i+1]);
             load_video_args["start_frame"] = argv[i+1];
@@ -167,6 +167,9 @@ int main (int argc, const char * argv[])
     myFrames->loadVideo_realtime(input_video, pause_when_detected, show_obj_detection, start_frame , end_frame, indicate, do_activity_detection, annotation_file, thres_factor, show_pyramid, show_activity_prediction, crf_model_path, build_pyramid);
     cout << "Frames : " << myFrames->frame_count << endl;
 
+
+    myFrames->loadVideo_realtime(load_video_args);
+    
     
     cout << "input video: " << input_video << endl;
     cout << "start/end frame: " << start_frame << "/" <<end_frame <<endl;
