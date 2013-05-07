@@ -36,11 +36,10 @@ crf_model_path="crf/multi_stage/1_vs_all_more_segment_2/model_${index}.crf"
 # length="2000"
 
 # A 3 activities demo in P13
-#start="42800"
+start="42800"
 #length="1600"
 
-start="1"
-length="3"
+length="300"
 
 #indicate="-indicate 2"
 show="-show"

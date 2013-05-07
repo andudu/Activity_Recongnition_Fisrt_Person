@@ -139,12 +139,44 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
 
     string crf_model = args["crf_model_path"];
     string annotation_file = args["annotation_file"];
+    string path = args["input_video"];
 
     bool build_pyramid = false;
+    bool ground_truth_detect = false;
+    bool show_obj_detection = false;
+    bool do_activity_detection = false;
+    bool show_activity_prediction = false;
+    bool pause_when_detected = false;
+    bool show_pyramid = false;
 
-    if (args["crf_model_path"].compare("true") == 0){
+    if (args["ground_truth_detect"].compare("true") == 0){
+        ground_truth_detect = true;
+    }
+
+    if (args["show_obj_detection"].compare("true") == 0){
+        show_obj_detection = true;
+    }
+
+    if (args["build_pyramid"].compare("true") == 0){
         build_pyramid = true;
     }
+
+    if (args["do_activity_detection"].compare("true") == 0){
+        do_activity_detection = true;
+    }
+
+    if (args["show_activity_prediction"].compare("true") == 0){
+        show_activity_prediction = true;
+    }
+
+    if (args["pause_when_detected"].compare("true") == 0){
+        pause_when_detected = true;
+    }
+
+    if (args["show_pyramid"].compare("true") == 0){
+        show_pyramid = true;
+    }
+    
 
     ObjectDetector* myObjDetector = new ObjectDetector(indicate);
     TemporalPyramid* myTemporalPyramid = new TemporalPyramid();
@@ -166,6 +198,87 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
     
     frame_count = end - start + 1;
     frame_start = start;
+
+    for(int i = 0 ; i < frame_count ; i ++)
+    {   
+        
+        cout << i << "/" << frame_count - 1<< endl;            
+
+        sprintf(buffer,"%s/%06d.jpg",path.c_str(),start+i);
+        //cout << buffer <<endl;
+        grab_frame = imread(buffer, CV_LOAD_IMAGE_COLOR);
+        frame = IplImage(grab_frame);
+
+        num_frames++;
+        frameList.push_back(temp);
+
+        if(ground_truth_detect){
+            //Ground truth detect
+            myObjDetector->ground_truth_detect(this, i, &frame , frame_start);
+        }else{
+            //Real detect
+            myObjDetector->detect(this, i, &frame);
+        }            
+        
+        if(show_obj_detection){
+            //string activity = "act";
+            //string prob = "prob";
+            playImage_with_detected_results(pause_when_detected, &frame, myTemporalPyramid->current_best_activity, myTemporalPyramid->current_best_prob);   
+        }           
+
+        if((i%FPN) == 0){
+
+            cout << "=================================\n";
+
+            //Loading frames and put them into pyramid, level 0
+            //Return false if it is similar to the latest one
+            if(myTemporalPyramid->loadFrames_realtime(this, i)){
+                //Build the pyramid
+                if(build_pyramid){
+                    myTemporalPyramid->buildPyramid_realtime();    
+                }                
+                
+                //Refresh the Pyramid
+                myTemporalPyramid->refreshPyramid_realtime();
+
+                //Activity Detection
+                //cout << "num_features:" << num_features << endl;
+                if(do_activity_detection && num_features == NUM_FEATURE_TOTAL && i > 0){
+                    myActivityDetector->activity_detect(myTemporalPyramid);
+                }
+
+                if(show_activity_prediction){
+                    activity_result = myTemporalPyramid->showCurrentPrediction();
+                    //cout <<  activity_result[0] << endl;
+                    //Output the activity detected for further evaluation
+                    if(activity_result.size() == 4){
+                        fprintf(fp, "%d %s %s\n",i+frame_start-FPN,get_activity_index(activity_result[2]).c_str(),activity_result[3].c_str());   
+                    }else if(activity_result.size() == 2){
+                        fprintf(fp, "%d %s %s\n",i+frame_start-FPN,get_activity_index(activity_result[0]).c_str(),activity_result[1].c_str());
+                    }else{
+                        //Do nothing
+                    }                
+                }              
+            }else{
+                cout << "Not adding new node because its similar to the latest one!" << endl;
+                cout << "Remaining latest prediction" << endl;
+            }           
+
+            //Display
+            if(show_pyramid){
+                myTemporalPyramid->print_info("pyramid");
+            }
+        }
+        
+
+        if(cvWaitKey(10) >= 0)
+            break;
+    }
+
+    cvDestroyWindow("Obj Detection Result");
+    delete myObjDetector;
+    delete myTemporalPyramid;
+    fclose(fp);
 
     return true;
 }
