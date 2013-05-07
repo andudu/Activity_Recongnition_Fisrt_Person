@@ -39,6 +39,9 @@ int main (int argc, const char * argv[])
     int thres_factor = 2;
     int FPN = 30;
 
+    //hash map
+    map<string,string> load_video_args;
+
     if(argc == 1){
         cout << "need arguments!\n";
         return 0;
@@ -52,71 +55,86 @@ int main (int argc, const char * argv[])
 
         if(tmp.compare("-crf") == 0){
             do_activity_detection = true;
+            load_video_args["do_activity_detection"] = "true";
         }
 
         if(tmp.compare("-show") == 0){
             show_obj_detection = true;
+            load_video_args["show_obj_detection"] = "true";
         }         
 
         if(tmp.compare("-pause") == 0){
             pause_when_detected = true;
+            load_video_args["pause_when_detected"] = "true";
         }
 
+        if(tmp.compare("-ground_truth") == 0){
+            ground_truth_detect = true;
+            load_video_args["ground_truth_detect"] = "true";
+        }
+
+        if(tmp.compare("-show_pyramid") == 0){
+            show_pyramid = true;
+            load_video_args["show_pyramid"] = "true";
+        }
+
+        if(tmp.compare("-build_pyramid") == 0){
+            build_pyramid = true;
+            load_video_args["build_pyramid"] = "true";
+        }
+
+        if(tmp.compare("-activity_prediction") == 0){
+            show_activity_prediction = true;
+            load_video_args["show_activity_prediction"] = "true";
+        }    
+        
         if(tmp.compare("-start") == 0){
             start_frame = atoi(argv[i+1]);
+            load_video_args["start_frame"] = argv[i+1];
             i++;
         }
 
         if(tmp.compare("-length") == 0){
             length = atoi(argv[i+1]);
+            load_video_args["length"] = argv[i+1];
             i++;
         }
 
         if(tmp.compare("-i") == 0){
             input_video = string(argv[i+1]);
+            load_video_args["input_video"] = argv[i+1];
             i++;
         }
 
         if(tmp.compare("-crf_model_path") == 0){
             crf_model_path = string(argv[i+1]);
+            load_video_args["crf_model_path"] = argv[i+1];
             i++;
         }
 
         if(tmp.compare("-an") == 0){
             annotation_file = string(argv[i+1]);
+            load_video_args["annotation_file"] = argv[i+1];
             i++;
         }
 
         if(tmp.compare("-indicate") == 0){
             indicate = atoi(argv[i+1]);
+            load_video_args["indicate"] = argv[i+1];
             i++;
-        }
-
-        if(tmp.compare("-ground_truth") == 0){
-            ground_truth_detect = true;
         }
 
         if(tmp.compare("-thres_factor") == 0){
             thres_factor = atoi(argv[i+1]);
+            load_video_args["thres_factor"] = argv[i+1];
             i++;
         }
 
         if(tmp.compare("-FPN") == 0){
             FPN = atoi(argv[i+1]);
+            load_video_args["FPN"] = argv[i+1];
             i++;
         }
-
-        if(tmp.compare("-show_pyramid") == 0){
-            show_pyramid = true;
-        }
-
-        if(tmp.compare("-build_pyramid") == 0){
-            build_pyramid = true;
-        }
-
-        if(tmp.compare("-activity_prediction") == 0){
-            show_activity_prediction = true;
-        }    
     }
     
     end_frame = start_frame + length;
@@ -136,6 +154,7 @@ int main (int argc, const char * argv[])
         cout << "Invalid input video path !\n" << endl;
         return 0;
     }
+
 
     //
     //Components initializtion
