@@ -321,7 +321,7 @@ bool ObjectDetector::load_ground_truth_obj_annotation(string path){
     cout << "annotation file:" << path << "is loaded."<<endl;
     
     map<int, string>::iterator it;
-    cout << "ground_truth:" <<endl;
+    /*cout << "ground_truth:" <<endl;
     for(it = obj_name.begin() ; it != obj_name.end() ; it++)
         cout<<it->first<<" "<<it->second<<endl;
     /*

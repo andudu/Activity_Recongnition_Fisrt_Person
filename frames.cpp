@@ -130,6 +130,11 @@ string get_activity_index(string activity){
 }
 
 bool FrameModel::loadVideo_realtime(map<string, string> args){
+    cout << "\n\nloadVideo_realtime(map<string, string> args)" << endl;
+    //cout << args["pause_when_detected"] << "\n" << args["input_video"] <<"\n\n"<< endl;
+
+    ObjectDetector* myObjDetector = new ObjectDetector(atoi(args["indicate"].c_str()));
+    TemporalPyramid* myTemporalPyramid = new TemporalPyramid();
 
     return true;
 }

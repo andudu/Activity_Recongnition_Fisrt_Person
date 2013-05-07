@@ -18,7 +18,10 @@
 
 int main (int argc, const char * argv[])
 {   
-    cout << "FP_ADL_Detector\n";    
+    cout << "FP_ADL_Detector\n";
+
+    //hash map
+    map<string,string> load_video_args;  
     
     string input_video = "";
     string annotation_file = "";
@@ -31,6 +34,13 @@ int main (int argc, const char * argv[])
     bool pause_when_detected = false;
     bool ground_truth_detect = false;
     bool build_pyramid = false;
+    load_video_args["do_activity_detection"] = "false";
+    load_video_args["show_obj_detection"] = "false";
+    load_video_args["show_activity_prediction"] = "false";
+    load_video_args["show_pyramid"] = "false";
+    load_video_args["pause_when_detected"] = "false";
+    load_video_args["ground_truth_detect"] = "false";
+    load_video_args["build_pyramid"] = "false";
     
     int start_frame = -1;
     int end_frame = -1;
@@ -38,9 +48,12 @@ int main (int argc, const char * argv[])
     int length = 60;
     int thres_factor = 2;
     int FPN = 30;
-
-    //hash map
-    map<string,string> load_video_args;
+    load_video_args["start_frame"] = "-1";
+    load_video_args["end_frame"] = "-1";
+    load_video_args["indicate"] = "-1";
+    load_video_args["length"] = "60";
+    load_video_args["thres_factor"] = "2";
+    load_video_args["FPN"] = "30";
 
     if(argc == 1){
         cout << "need arguments!\n";
@@ -169,7 +182,7 @@ int main (int argc, const char * argv[])
 
 
     myFrames->loadVideo_realtime(load_video_args);
-    
+
     
     cout << "input video: " << input_video << endl;
     cout << "start/end frame: " << start_frame << "/" <<end_frame <<endl;
