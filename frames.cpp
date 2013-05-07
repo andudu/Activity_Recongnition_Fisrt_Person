@@ -134,7 +134,12 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
     //cout << args["pause_when_detected"] << "\n" << args["input_video"] <<"\n\n"<< endl;
     int indicate = atoi(args["indicate"].c_str());
     int thres_factor = atoi(args["thres_factor"].c_str());
+    int start= atoi(args["start_frame"].c_str());
+    int end = start + atoi(args["length"].c_str()) - 1;
+
     string crf_model = args["crf_model_path"];
+    string annotation_file = args["annotation_file"];
+
     bool build_pyramid = false;
 
     if (args["crf_model_path"].compare("true") == 0){
@@ -144,7 +149,24 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
     ObjectDetector* myObjDetector = new ObjectDetector(indicate);
     TemporalPyramid* myTemporalPyramid = new TemporalPyramid();
     ActivityDetector* myActivityDetector = new ActivityDetector(thres_factor, crf_model, build_pyramid);
+
+    Mat grab_frame;
+    IplImage frame;
+    frameNode temp;
+    char buffer [512];
+    vector<string> activity_result;
+    FILE* fp; //Output file for evaluation
+    fp = fopen("activity_result.txt", "w");
+
+    cvNamedWindow("Obj Detection Result", CV_WINDOW_AUTOSIZE);
+    cvMoveWindow("Obj Detection Result", 50, 0);
+
+    //Load ground truth obj annotation
+    myObjDetector->load_ground_truth_obj_annotation(annotation_file);
     
+    frame_count = end - start + 1;
+    frame_start = start;
+
     return true;
 }
 
