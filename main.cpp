@@ -177,8 +177,8 @@ int main (int argc, const char * argv[])
     //
     //Loading input video(feature detection included)
     //
-    myFrames->loadVideo_realtime(input_video, pause_when_detected, show_obj_detection, start_frame , end_frame, indicate, do_activity_detection, annotation_file, thres_factor, show_pyramid, show_activity_prediction, crf_model_path, build_pyramid);
-    cout << "Frames : " << myFrames->frame_count << endl;
+    //myFrames->loadVideo_realtime(input_video, pause_when_detected, show_obj_detection, start_frame , end_frame, indicate, do_activity_detection, annotation_file, thres_factor, show_pyramid, show_activity_prediction, crf_model_path, build_pyramid);
+    //cout << "Frames : " << myFrames->frame_count << endl;
 
 
     myFrames->loadVideo_realtime(load_video_args);
