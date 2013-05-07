@@ -23,17 +23,6 @@ int main (int argc, const char * argv[])
     //hash map
     map<string,string> load_video_args;  
     
-    string input_video = "";
-    string annotation_file = "";
-    string crf_model_path = "";
-
-    bool do_activity_detection = false;
-    bool show_obj_detection = false;
-    bool show_activity_prediction = false;
-    bool show_pyramid = false;
-    bool pause_when_detected = false;
-    bool ground_truth_detect = false;
-    bool build_pyramid = false;
     load_video_args["do_activity_detection"] = "false";
     load_video_args["show_obj_detection"] = "false";
     load_video_args["show_activity_prediction"] = "false";
@@ -41,13 +30,6 @@ int main (int argc, const char * argv[])
     load_video_args["pause_when_detected"] = "false";
     load_video_args["ground_truth_detect"] = "false";
     load_video_args["build_pyramid"] = "false";
-    
-    int start_frame = -1;
-    int end_frame = -1;
-    int indicate = -1;
-    int length = 60;
-    int thres_factor = 2;
-    int FPN = 30;
     load_video_args["start_frame"] = "-1";
     load_video_args["end_frame"] = "-1";
     load_video_args["indicate"] = "-1";
@@ -67,91 +49,75 @@ int main (int argc, const char * argv[])
         tmp.assign(argv[i]);
 
         if(tmp.compare("-crf") == 0){
-            do_activity_detection = true;
             load_video_args["do_activity_detection"] = "true";
         }
 
         if(tmp.compare("-show") == 0){
-            show_obj_detection = true;
             load_video_args["show_obj_detection"] = "true";
         }         
 
         if(tmp.compare("-pause") == 0){
-            pause_when_detected = true;
             load_video_args["pause_when_detected"] = "true";
         }
 
         if(tmp.compare("-ground_truth") == 0){
-            ground_truth_detect = true;
             load_video_args["ground_truth_detect"] = "true";
         }
 
         if(tmp.compare("-show_pyramid") == 0){
-            show_pyramid = true;
             load_video_args["show_pyramid"] = "true";
         }
 
         if(tmp.compare("-build_pyramid") == 0){
-            build_pyramid = true;
             load_video_args["build_pyramid"] = "true";
         }
 
         if(tmp.compare("-activity_prediction") == 0){
-            show_activity_prediction = true;
             load_video_args["show_activity_prediction"] = "true";
         }    
 
         if(tmp.compare("-start") == 0){
-            start_frame = atoi(argv[i+1]);
             load_video_args["start_frame"] = argv[i+1];
             i++;
         }
 
         if(tmp.compare("-length") == 0){
-            length = atoi(argv[i+1]);
             load_video_args["length"] = argv[i+1];
             i++;
         }
 
         if(tmp.compare("-i") == 0){
-            input_video = string(argv[i+1]);
             load_video_args["input_video"] = argv[i+1];
             i++;
         }
 
         if(tmp.compare("-crf_model_path") == 0){
-            crf_model_path = string(argv[i+1]);
             load_video_args["crf_model_path"] = argv[i+1];
             i++;
         }
 
         if(tmp.compare("-an") == 0){
-            annotation_file = string(argv[i+1]);
             load_video_args["annotation_file"] = argv[i+1];
             i++;
         }
 
         if(tmp.compare("-indicate") == 0){
-            indicate = atoi(argv[i+1]);
             load_video_args["indicate"] = argv[i+1];
             i++;
         }
 
         if(tmp.compare("-thres_factor") == 0){
-            thres_factor = atoi(argv[i+1]);
             load_video_args["thres_factor"] = argv[i+1];
             i++;
         }
 
         if(tmp.compare("-FPN") == 0){
-            FPN = atoi(argv[i+1]);
             load_video_args["FPN"] = argv[i+1];
             i++;
         }
     }
-    
-    end_frame = start_frame + length;
 
+    /*
     cout << "input video: " << input_video << endl;
     cout << "start/end frame: " << start_frame << "/" <<end_frame <<endl;
     cout << "FPN: " << FPN <<endl;
@@ -162,8 +128,9 @@ int main (int argc, const char * argv[])
     cout << "ground truth detect: " << ground_truth_detect <<endl;
     cout << "thres_factor: " << thres_factor <<endl;
     cout << "build pyramid: " << build_pyramid <<endl;
+    */
 
-    if (input_video.compare("") == 0){
+    if (load_video_args["input_video"].compare("") == 0){
         cout << "Invalid input video path !\n" << endl;
         return 0;
     }
@@ -172,27 +139,16 @@ int main (int argc, const char * argv[])
     //
     //Components initializtion
     //
-    FrameModel* myFrames = new FrameModel(ground_truth_detect, FPN);
-
+    FrameModel* myFrames;
+    load_video_args["ground_truth_detect"].compare("true") == 0 ?
+        myFrames = new FrameModel(true, atoi(load_video_args["FPN"].c_str()))  :
+        myFrames = new FrameModel(false, atoi(load_video_args["FPN"].c_str())) ;
+    
     //
-    //Loading input video(feature detection included)
+    //Processing
     //
-    //myFrames->loadVideo_realtime(input_video, pause_when_detected, show_obj_detection, start_frame , end_frame, indicate, do_activity_detection, annotation_file, thres_factor, show_pyramid, show_activity_prediction, crf_model_path, build_pyramid);
-    //cout << "Frames : " << myFrames->frame_count << endl;
-
-
     myFrames->loadVideo_realtime(load_video_args);
 
-    
-    cout << "input video: " << input_video << endl;
-    cout << "start/end frame: " << start_frame << "/" <<end_frame <<endl;
-    cout << "FPN: " << FPN <<endl;
-    cout << "run crf: " << do_activity_detection << endl;
-    cout << "show_obj_detection: " << show_obj_detection << endl;
-    cout << "pause when object detected: " << pause_when_detected << endl;
-    cout << "indicate object index: " << indicate <<endl;
-    cout << "ground truth detect: " << ground_truth_detect <<endl;
-    cout << "thres_factor: " << thres_factor <<endl;
 
     delete myFrames;
     return 0;
@@ -200,26 +156,6 @@ int main (int argc, const char * argv[])
 
 
 bool temp(void){
-    /*
-     myFrames.feature_name.push_back("fake_object");
-     Rect fake;
-     fake.x = 280;
-     fake.y = 880;
-     fake.width = 120;
-     fake.height = 120;
-     myFrames.frameList[3].result_list[0].push_back(fake);
-
-
-     typedef vector< string > split_vector_type;
-    
-    split_vector_type SplitVec;
-    split( SplitVec, "1 2 3", is_any_of(" ") );
-
-    for(int i = 0 ; i < SplitVec.size() ; i ++){
-        cout << SplitVec[i] << endl;
-        if(SplitVec[i].compare("1") == 0)
-            cout << "ok\n";
-    }
-     */
+    //For testing
 }
 

@@ -135,7 +135,7 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
     int indicate = atoi(args["indicate"].c_str());
     int thres_factor = atoi(args["thres_factor"].c_str());
     int start= atoi(args["start_frame"].c_str());
-    int end = start + atoi(args["length"].c_str()) - 1;
+    int end = start + atoi(args["length"].c_str());
 
     string crf_model = args["crf_model_path"];
     string annotation_file = args["annotation_file"];

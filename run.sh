@@ -39,7 +39,7 @@ crf_model_path="crf/multi_stage/1_vs_all_more_segment_2/model_${index}.crf"
 start="42800"
 #length="1600"
 
-length="300"
+length="600"
 
 #indicate="-indicate 2"
 show="-show"
