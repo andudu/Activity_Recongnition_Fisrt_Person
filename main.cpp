@@ -5,22 +5,14 @@
 //  Created by Yahoo on 11/10/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
-/*
-     Input arguments checking
-     -i path/to/video: video path
-     -crf : [crf]run CRF++ for activity recognition
-     -show : [show]show detection result 
-     -pause : [pause]show detection and pause when detected
-     -start start_frame : start frame
-     -end end_frame : end frame
-     */
+
 #include "main.h"
 
 int main (int argc, const char * argv[])
 {   
     cout << "FP_ADL_Detector\n";
 
-    //hash map
+    //hash map for input arguments
     map<string,string> load_video_args;  
     
     load_video_args["do_activity_detection"] = "false";

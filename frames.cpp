@@ -130,8 +130,7 @@ string get_activity_index(string activity){
 }
 
 bool FrameModel::loadVideo_realtime(map<string, string> args){
-    cout << "\n\nloadVideo_realtime(map<string, string> args)" << endl;
-    //cout << args["pause_when_detected"] << "\n" << args["input_video"] <<"\n\n"<< endl;
+    
     int indicate = atoi(args["indicate"].c_str());
     int thres_factor = atoi(args["thres_factor"].c_str());
     int start= atoi(args["start_frame"].c_str());
