@@ -131,6 +131,12 @@ vector<string> ActivityDetector::run_crf(TemporalPyramid *my_pyramid, int level_
     return activity_detected;
 }
 
+bool ActivityDetector::activity_detect_cvpr_12(TemporalPyramid *my_pyramid){
+    
+    return true;
+}
+
+
 bool ActivityDetector::activity_detect(TemporalPyramid *my_pyramid){
  
     vector<string> activity_detected;
@@ -140,11 +146,6 @@ bool ActivityDetector::activity_detect(TemporalPyramid *my_pyramid){
     for(int level = 0 ; level < my_pyramid->num_of_levels ; level++){
         
         int node = my_pyramid->pyramid[level].size() - 1;
-
-        //Skip empty levels(initial case) ; Dont need it anymore because its done in frame.cpp
-        //if(node < 0){
-        //    continue;
-        //}
 
         //Skip if this node's table has already been filled
         if(my_pyramid->pyramid[level][node].table_filled){
