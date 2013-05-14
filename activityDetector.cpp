@@ -132,7 +132,11 @@ vector<string> ActivityDetector::run_crf(TemporalPyramid *my_pyramid, int level_
 }
 
 bool ActivityDetector::activity_detect_cvpr_12(TemporalPyramid *my_pyramid){
-    
+
+    /*
+    讀取最新2個node並建立2level feature, 再丟去crf
+    */
+
     return true;
 }
 
