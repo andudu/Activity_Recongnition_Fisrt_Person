@@ -21,7 +21,7 @@ crf_model_path="crf/multi_stage/1_vs_all_more_segment_2/model_${index}.crf"
 #length="1200"
 
 # making tea stage 1 in P13 
-# start="500"
+# start="500"git 
 # length="900"
 # making tea stage 2 in P13 
 # start="21810"

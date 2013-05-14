@@ -16,6 +16,7 @@ ObjectDetector::ObjectDetector(int indicate){
     
     int counter = 1;
 
+    /*
     //Reade the mean std file first
     mean_std_reader();
 
@@ -72,6 +73,7 @@ ObjectDetector::ObjectDetector(int indicate){
 
     num_of_detectors  = myHaars.size();
     cout << "number of objectDetector: " << num_of_detectors << endl;
+    */
 }
 
 ObjectDetector::~ObjectDetector(){
@@ -271,8 +273,17 @@ bool ObjectDetector::mean_std_reader(){
     return true;
 }
 
+bool ObjectDetector::load_dpm_obj_detection(string path){
+
+    cout << "\n\nload_dpm_obj_detection\n\n"; 
+
+    return true;
+}
+
 bool ObjectDetector::load_ground_truth_obj_annotation(string path){
 
+    cout << "\n\nload_ground_truth_obj_annotation\n\n";
+    
     typedef vector< string > split_vector_type;
     obj_info tmp_obj;
 

@@ -176,9 +176,8 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
         show_pyramid = true;
     }
     
-
-    ObjectDetector* myObjDetector = new ObjectDetector(indicate);
     TemporalPyramid* myTemporalPyramid = new TemporalPyramid();
+    ObjectDetector* myObjDetector = new ObjectDetector(indicate);
     ActivityDetector* myActivityDetector = new ActivityDetector(thres_factor, crf_model, build_pyramid);
 
     Mat grab_frame;
@@ -194,7 +193,9 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
 
     //Load ground truth obj annotation
     myObjDetector->load_ground_truth_obj_annotation(annotation_file);
-    
+    //Load dpm detection
+    myObjDetector->load_dpm_obj_detection(annotation_file);
+
     frame_count = end - start + 1;
     frame_start = start;
 
@@ -240,8 +241,8 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
                 //Activity Detection
                 //cout << "num_features:" << num_features << endl;
                 if(do_activity_detection && num_features == NUM_FEATURE_TOTAL && i > 0){
-                    //myActivityDetector->activity_detect(myTemporalPyramid);
-                    myActivityDetector->activity_detect_cvpr_12(myTemporalPyramid);
+                    myActivityDetector->activity_detect(myTemporalPyramid);
+                    //myActivityDetector->activity_detect_cvpr_12(myTemporalPyramid);
                 }
 
                 if(show_activity_prediction){
