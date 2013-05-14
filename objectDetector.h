@@ -43,6 +43,7 @@ class obj_info{
 
 public:
     bool exist;
+    float dpm;
     int frame,x,y,width,height,index;
     string name;
 
