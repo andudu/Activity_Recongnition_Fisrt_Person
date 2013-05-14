@@ -283,7 +283,7 @@ bool ObjectDetector::load_dpm_obj_detection(string path){
 bool ObjectDetector::load_ground_truth_obj_annotation(string path){
 
     cout << "\n\nload_ground_truth_obj_annotation\n\n";
-    
+
     typedef vector< string > split_vector_type;
     obj_info tmp_obj;
 
@@ -331,8 +331,9 @@ bool ObjectDetector::load_ground_truth_obj_annotation(string path){
 
     cout << "annotation file:" << path << "is loaded."<<endl;
     
+    /*
     map<int, string>::iterator it;
-    /*cout << "ground_truth:" <<endl;
+    cout << "ground_truth:" <<endl;
     for(it = obj_name.begin() ; it != obj_name.end() ; it++)
         cout<<it->first<<" "<<it->second<<endl;
     /*
