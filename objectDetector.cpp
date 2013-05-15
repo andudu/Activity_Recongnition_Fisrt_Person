@@ -273,7 +273,7 @@ bool ObjectDetector::mean_std_reader(){
     return true;
 }
 
-bool ObjectDetector::load_dpm_obj_detection(string path){
+bool ObjectDetector::load_dpm_obj_detection(string path, float thres){
 
     cout << "\n\nload_dpm_obj_detection\n\n"; 
 
@@ -321,6 +321,10 @@ bool ObjectDetector::load_dpm_obj_detection(string path){
         tmp_obj.index = atoi(SplitVec[6].c_str());
         tmp_obj.dpm_score = atof(SplitVec[7].c_str());
         tmp_obj.exist = true;
+
+        //Threshold
+        if(tmp_obj.dpm_score < thres )
+           continue;
 
         if(ground_truth.find(tmp_obj.frame) == ground_truth.end()){
             frame_annotation tmp;

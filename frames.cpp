@@ -136,6 +136,8 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
     int start= atoi(args["start_frame"].c_str());
     int end = start + atoi(args["length"].c_str());
 
+    float dpm_thres = atof(args["dpm_thres"].c_str());
+
     string crf_model = args["crf_model_path"];
     string annotation_file = args["annotation_file"];
     string path = args["input_video"];
@@ -194,7 +196,7 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
     //Load ground truth obj annotation
     //myObjDetector->load_ground_truth_obj_annotation(annotation_file);
     //Load dpm detection
-    myObjDetector->load_dpm_obj_detection(annotation_file);
+    myObjDetector->load_dpm_obj_detection(annotation_file, dpm_thres);
 
     frame_count = end - start + 1;
     frame_start = start;

@@ -107,6 +107,11 @@ int main (int argc, const char * argv[])
             load_video_args["FPN"] = argv[i+1];
             i++;
         }
+
+        if(tmp.compare("-dpm_thres") == 0){
+            load_video_args["dpm_thres"] = argv[i+1];
+            i++;
+        }
     }
 
     /*

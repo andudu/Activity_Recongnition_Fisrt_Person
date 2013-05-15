@@ -78,7 +78,7 @@ public:
     //public functions
     bool detect(FrameModel* frame_model , int frame_index ,IplImage* image);
     bool load_ground_truth_obj_annotation(string path);
-    bool load_dpm_obj_detection(string path);
+    bool load_dpm_obj_detection(string path, float thres);
     bool ground_truth_detect(FrameModel* frame_model , int frame_index ,IplImage* image, int frame_start);
     
     //constructor
