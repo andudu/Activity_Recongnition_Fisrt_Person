@@ -27,9 +27,9 @@ frame_numbers=(
 
 start="1"
 #indicate="-indicate 2"
-#show="-show"
+show="-show"
 #show_pyramid="-show_pyramid"
-#build_pyramid="-build_pyramid"
+build_pyramid="-build_pyramid"
 activity_prediction="-activity_prediction"
 #pause="-pause"
 ground_truth_detect="-ground_truth"
@@ -61,13 +61,13 @@ do
 
   echo $cmd
 
-  #$cmd
+  $cmd
 
   cmd="mv activity_result.txt ${result_path}"
 
   echo $cmd
 
-  #$cmd
+  $cmd
 done
 
 
