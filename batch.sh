@@ -37,7 +37,7 @@ crf="-crf"
 FPN="-FPN 300"
 thres_factor="-thres_factor 10"
 dpm_thres="-dpm_thres -0.7"
-result_path="crf/result/0516/pyramid/result_${index}.txt"
+
 
 
 for (( i=1; i<=20; i=i+1 ))
@@ -51,7 +51,7 @@ do
         index=$i
   fi
 
-  video="/Users/hmliu/Documents/CMLab/Master/ADL_code/ADLdataset/ADL_videos/split_frames_P_0${index}"
+  video="/Users/hmliu/Documents/CMLab/Master/ADL_code/ADLdataset/ADL_videos/split_frames_P_${index}"
   #annotation="translated_with_obj_name/object_annot_P_0${index}_translated_with_obj_name.txt"
   annotation="dpm_with_obj_name/P_${index}.txt"
   crf_model_path="crf/multi_stage/1_vs_all_more_segment_2/model_${index}.crf"
@@ -63,7 +63,7 @@ do
 
   $cmd
 
-  cmd="mv activity_result.txt ${result_path}"
+  cmd="mv activity_result.txt crf/result/0516/pyramid/result_${index}.txt"
 
   echo $cmd
 
