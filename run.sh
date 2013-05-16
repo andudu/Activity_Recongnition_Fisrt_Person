@@ -51,7 +51,7 @@ ground_truth_detect="-ground_truth"
 crf="-crf"
 FPN="-FPN 300"
 thres_factor="-thres_factor 10"
-dpm_thres="-dpm_thres -0.65"
+dpm_thres="-dpm_thres -0.7"
 
 cmd="./FP_ADL.out -i ${video} -start ${start} -length ${length} -crf_model_path ${crf_model_path} -an ${annotation} ${show} ${pause} ${indicate} ${ground_truth_detect} ${crf} ${thres_factor} ${show_pyramid} ${build_pyramid} ${activity_prediction} ${FPN} ${dpm_thres}"
 
