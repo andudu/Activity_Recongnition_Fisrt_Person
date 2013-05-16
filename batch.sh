@@ -27,7 +27,7 @@ frame_numbers=(
 
 start="1"
 #indicate="-indicate 2"
-show="-show"
+#show="-show"
 #show_pyramid="-show_pyramid"
 build_pyramid="-build_pyramid"
 activity_prediction="-activity_prediction"
