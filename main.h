@@ -18,6 +18,7 @@
 #include "temporalPyramid.h"
 #include "haar_cascade.h"
 #include "time.h"
+#include "fasttransforms.h"
 
 
 using namespace std;
