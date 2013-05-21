@@ -95,6 +95,9 @@ public:
     vector<string> showCurrentPrediction();
     bool print_info(string info_id);
 
+private:
+    bool similarity_check(FrameModel* frames, node tmp_node);
+    
 };
 
 #endif

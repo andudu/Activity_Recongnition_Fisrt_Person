@@ -58,21 +58,7 @@ bool TemporalPyramid::loadFrames_realtime(FrameModel* frames, int frame_index){
         }
 
         //Similarity check with the latest node
-        bool similar = true;
-        if ( pyramid[0].size() >= 1){
-            for (int i = 0 ; i < frames->num_features ; i++){
-                float diff =  abs(pyramid[0].back().feature[i] - tmp_node.feature[i]);
-                
-                if(diff/frame_per_node > CORRELATION_THRES){
-                    similar = false;
-                    break;
-                }
-            }
-        }else{
-            similar = false;
-        }
-
-        if(!similar){
+        if(!similarity_check(frames, tmp_node)){
             pyramid[0].push_back(tmp_node);
             return true;
         }else{
@@ -80,6 +66,27 @@ bool TemporalPyramid::loadFrames_realtime(FrameModel* frames, int frame_index){
         }
         
     }
+}
+
+bool TemporalPyramid::similarity_check(FrameModel* frames, node tmp_node){
+
+    bool similar = true;
+
+    if ( pyramid[0].size() >= 1){
+        for (int i = 0 ; i < frames->num_features ; i++){
+            float diff =  abs(pyramid[0].back().feature[i] - tmp_node.feature[i]);
+            
+            if(diff/frame_per_node > CORRELATION_THRES){
+                similar = false;
+                break;
+            }
+        }
+    }else{
+        similar = false;
+    }
+
+
+    return similar;
 }
 
 bool TemporalPyramid::loadFrames(FrameModel* frames){

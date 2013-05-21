@@ -19,9 +19,11 @@
 #include "haar_cascade.h"
 #include "time.h"
 #include "fasttransforms.h"
+#include "ap.h"
 
 
 using namespace std;
+using namespace alglib;
 
 void test();
 

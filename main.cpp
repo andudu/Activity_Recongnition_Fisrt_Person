@@ -127,6 +127,7 @@ int main (int argc, const char * argv[])
     cout << "build pyramid: " << build_pyramid <<endl;
     */
 
+    
     if (load_video_args["input_video"].compare("") == 0){
         cout << "Invalid input video path !\n" << endl;
         return 0;
@@ -148,11 +149,35 @@ int main (int argc, const char * argv[])
 
 
     delete myFrames;
+
+
+
+    test();
+
     return 0;
 }
 
 
-bool temp(void){
+void test(){
     //For testing
+
+    cout << "xcorss_test \n";
+
+    complex_1d_array x = "[1,1,1,1]";
+    complex_1d_array y = "[1,1,1,1]";
+    complex_1d_array r;
+
+    corrc1d(x, 4 , y, 4, r);
+
+    //tostring(n) n=小數位
+    cout << "x:" << x.tostring(3).c_str() << endl;
+
+    cout << "y:" << y.tostring(3).c_str() << endl;
+
+    cout << "r:" << r.tostring(3).c_str() << endl; //全部印出
+
+    cout << "r:" << r[0].tostring(3).c_str() << endl; //指定位數
+
+    cout << "r:" << atoi(r[0].tostring(3).c_str()) << endl; //轉整數
 }
 
