@@ -72,18 +72,62 @@ bool TemporalPyramid::similarity_check(FrameModel* frames, node tmp_node){
 
     bool similar = true;
 
+    string latest = "[";
+    string tmp = "[";
+    complex_1d_array x;
+    complex_1d_array y;
+    complex_1d_array auto_xcorr;
+    complex_1d_array xcorr;
+
     if ( pyramid[0].size() >= 1){
+
+        //Build input arrays for the xcorr lib
         for (int i = 0 ; i < frames->num_features ; i++){
-            float diff =  abs(pyramid[0].back().feature[i] - tmp_node.feature[i]);
-            
-            if(diff/frame_per_node > CORRELATION_THRES){
-                similar = false;
-                break;
-            }
+            latest.append(","); latest.append(lexical_cast<string>(pyramid[0].back().feature[i]));
+            tmp.append(","); tmp.append(lexical_cast<string>(tmp_node.feature[i]));
         }
+        latest.append("]");
+        tmp.append("]");
+        
+        //x = latest.c_str();
+        //y = tmp.c_str();
+
+        //the latest node do auto-xcorr first
+        //corrc1d(x, frames->num_features , x, frames->num_features, auto_xcorr);
+
+        //Then xcorr with tmp_node
+        //corrc1d(x, frames->num_features , y, frames->num_features, xcorr);
+
+        //Check similarity
+        //cout << "auto_xcorr:" << atoi(auto_xcorr.tostring(3).c_str()) << endl; //轉整數
+        //cout << "xcorr:" << atoi(auto_xcorr.tostring(3).c_str()) << endl; //轉整數
+
+        similar = false;
     }else{
         similar = false;
     }
+
+
+    /*
+    cout << "xcorss_test \n";
+
+    complex_1d_array x = "[1,1,1,1]";
+    complex_1d_array y = "[1,1,1,1]";
+    complex_1d_array r;
+
+    corrc1d(x, 4 , y, 4, r);
+
+    //tostring(n) n=小數位
+    cout << "x:" << x.tostring(3).c_str() << endl;
+
+    cout << "y:" << y.tostring(3).c_str() << endl;
+
+    cout << "r:" << r.tostring(3).c_str() << endl; //全部印出
+
+    cout << "r:" << r[0].tostring(3).c_str() << endl; //指定位數
+
+    cout << "r:" << atoi(r[0].tostring(3).c_str()) << endl; //轉整數
+    */
 
 
     return similar;

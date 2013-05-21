@@ -16,13 +16,18 @@
 #include <cmath>
 #include <string>
 #include <boost/algorithm/string.hpp>
+#include <boost/lexical_cast.hpp>>
 #include "frames.h"
+#include "fasttransforms.h"
+#include "ap.h"
+
+using namespace alglib;
+using namespace boost;
+using namespace std;
 
 #define CORRELATION_THRES 0.3
 #define MAX_LEVEL_PYRAMID 10
 
-using namespace boost;
-using namespace std;
 
 class table_element{
 
@@ -97,7 +102,7 @@ public:
 
 private:
     bool similarity_check(FrameModel* frames, node tmp_node);
-    
+
 };
 
 #endif

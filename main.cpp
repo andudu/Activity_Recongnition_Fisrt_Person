@@ -151,9 +151,6 @@ int main (int argc, const char * argv[])
     delete myFrames;
 
 
-
-    test();
-
     return 0;
 }
 

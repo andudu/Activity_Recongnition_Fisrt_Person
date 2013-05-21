@@ -49,7 +49,7 @@ activity_prediction="-activity_prediction"
 #pause="-pause"
 ground_truth_detect="-ground_truth"
 crf="-crf"
-FPN="-FPN 300"
+FPN="-FPN 100"
 thres_factor="-thres_factor 10"
 dpm_thres="-dpm_thres -0.7"
 
