@@ -19,6 +19,11 @@ Haar_cascade::Haar_cascade(string classifier_name , string feature_name){
     else
         cout << "Failed loading" << classifier_name <<endl;
 
+    min_obj_size.height = MIN_OBJ_SIZE;
+    max_obj_size.height = MAX_OBJ_SIZE;
+    min_obj_size.width = MIN_OBJ_SIZE;
+    max_obj_size.width = MAX_OBJ_SIZE;
+
     cout << classifier_name <<endl;
 }
 

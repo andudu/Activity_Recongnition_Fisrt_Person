@@ -20,6 +20,8 @@
 using namespace std;
 using namespace cv;
 
+#define MAX_OBJ_SIZE 400
+#define MIN_OBJ_SIZE 50
 
 class Haar_cascade{
 	
