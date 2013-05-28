@@ -42,7 +42,7 @@ length="300"
 # start="42800"
 # length="1600"
 
-#indicate="-indicate 2"
+#indicate="-indicate 1"
 show="-show"
 #show_pyramid="-show_pyramid"
 #build_pyramid="-build_pyramid"

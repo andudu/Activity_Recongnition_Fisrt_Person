@@ -179,7 +179,8 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
     }
     
     TemporalPyramid* myTemporalPyramid = new TemporalPyramid();
-    ObjectDetector* myObjDetector = new ObjectDetector(indicate);
+    //ObjectDetector* myObjDetector = new ObjectDetector(indicate);
+    ObjectDetector* myObjDetector = new ObjectDetector();
     ActivityDetector* myActivityDetector = new ActivityDetector(thres_factor, crf_model, build_pyramid);
 
     Mat grab_frame;
@@ -218,7 +219,7 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
             myObjDetector->ground_truth_detect(this, i, &frame , frame_start);
         }else{
             //Real detect
-            //myObjDetector->detect(this, i, &frame);
+            myObjDetector->detect(this, i, &frame);
         }            
         
         if(show_obj_detection){

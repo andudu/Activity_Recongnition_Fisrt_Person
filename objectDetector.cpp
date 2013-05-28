@@ -7,6 +7,68 @@
 //
 
 #include "objectDetector.h"
+ObjectDetector::ObjectDetector(){
+
+    /*
+    This is a fucking dont know why function....
+    */
+
+    DIR *dir;
+    struct dirent *ent;
+    string file_name;
+    
+    //Fucking dont no why!!
+    int indicate = 1;
+    cout <<"Constructing object detectors\n";
+    cout <<"indicate: " << indicate << endl;
+
+    if ((dir = opendir (HAAR_PATH)) != NULL) {
+        //print all the files and directories within directory
+        while ((ent = readdir (dir)) != NULL) {
+           
+            file_name.assign(ent->d_name);
+            
+            cout << "cascade file name:" << file_name << endl;
+
+            if( file_name.compare(".") == 0 || 
+                file_name.compare("..") == 0 ||
+                file_name.compare("backup") == 0 || 
+                file_name.compare(".DS_Store") == 0){
+                continue; 
+            }
+            
+            if(indicate == 1){
+                //Indicate the only object detector I want to evaluate
+                string path = HAAR_PATH;
+                path.append(file_name);
+
+                Haar_cascade tmp_classifier = Haar_cascade(path , file_name);
+                myHaars.push_back(tmp_classifier);
+            }else{                
+                //Cant remove this !?
+                //Evaluate all the obj detectors
+                cerr << "yayaya\n";
+                
+                string path = HAAR_PATH;
+                path.append(file_name);
+
+                Haar_cascade tmp_classifier = Haar_cascade(path , file_name);
+                myHaars.push_back(tmp_classifier);                           
+            }
+            
+            //counter++;            
+        }
+
+        closedir (dir);
+
+    }else{
+        //could not open directory
+        cout << "No such directory:"  <<  HAAR_PATH << endl;
+    }
+
+    num_of_detectors  = myHaars.size();
+    cout << "number of objectDetector: " << num_of_detectors << endl;
+}
 
 ObjectDetector::ObjectDetector(int indicate){
 
@@ -16,7 +78,9 @@ ObjectDetector::ObjectDetector(int indicate){
     
     int counter = 1;
 
-    
+    cout <<"Constructing object detectors\n";
+    cout <<"indicate: " << indicate << endl; 
+        
     //Reade the mean std file first
     //mean_std_reader();
 
@@ -28,40 +92,28 @@ ObjectDetector::ObjectDetector(int indicate){
             
             cout << "cascade file name:" << file_name << endl;
 
-            if(file_name.compare(".") == 0 || file_name.compare("..") == 0 ||
-               file_name.compare("mean_std.txt") == 0){
+            if( file_name.compare(".") == 0 || 
+                file_name.compare("..") == 0 ||
+                file_name.compare("backup") == 0 || 
+                file_name.compare(".DS_Store") == 0){
                 continue; 
             }
 
-            /*
-            int width_mean=0,height_mean=0,width_std=0,height_std=0;
-            for(int i = 0 ; i < mean_std_list.size() ; i++){
-                if(mean_std_list[i].classifier_name.compare(file_name) == 0){
-                    width_mean = mean_std_list[i].width_mean;
-                    height_mean = mean_std_list[i].height_mean;
-                    width_std = mean_std_list[i].width_std;
-                    height_std = mean_std_list[i].height_std;
-                    break;
-                }
-            }
-            */
-            
-            if(indicate!=-1){
+
+            if(indicate != -1){
                 //Indicate the only object detector I want to evaluate
-                if (counter == indicate){
+                if (counter == indicate){                    
                     string path = HAAR_PATH;
                     path.append(file_name);
 
-                    //Haar_cascade tmp_classifier = Haar_cascade(path , file_name,width_mean,height_mean,width_std,height_std);
                     Haar_cascade tmp_classifier = Haar_cascade(path , file_name);
                     myHaars.push_back(tmp_classifier);
                 }                
             }else{
-                //Evaluate all the obj detectors
+                //Evaluate all the obj detectors                
                 string path = HAAR_PATH;
                 path.append(file_name);
 
-                //Haar_cascade tmp_classifier = Haar_cascade(path , file_name,width_mean,height_mean,width_std,height_std);
                 Haar_cascade tmp_classifier = Haar_cascade(path , file_name);
                 myHaars.push_back(tmp_classifier);
             }
@@ -92,7 +144,7 @@ bool ObjectDetector::detect(FrameModel* frame_model , int frame_index ,IplImage*
     
     if( frame_index == 0)//If this is the first detection
         frame_model->num_features = (int)myHaars.size();//Equal to num of object detectors
-    
+
     //Detection using the cascade classifiers in myHaars
     for (int cls = 0 ; cls < frame_model->num_features ; cls ++){
         
@@ -101,18 +153,17 @@ bool ObjectDetector::detect(FrameModel* frame_model , int frame_index ,IplImage*
             
         //cout << "detecting:" << "/" << frame_model->frameList.size()-1 << endl;
         //cout << "detecting obj: " << cls << endl;
+        
         vector<Rect> result_list = myHaars[cls].detect(image);
-
+        
         //Consider "existence", ignore the number shown in a frame
-        if(result_list.size()>=1){
+        if(result_list.size() >= 1){
             frame_model->frameList[frame_index].feature.push_back(1);
         }else{
             frame_model->frameList[frame_index].feature.push_back(0);
         }
         
-        frame_model->frameList[frame_index].result_list.push_back(result_list);
-        
-        
+        frame_model->frameList[frame_index].result_list.push_back(result_list);        
     }
     
     return true;
