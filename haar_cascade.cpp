@@ -55,10 +55,10 @@ void Haar_cascade::min_max_reader(){
         if (classifier_name.compare(name) == 0){
             int min = atoi(SplitVec[1].c_str());
             int max = atoi(SplitVec[2].c_str());
-            min_obj_size.height = min - 50;
-            min_obj_size.width = min - 50;
-            max_obj_size.height = max + 50;            
-            max_obj_size.width = max + 50;
+            min_obj_size.height = min - 30;
+            min_obj_size.width = min - 30;
+            max_obj_size.height = max + 30;            
+            max_obj_size.width = max + 30;
         }        
     }
 }
@@ -137,8 +137,8 @@ vector<Rect> Haar_cascade::detect(IplImage* image_detect){
     //cout << "Run detection at min width: "<<min_obj_size.width <<"  height: "<<min_obj_size.height<<endl;
     //cout << "Run detection at max width: "<<max_obj_size.width <<"  height: "<<max_obj_size.height<<endl;
     
-    start_time = clock();
-    myClassifier.detectMultiScale(img, result_list,1.02,3,0,min_obj_size,max_obj_size);
+    start_time = clock();                          //scale factor
+    myClassifier.detectMultiScale(img, result_list,1.1,            3,0,min_obj_size,max_obj_size);
     end_time = clock();
     total_time = (float)(end_time - start_time)/CLOCKS_PER_SEC;
     
