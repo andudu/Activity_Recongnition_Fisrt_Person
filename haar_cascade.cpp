@@ -49,15 +49,16 @@ void Haar_cascade::min_max_reader(){
         
         split_vector_type SplitVec;
         split( SplitVec, list[i], is_any_of(" ") );
-        
+
         string classifier_name = SplitVec[0];
+
         if (classifier_name.compare(name) == 0){
             int min = atoi(SplitVec[1].c_str());
             int max = atoi(SplitVec[2].c_str());
-            min_obj_size.height = min;
-            max_obj_size.height = max;
-            min_obj_size.width = min;
-            max_obj_size.width = max;
+            min_obj_size.height = min - 50;
+            min_obj_size.width = min - 50;
+            max_obj_size.height = max + 50;            
+            max_obj_size.width = max + 50;
         }        
     }
 }
@@ -72,9 +73,7 @@ Haar_cascade::Haar_cascade(string classifier_name , string feature_name){
     else
         cout << "Failed loading" << classifier_name <<endl;
 
-    min_max_reader();
-
-    cout << classifier_name <<endl;
+    min_max_reader();    
 }
 
 Haar_cascade::Haar_cascade(string classifier_name , string feature_name,int width_mean,int height_mean, int width_std,int height_std){
@@ -134,8 +133,9 @@ vector<Rect> Haar_cascade::detect(IplImage* image_detect){
     Mat img(tempFrame,0);    
     
     //Run detection
-    cout << "Run detection at min width: "<<min_obj_size.width <<"  height: "<<min_obj_size.height<<endl;
-    cout << "Run detection at max width: "<<max_obj_size.width <<"  height: "<<max_obj_size.height<<endl;
+    //cout << "name: " << name << endl;
+    //cout << "Run detection at min width: "<<min_obj_size.width <<"  height: "<<min_obj_size.height<<endl;
+    //cout << "Run detection at max width: "<<max_obj_size.width <<"  height: "<<max_obj_size.height<<endl;
     
     start_time = clock();
     myClassifier.detectMultiScale(img, result_list,1.02,3,0,min_obj_size,max_obj_size);
