@@ -225,7 +225,7 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
             playImage_with_detected_results(pause_when_detected, &frame, myTemporalPyramid->current_best_activity, myTemporalPyramid->current_best_prob);   
         }           
 
-        if((i%FPN) == 0){
+        if((i%FPN) == 0 && i != 0){
 
             cout << "=================================\n";
 
@@ -246,7 +246,7 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
                     myActivityDetector->activity_detect(myTemporalPyramid);
                     //myActivityDetector->activity_detect_cvpr_12(myTemporalPyramid);
                 }
-
+                
                 if(show_activity_prediction){
                     activity_result = myTemporalPyramid->showCurrentPrediction();
                     //cout <<  activity_result[0] << endl;
@@ -258,7 +258,8 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
                     }else{
                         //Do nothing
                     }                
-                }              
+                }
+                     
             }else{
                 cout << "Not adding new node because its similar to the latest one!" << endl;
                 cout << "Remaining latest prediction" << endl;

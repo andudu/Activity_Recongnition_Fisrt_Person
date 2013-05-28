@@ -26,7 +26,7 @@ bool TemporalPyramid::loadFrames_realtime(FrameModel* frames, int frame_index){
         //Setting the 'frame per node' number
         frame_per_node = frames->FPN;
         num_of_features = frames->num_features;
-    
+
         //this->print_info("frame_per_node");
         //frames->print_info("num_frames");
 
@@ -47,7 +47,7 @@ bool TemporalPyramid::loadFrames_realtime(FrameModel* frames, int frame_index){
             //cout << frames->frameList[f].feature.size() <<endl;
             tmp_node.feature.push_back(0);
         }
-        
+
         //Summing frame features in an interval(FPN)
         for (int j = sliding_window_start; j < sliding_window_start + frame_per_node ; j++) {
             for (int i = 0 ; i < frames->num_features ; i++){
@@ -58,12 +58,14 @@ bool TemporalPyramid::loadFrames_realtime(FrameModel* frames, int frame_index){
         }
 
         //Similarity check with the latest node
+        /*
         if(!similarity_check(frames, tmp_node)){
             pyramid[0].push_back(tmp_node);
             return true;
         }else{
             return false;
         }
+        */
         
     }
 }
@@ -79,7 +81,6 @@ bool TemporalPyramid::similarity_check(FrameModel* frames, node tmp_node){
     complex_1d_array xcorr;
 
     if ( pyramid[0].size() >= 1){
-
         //Build input arrays for the xcorr lib
         latest.append(lexical_cast<string>(pyramid[0].back().feature[0]));
         tmp.append(lexical_cast<string>(tmp_node.feature[0]));
@@ -89,7 +90,6 @@ bool TemporalPyramid::similarity_check(FrameModel* frames, node tmp_node){
         }
         latest.append("]");
         tmp.append("]");
-        
         //cout << latest << endl;
         //cout << tmp << endl;
         x = latest.c_str();
@@ -114,7 +114,6 @@ bool TemporalPyramid::similarity_check(FrameModel* frames, node tmp_node){
             return true;
         }
     }
-
     return false;
 }
 
