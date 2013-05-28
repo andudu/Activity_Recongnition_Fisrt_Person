@@ -11,22 +11,16 @@
 #include "temporalPyramid.h"
 #include "activityDetector.h"
 
-float ObjectDetector_Evaluation(int frame_index,TemporalPyramid* my_pyramid){
+float ObjectDetector_Evaluation(int frame_index,TemporalPyramid* my_pyramid,ObjectDetector* myObjDetector){
 
-    /*
-    int level_index = 0;
-
-    cout << "Number of nodes in level " << level_index  << " => " << my_pyramid->pyramid[level_index].size() <<endl;;
-    cout << "Node features" << endl;
-    for (int i = 0 ;  i < my_pyramid->pyramid[level_index].size(); i++) {
-        for (int j = 0; j < my_pyramid->pyramid[level_index][i].feature.size() ; j++) {
-            cout << my_pyramid->pyramid[level_index][i].feature[j] <<" "; 
-        }
-        cout << " | ";
-    }
-    cout << "\n";
-    */
     
+    for (int i = 0 ;  i < my_pyramid->pyramid[0].size(); i++) {
+        for (int j = 0; j < my_pyramid->pyramid[0][i].feature.size() ; j++) {
+            //cout << my_pyramid->pyramid[level_index][i].feature[j] <<" "; 
+            cout << myObjDetector->myHaars[j].name << " " << my_pyramid->pyramid[0][i].feature[j] <<endl;
+        }
+    }
+
     return 0;
 }
 
@@ -237,7 +231,7 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
             if(myTemporalPyramid->loadFrames_realtime(this, i)){
 
                 //Obj detection evaluation
-                ObjectDetector_Evaluation(i,myTemporalPyramid);
+                ObjectDetector_Evaluation(i,myTemporalPyramid,myObjDetector);
 
                 //Build the pyramid
                 if(build_pyramid){

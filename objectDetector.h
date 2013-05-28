@@ -65,13 +65,15 @@ class ObjectDetector{
 public:
 	
     //variable
-    string name;
+    //string name;
     string name_of_frames;
     int num_of_detectors;
     
     map<int, frame_annotation> ground_truth;//<frame_index,frame_annotation>
     map<int, string> obj_name;
     map<string, int> obj_name_reverse;
+
+    vector<Haar_cascade> myHaars;
     
     //public functions
     bool detect(FrameModel* frame_model , int frame_index ,IplImage* image);
@@ -87,7 +89,6 @@ public:
 private:
     
     vector< vector<Rect> > result_list_cached;
-    vector<Haar_cascade> myHaars;
     vector<mean_std> mean_std_list;
 
     bool mean_std_reader();
