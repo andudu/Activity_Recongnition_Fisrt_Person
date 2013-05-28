@@ -11,14 +11,17 @@
 
 #include <stdlib.h>
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <cv.h>
 #include <highgui.h>
 #include <cxcore.h>
+#include <boost/algorithm/string.hpp>
 #include "time.h"
 
 using namespace std;
 using namespace cv;
+using namespace boost;
 
 #define MAX_OBJ_SIZE 400
 #define MIN_OBJ_SIZE 50
@@ -48,6 +51,8 @@ public:
 private:
     
     CascadeClassifier myClassifier;
+    vector<string> reader(string path);
+    void min_max_reader();
     
 };
 

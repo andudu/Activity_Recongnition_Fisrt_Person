@@ -33,7 +33,9 @@ ObjectDetector::ObjectDetector(){
             if( file_name.compare(".") == 0 || 
                 file_name.compare("..") == 0 ||
                 file_name.compare("backup") == 0 || 
-                file_name.compare(".DS_Store") == 0){
+                file_name.compare(".DS_Store") == 0 ||
+                file_name.compare("mean_std.txt") == 0
+                ){
                 continue; 
             }
             
@@ -75,15 +77,13 @@ ObjectDetector::ObjectDetector(int indicate){
     DIR *dir;
     struct dirent *ent;
     string file_name;
-    
+    typedef vector< string > split_vector_type;
+
     int counter = 1;
 
     cout <<"Constructing object detectors\n";
     cout <<"indicate: " << indicate << endl; 
-        
-    //Reade the mean std file first
-    //mean_std_reader();
-
+    
     if ((dir = opendir (HAAR_PATH)) != NULL) {
         //print all the files and directories within directory
         while ((ent = readdir (dir)) != NULL) {
@@ -92,13 +92,29 @@ ObjectDetector::ObjectDetector(int indicate){
             
             cout << "cascade file name:" << file_name << endl;
 
+            split_vector_type SplitVec;
+            split( SplitVec, file_name, is_any_of(".") );
+
+            if (SplitVec.size() < 2){
+                cout << SplitVec[0] << endl;
+                continue;
+            }else{
+                cout << SplitVec[0] << " " << SplitVec[1] << endl;
+                if (SplitVec[1].compare("xml") != 0)
+                    continue;
+            }       
+            /*
+            cout << SplitVec[0]
+            if (SplitVec[1].compare("xml") != 0)
+                continue;
+            /*
             if( file_name.compare(".") == 0 || 
                 file_name.compare("..") == 0 ||
                 file_name.compare("backup") == 0 || 
                 file_name.compare(".DS_Store") == 0){
                 continue; 
             }
-
+            */
 
             if(indicate != -1){
                 //Indicate the only object detector I want to evaluate
@@ -315,15 +331,6 @@ bool ObjectDetector::mean_std_reader(){
         
         mean_std_list.push_back(tmp);
     }
-    
-    /*
-    for (int i = 0 ; i < mean_std_list.size() ; i ++){
-        cout << "i:" << i << endl;
-        cout << mean_std_list[i].classifier_name << " " << mean_std_list[i].width_mean << " " 
-             << mean_std_list[i].width_std << " " << mean_std_list[i].height_mean << " "
-             << mean_std_list[i].height_std <<endl;
-    }
-    */
     
     return true;
 }

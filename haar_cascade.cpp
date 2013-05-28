@@ -9,6 +9,59 @@
 #include <iostream>
 #include "haar_cascade.h"
 
+vector<string> Haar_cascade::reader(string path){
+
+    string line;
+    ifstream myfile (path.c_str());
+    vector<string> list;
+    if (myfile.is_open())
+    {
+        while ( myfile.good() )
+        {   
+            getline (myfile,line);
+            
+            /*
+            注意最後一行的問題
+            可能會把最後空行讀進來!
+            所以要做長度檢查
+            */
+            if(line.size() == 0)
+                break;
+
+            list.push_back(line);
+        }
+        
+        myfile.close();
+        
+    }else{
+         cout << "Unable to open the file!\n";    
+    }
+
+    return list;
+}
+
+void Haar_cascade::min_max_reader(){
+
+    typedef vector< string > split_vector_type;
+    vector<string> list = reader("cascade_0528/mean_std.txt");
+
+    for(int i = 0 ; i < list.size() ; i ++){
+        
+        split_vector_type SplitVec;
+        split( SplitVec, list[i], is_any_of(" ") );
+        
+        string classifier_name = SplitVec[0];
+        if (classifier_name.compare(name) == 0){
+            int min = atoi(SplitVec[1].c_str());
+            int max = atoi(SplitVec[1].c_str());
+            min_obj_size.height = min;
+            max_obj_size.height = max;
+            min_obj_size.width = min;
+            max_obj_size.width = max;
+        }        
+    }
+}
+
 Haar_cascade::Haar_cascade(string classifier_name , string feature_name){
     
     name = feature_name;
@@ -19,10 +72,7 @@ Haar_cascade::Haar_cascade(string classifier_name , string feature_name){
     else
         cout << "Failed loading" << classifier_name <<endl;
 
-    min_obj_size.height = MIN_OBJ_SIZE;
-    max_obj_size.height = MAX_OBJ_SIZE;
-    min_obj_size.width = MIN_OBJ_SIZE;
-    max_obj_size.width = MAX_OBJ_SIZE;
+    min_max_reader();
 
     cout << classifier_name <<endl;
 }
@@ -84,8 +134,8 @@ vector<Rect> Haar_cascade::detect(IplImage* image_detect){
     Mat img(tempFrame,0);    
     
     //Run detection
-    //cout << "Run detection at min width: "<<min_obj_size.width <<"  height: "<<min_obj_size.height<<endl;
-    //cout << "Run detection at max width: "<<max_obj_size.width <<"  height: "<<max_obj_size.height<<endl;
+    cout << "Run detection at min width: "<<min_obj_size.width <<"  height: "<<min_obj_size.height<<endl;
+    cout << "Run detection at max width: "<<max_obj_size.width <<"  height: "<<max_obj_size.height<<endl;
     
     start_time = clock();
     myClassifier.detectMultiScale(img, result_list,1.02,3,0,min_obj_size,max_obj_size);
