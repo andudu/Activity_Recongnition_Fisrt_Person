@@ -226,7 +226,7 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
             playImage_with_detected_results(pause_when_detected, &frame, myTemporalPyramid->current_best_activity, myTemporalPyramid->current_best_prob);   
         }           
 
-        if((i%FPN) == 0 && i != 0){
+        if((i%FPN) == 0){
 
             cout << "=================================\n";
 

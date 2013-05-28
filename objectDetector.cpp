@@ -178,8 +178,8 @@ bool ObjectDetector::detect(FrameModel* frame_model , int frame_index ,IplImage*
         }else{
             frame_model->frameList[frame_index].feature.push_back(0);
         }
-        
-        frame_model->frameList[frame_index].result_list.push_back(result_list);        
+
+        frame_model->frameList[frame_index].result_list.push_back(result_list);
     }
     
     return true;

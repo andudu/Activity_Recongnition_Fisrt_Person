@@ -58,14 +58,13 @@ bool TemporalPyramid::loadFrames_realtime(FrameModel* frames, int frame_index){
         }
 
         //Similarity check with the latest node
-        /*
+        cerr << pyramid[0].size() << endl;
         if(!similarity_check(frames, tmp_node)){
             pyramid[0].push_back(tmp_node);
             return true;
         }else{
             return false;
         }
-        */
         
     }
 }
@@ -94,13 +93,13 @@ bool TemporalPyramid::similarity_check(FrameModel* frames, node tmp_node){
         //cout << tmp << endl;
         x = latest.c_str();
         y = tmp.c_str();
-
+        
         //the latest node do auto-xcorr first
         corrc1d(x, frames->num_features , x, frames->num_features, auto_xcorr);
 
         //Then xcorr with tmp_node
         corrc1d(x, frames->num_features , y, frames->num_features, xcorr);
-
+        
         //Similarity check
         //cout << "x:" << x.tostring(3).c_str() << endl;
         //cout << "y:" << y.tostring(3).c_str() << endl;
