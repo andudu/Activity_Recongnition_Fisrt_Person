@@ -9,6 +9,19 @@
 #include <iostream>
 #include "haar_cascade.h"
 
+Haar_cascade::Haar_cascade(string classifier_name , string feature_name){
+    
+    name = feature_name;
+
+    // Create classifier object 
+    if (myClassifier.load(classifier_name))
+        cout << classifier_name << " is loaded\n";
+    else
+        cout << "Failed loading" << classifier_name <<endl;
+
+    cout << classifier_name <<endl;
+}
+
 Haar_cascade::Haar_cascade(string classifier_name , string feature_name,int width_mean,int height_mean, int width_std,int height_std){
     
     name = feature_name;

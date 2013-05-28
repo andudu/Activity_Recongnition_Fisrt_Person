@@ -64,7 +64,7 @@ int main (int argc, const char * argv[])
             load_video_args["build_pyramid"] = "true";
         }
 
-        if(tmp.compare("-activity_prediction") == 0){
+        if(tmp.compare("-show_activity_prediction") == 0){
             load_video_args["show_activity_prediction"] = "true";
         }    
 

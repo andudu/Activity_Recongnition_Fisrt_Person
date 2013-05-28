@@ -16,21 +16,24 @@ ObjectDetector::ObjectDetector(int indicate){
     
     int counter = 1;
 
-    /*
+    
     //Reade the mean std file first
-    mean_std_reader();
+    //mean_std_reader();
 
     if ((dir = opendir (HAAR_PATH)) != NULL) {
         //print all the files and directories within directory
         while ((ent = readdir (dir)) != NULL) {
            
             file_name.assign(ent->d_name);
-    
+            
+            cout << "cascade file name:" << file_name << endl;
+
             if(file_name.compare(".") == 0 || file_name.compare("..") == 0 ||
                file_name.compare("mean_std.txt") == 0){
                 continue; 
             }
 
+            /*
             int width_mean=0,height_mean=0,width_std=0,height_std=0;
             for(int i = 0 ; i < mean_std_list.size() ; i++){
                 if(mean_std_list[i].classifier_name.compare(file_name) == 0){
@@ -41,7 +44,7 @@ ObjectDetector::ObjectDetector(int indicate){
                     break;
                 }
             }
-
+            */
             
             if(indicate!=-1){
                 //Indicate the only object detector I want to evaluate
@@ -49,7 +52,8 @@ ObjectDetector::ObjectDetector(int indicate){
                     string path = HAAR_PATH;
                     path.append(file_name);
 
-                    Haar_cascade tmp_classifier = Haar_cascade(path , file_name,width_mean,height_mean,width_std,height_std);
+                    //Haar_cascade tmp_classifier = Haar_cascade(path , file_name,width_mean,height_mean,width_std,height_std);
+                    Haar_cascade tmp_classifier = Haar_cascade(path , file_name);
                     myHaars.push_back(tmp_classifier);
                 }                
             }else{
@@ -57,7 +61,8 @@ ObjectDetector::ObjectDetector(int indicate){
                 string path = HAAR_PATH;
                 path.append(file_name);
 
-                Haar_cascade tmp_classifier = Haar_cascade(path , file_name,width_mean,height_mean,width_std,height_std);
+                //Haar_cascade tmp_classifier = Haar_cascade(path , file_name,width_mean,height_mean,width_std,height_std);
+                Haar_cascade tmp_classifier = Haar_cascade(path , file_name);
                 myHaars.push_back(tmp_classifier);
             }
 
@@ -73,7 +78,6 @@ ObjectDetector::ObjectDetector(int indicate){
 
     num_of_detectors  = myHaars.size();
     cout << "number of objectDetector: " << num_of_detectors << endl;
-    */
 }
 
 ObjectDetector::~ObjectDetector(){

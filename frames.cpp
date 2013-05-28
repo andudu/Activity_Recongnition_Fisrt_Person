@@ -196,7 +196,7 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
     //Load ground truth obj annotation
     //myObjDetector->load_ground_truth_obj_annotation(annotation_file);
     //Load dpm detection
-    myObjDetector->load_dpm_obj_detection(annotation_file, dpm_thres);
+    //myObjDetector->load_dpm_obj_detection(annotation_file, dpm_thres);
 
     frame_count = end - start + 1;
     frame_start = start;
@@ -218,7 +218,7 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
             myObjDetector->ground_truth_detect(this, i, &frame , frame_start);
         }else{
             //Real detect
-            myObjDetector->detect(this, i, &frame);
+            //myObjDetector->detect(this, i, &frame);
         }            
         
         if(show_obj_detection){
