@@ -13,14 +13,20 @@
 
 float ObjectDetector_Evaluation(int frame_index,TemporalPyramid* my_pyramid,ObjectDetector* myObjDetector){
 
-    
+    FILE* fp;
+    fp = fopen("obj_evaluation.txt", "a");
+
     for (int i = 0 ;  i < my_pyramid->pyramid[0].size(); i++) {
         for (int j = 0; j < my_pyramid->pyramid[0][i].feature.size() ; j++) {
             //cout << my_pyramid->pyramid[level_index][i].feature[j] <<" "; 
             cout << myObjDetector->myHaars[j].name << " " << my_pyramid->pyramid[0][i].feature[j] <<endl;
+            if (my_pyramid->pyramid[0][i].feature[j] > 0){
+                fprintf(fp, "%06d %s \n",frame_index + 1,myObjDetector->myHaars[j].name.c_str());
+            }            
         }
     }
 
+    fclose(fp);
     return 0;
 }
 
