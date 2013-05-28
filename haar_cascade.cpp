@@ -53,7 +53,7 @@ void Haar_cascade::min_max_reader(){
         string classifier_name = SplitVec[0];
         if (classifier_name.compare(name) == 0){
             int min = atoi(SplitVec[1].c_str());
-            int max = atoi(SplitVec[1].c_str());
+            int max = atoi(SplitVec[2].c_str());
             min_obj_size.height = min;
             max_obj_size.height = max;
             min_obj_size.width = min;
