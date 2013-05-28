@@ -13,6 +13,7 @@
 
 float ObjectDetector_Evaluation(int frame_index,TemporalPyramid* my_pyramid){
 
+    /*
     int level_index = 0;
 
     cout << "Number of nodes in level " << level_index  << " => " << my_pyramid->pyramid[level_index].size() <<endl;;
@@ -24,7 +25,8 @@ float ObjectDetector_Evaluation(int frame_index,TemporalPyramid* my_pyramid){
         cout << " | ";
     }
     cout << "\n";
-
+    */
+    
     return 0;
 }
 
@@ -233,6 +235,10 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
             //Loading frames and put them into pyramid, level 0
             //Return false if it is similar to the latest one
             if(myTemporalPyramid->loadFrames_realtime(this, i)){
+
+                //Obj detection evaluation
+                ObjectDetector_Evaluation(i,myTemporalPyramid);
+
                 //Build the pyramid
                 if(build_pyramid){
                     myTemporalPyramid->buildPyramid_realtime();    
