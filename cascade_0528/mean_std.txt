@@ -1,0 +1,12 @@
+cup.xml 35 100
+dispenser.xml 96 459
+active_laptop.xml 121 323
+active_cup.xml 35 313
+active_book.xml 62 567
+active_teabag.xml 41 206
+active_cell.xml 50 220
+active_window.xml 263 597
+active_papers.xml 65 460
+active_dispenser.xml 183 460
+active_human.xml 24 133
+active_copier.xml 26 519
