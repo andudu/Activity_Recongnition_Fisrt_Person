@@ -193,7 +193,12 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
     cvMoveWindow("Obj Detection Result", 50, 0);
 
     //Load ground truth obj annotation
+    //CVPR12
     myObjDetector->load_ground_truth_obj_annotation(annotation_file);
+    //my_data
+    myObjDetector->load_ground_truth_obj_annotation_my_data(annotation_file);
+
+
     
     frame_count = end - start + 1;
     frame_start = start;

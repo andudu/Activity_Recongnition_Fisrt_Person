@@ -334,3 +334,66 @@ bool ObjectDetector::load_ground_truth_obj_annotation(string path){
     return true;
 }
 
+
+bool ObjectDetector::load_ground_truth_obj_annotation_my_data(string path){
+
+    typedef vector< string > split_vector_type;
+    obj_info tmp_obj;
+
+    //Read obj_list.txt first to get obj_name mapping
+    vector<string> file_obj_list = reader("my_data_obj_annotation/obj_list.txt");
+
+    for(int i = 0 ; i < file_obj_list.size() ; i ++){
+        split_vector_type SplitVec;
+        split( SplitVec, file_obj_list[i], is_any_of(" ") );
+        
+        int tmp_obj_index = atoi(SplitVec[0].c_str());
+        string tmp_obj_name = SplitVec[2];
+
+        obj_name[tmp_obj_index] = tmp_obj_name;
+    }
+
+    //cout << "\n\n\nframe_model->num_features:" << obj_name.size() <<endl;
+    
+    //Then read the ground truth data
+    vector<string> file = reader(path);
+
+    for(int i = 0 ; i < file.size() ; i ++){
+
+        split_vector_type SplitVec;
+        split( SplitVec, file[i], is_any_of(" ") );
+
+        tmp_obj.name = SplitVec[7];
+        tmp_obj.frame = atoi(SplitVec[4].c_str());
+        tmp_obj.x = atoi(SplitVec[0].c_str())*2;
+        tmp_obj.y = atoi(SplitVec[1].c_str())*2;
+        tmp_obj.width = atoi(SplitVec[2].c_str())*2 - atoi(SplitVec[0].c_str())*2;
+        tmp_obj.height = atoi(SplitVec[3].c_str())*2 - atoi(SplitVec[1].c_str())*2;
+        tmp_obj.index = atoi(SplitVec[6].c_str());
+        tmp_obj.exist = true;
+
+        if(ground_truth.find(tmp_obj.frame) == ground_truth.end()){
+            frame_annotation tmp;
+            tmp.objs[tmp_obj.index] = tmp_obj;
+            ground_truth[tmp_obj.frame] = tmp;
+        }else{
+            ground_truth[tmp_obj.frame].objs[tmp_obj.index] = tmp_obj;
+        }
+            
+    }
+
+    cout << "annotation file:" << path << "is loaded."<<endl;
+    
+    map<int, string>::iterator it;
+    /*cout << "ground_truth:" <<endl;
+    for(it = obj_name.begin() ; it != obj_name.end() ; it++)
+        cout<<it->first<<" "<<it->second<<endl;
+    /*
+    map<string,int>::iterator it2;
+    cout << "ground_truth:" <<endl;
+    for(it2 = obj_name_reverse.begin() ; it2 != obj_name_reverse.end() ; it2++)
+        cout<<it2->first<<" "<<it2->second<<endl;
+    */
+
+    return true;
+}
