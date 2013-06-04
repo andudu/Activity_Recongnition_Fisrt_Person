@@ -19,7 +19,7 @@ video="/Users/hmliu/Documents/CMLab/Master/ADL_code/ADLdataset/Haar_helper/my_da
 annotation="my_data_obj_annotation/P${index}.txt"
 
 start="1"
-length="600"
+length="1200"
 
 # Watching TV in P02
 # start="69235"
@@ -56,12 +56,12 @@ length="600"
 #indicate="-indicate 2"
 show="-show"
 show_pyramid="-show_pyramid"
-#build_pyramid="-build_pyramid"
+build_pyramid="-build_pyramid"
 #activity_prediction="-activity_prediction"
 #pause="-pause"
 ground_truth_detect="-ground_truth"
 #crf="-crf"
-FPN="-FPN 300"
+FPN="-FPN 30"
 thres_factor="-thres_factor 10"
 
 cmd="./FP_ADL.out -i ${video} -start ${start} -length ${length} -crf_model_path ${crf_model_path} -an ${annotation} ${show} ${pause} ${indicate} ${ground_truth_detect} ${crf} ${thres_factor} ${show_pyramid} ${build_pyramid} ${activity_prediction} ${FPN}"
