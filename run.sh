@@ -13,8 +13,11 @@ if [ $i -lt 10 ];         # If $i is smaller than 10
     index=$i
 fi
 
-video="/Users/hmliu/Documents/CMLab/Master/ADL_code/ADLdataset/ADL_videos/split_frames_P_${index}"
-annotation="translated_with_obj_name/object_annot_P_${index}_translated_with_obj_name.txt"
+#video="/Users/hmliu/Documents/CMLab/Master/ADL_code/ADLdataset/ADL_videos/split_frames_P_${index}"
+video="/Users/hmliu/Documents/CMLab/Master/ADL_code/ADLdataset/Haar_helper/my_data/videos/split_frames_P_${index}"
+#annotation="translated_with_obj_name/object_annot_P_${index}_translated_with_obj_name.txt"
+annotation="my_data_obj_annotation/P${index}.txt"
+
 
 start="1"
 length="600"
