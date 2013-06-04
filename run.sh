@@ -1,11 +1,20 @@
 echo "run by shell"
 
-index="02"
-video="/Users/hmliu/Documents/CMLab/Master/ADL_code/ADLdataset/ADL_videos/split_frames_P_${index}"
-annotation="translated_with_obj_name/object_annot_P_${index}_translated_with_obj_name.txt"
+i="2"
+
 #crf_model_path="crf/multi_stage/5_fold/model_fold_1.crf"
 #crf_model_path="crf/multi_stage/1_vs_all/model_13.crf"
-crf_model_path="crf/multi_stage/1_vs_all_more_segment/model_${index}.crf"
+crf_model_path="crf/multi_stage/1_vs_all_more_segment/model_${i}.crf"
+
+if [ $i -lt 10 ];         # If $i is smaller than 10
+  then
+    index="0${i}"
+  else
+    index=$i
+fi
+
+video="/Users/hmliu/Documents/CMLab/Master/ADL_code/ADLdataset/ADL_videos/split_frames_P_${index}"
+annotation="translated_with_obj_name/object_annot_P_${index}_translated_with_obj_name.txt"
 
 start="1"
 length="600"
@@ -45,7 +54,7 @@ length="1200"
 #indicate="-indicate 2"
 show="-show"
 show_pyramid="-show_pyramid"
-#build_pyramid="-build_pyramid"
+build_pyramid="-build_pyramid"
 activity_prediction="-activity_prediction"
 #pause="-pause"
 ground_truth_detect="-ground_truth"
