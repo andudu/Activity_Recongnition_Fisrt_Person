@@ -240,8 +240,8 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
                 //Activity Detection
                 //cout << "num_features:" << num_features << endl;
                 if(do_activity_detection && num_features == NUM_FEATURE_TOTAL && i > 0){
-                    //myActivityDetector->activity_detect(myTemporalPyramid);
-                    myActivityDetector->activity_detect_cvpr_12(myTemporalPyramid);
+                    myActivityDetector->activity_detect(myTemporalPyramid);
+                    //myActivityDetector->activity_detect_cvpr_12(myTemporalPyramid);
                 }
 
                 if(show_activity_prediction){
