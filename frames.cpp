@@ -34,6 +34,29 @@ int FrameModel::getFPN(){
     return FPN;
 }
 
+string get_activity_index_my_data(string activity){
+
+    if(activity.compare("combing_hair") == 0 ){
+        return "1 0";
+    }
+    if(activity.compare("make_up") == 0 ){
+        return "2 0";
+    }
+    if(activity.compare("brushing_teeth") == 0 ){
+        return "3 0";
+    }
+    if(activity.compare("dental_floss") == 0 ){
+        return "4 0";
+    }
+    if(activity.compare("washing_hands_face") == 0 ){
+        return "5 0";
+    }
+    if(activity.compare("drying_hands_face") == 0 ){
+        return "6 0";
+    }
+    
+    return "-1 0";
+}
 
 string get_activity_index(string activity){
 
