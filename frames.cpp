@@ -36,26 +36,23 @@ int FrameModel::getFPN(){
 
 string get_activity_index_my_data(string activity){
 
-    if(activity.compare("combing_hair") == 0 ){
-        return "1 0";
-    }
-    if(activity.compare("make_up") == 0 ){
-        return "2 0";
-    }
-    if(activity.compare("brushing_teeth") == 0 ){
-        return "3 0";
-    }
-    if(activity.compare("dental_floss") == 0 ){
-        return "4 0";
-    }
-    if(activity.compare("washing_hands_face") == 0 ){
-        return "5 0";
-    }
-    if(activity.compare("drying_hands_face") == 0 ){
-        return "6 0";
-    }
-    
-    return "-1 0";
+    /*
+    1 : use_computer
+        2 : use_cell
+        3 : wash_hand
+        4 : drink_water
+        5 : talk_to_people
+        6 : check_the_weather
+        7 : reading
+        8 : make_coffee_stage_1
+        9 : make_coffee_stage_2
+        10(a): copy_documents_stage_1
+        11(b): copy_documents_stage_2
+        12(c): copy_documents_stage_3
+    */
+
+
+    return activity;
 }
 
 string get_activity_index(string activity){
@@ -277,9 +274,9 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
                     //cout <<  activity_result[0] << endl;
                     //Output the activity detected for further evaluation
                     if(activity_result.size() == 4){
-                        fprintf(fp, "%d %s %s\n",i+frame_start-FPN,get_activity_index(activity_result[2]).c_str(),activity_result[3].c_str());   
+                        fprintf(fp, "%d %s %s\n",i+frame_start-FPN,get_activity_index_my_data(activity_result[2]).c_str(),activity_result[3].c_str());   
                     }else if(activity_result.size() == 2){
-                        fprintf(fp, "%d %s %s\n",i+frame_start-FPN,get_activity_index(activity_result[0]).c_str(),activity_result[1].c_str());
+                        fprintf(fp, "%d %s %s\n",i+frame_start-FPN,get_activity_index_my_data(activity_result[0]).c_str(),activity_result[1].c_str());
                     }else{
                         //Do nothing
                     }                
