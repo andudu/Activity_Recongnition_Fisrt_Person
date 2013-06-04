@@ -18,7 +18,6 @@ video="/Users/hmliu/Documents/CMLab/Master/ADL_code/ADLdataset/Haar_helper/my_da
 #annotation="translated_with_obj_name/object_annot_P_${index}_translated_with_obj_name.txt"
 annotation="my_data_obj_annotation/P${index}.txt"
 
-
 start="1"
 length="600"
 
@@ -36,8 +35,8 @@ length="600"
 # length="1200"
 
 # making tea stage 1 in P13 
-start="500"
-length="1200"
+# start="500"
+# length="1200"
 # making tea stage 2 in P13 
 # start="21810"
 # length="900"
@@ -57,11 +56,11 @@ length="1200"
 #indicate="-indicate 2"
 show="-show"
 show_pyramid="-show_pyramid"
-build_pyramid="-build_pyramid"
-activity_prediction="-activity_prediction"
+#build_pyramid="-build_pyramid"
+#activity_prediction="-activity_prediction"
 #pause="-pause"
 ground_truth_detect="-ground_truth"
-crf="-crf"
+#crf="-crf"
 FPN="-FPN 300"
 thres_factor="-thres_factor 10"
 

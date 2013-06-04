@@ -198,8 +198,6 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
     //my_data
     myObjDetector->load_ground_truth_obj_annotation_my_data(annotation_file);
 
-return 0;
-
     
     frame_count = end - start + 1;
     frame_start = start;
@@ -218,7 +216,8 @@ return 0;
 
         if(ground_truth_detect){
             //Ground truth detect
-            myObjDetector->ground_truth_detect(this, i, &frame , frame_start);
+            //myObjDetector->ground_truth_detect(this, i, &frame , frame_start);
+            myObjDetector->ground_truth_detect_my_data(this, i, &frame , frame_start);
         }else{
             //Real detect
             myObjDetector->detect(this, i, &frame);

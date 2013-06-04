@@ -111,6 +111,95 @@ bool ObjectDetector::detect(FrameModel* frame_model , int frame_index ,IplImage*
     
     return true;
 }
+bool ObjectDetector::ground_truth_detect_my_data(FrameModel* frame_model , int frame_index ,IplImage* image, int frame_start){
+
+    /*
+    frame_index : the frame index in temporal pyramid level 1
+    so I have to add the offset 'frame_start' to get to the corresponding frame in the video
+    */
+    int frame_index_pyramid = frame_index;
+    int frame_index_video = frame_index + frame_start;
+    bool use_cache = true;
+    vector< vector<Rect> > tmp_result_list_cached;
+    
+    //If this is the first frame
+    if( frame_index_pyramid == 0){
+        
+        frame_model->num_features = obj_name.size();
+        
+        //Fill in the feature names
+        frame_model->feature_name.clear();
+
+        for(int i = 1 ; i <= obj_name.size() ; i++){
+            frame_model->feature_name.push_back(obj_name[i]);
+        }            
+    }
+
+    
+    ////I forgot this is for what XD. Just leave it here now.
+    name_of_frames = frame_model->name;
+  
+    //Detection using the ground truth data
+    frame_annotation annotation = ground_truth[frame_index_video];
+
+    int feature = 0;
+    //result_list_cached.clear();
+
+    //Run through each obj
+    //Beware to start from 1 to 89, not 0 to 88!!
+    //Since our obj_index : obj_name pairs start from 1.
+    for (int obj_index = 1; obj_index <= frame_model->num_features; obj_index ++){
+         vector<Rect> result;
+         
+         if(annotation.objs.find(obj_index) != annotation.objs.end()){
+            //The obj cls is detected in this frame
+            //cout << "found!" <<endl;
+            //cout << "frame_index:"<< frame_index << " obj_index:" << obj_index << " obj_name:" << annotation.objs[obj_index].name << endl;
+            Rect tmp;
+            tmp.x = annotation.objs[obj_index].x;
+            tmp.y = annotation.objs[obj_index].y;
+            tmp.width = annotation.objs[obj_index].width;
+            tmp.height = annotation.objs[obj_index].height;
+            result.push_back(tmp);
+
+            //There is at least one detection in this frame.
+            //we dont use cache here, use this frame as new cache instead.
+            if(use_cache){
+                use_cache = false;
+                result_list_cached.clear();
+            }
+        }
+
+        tmp_result_list_cached.push_back(result);
+        frame_model->frameList[frame_index_pyramid].feature.push_back(result.size());
+        frame_model->frameList[frame_index_pyramid].result_list.push_back(result); 
+    }
+
+    if(frame_index_pyramid > 0 && use_cache ){
+        //use cache
+        //cout << "use cache" << endl;
+        //cout << "cache size:" << result_list_cached.size() <<endl;
+
+        frame_model->frameList[frame_index_pyramid].feature.clear();
+        frame_model->frameList[frame_index_pyramid].result_list.clear();
+
+        for(int i = 0 ; i < result_list_cached.size() ; i++){            
+            frame_model->frameList[frame_index_pyramid].feature.push_back(result_list_cached[i].size());
+            frame_model->frameList[frame_index_pyramid].result_list.push_back(result_list_cached[i]);
+            //cout <<"i:" << i << " " <<result_list_cached[i].size() <<" ";        
+        }
+        //cout << "frame_model->frameList["<< frame_index_pyramid<<"].feature.size " << frame_model->frameList[frame_index_pyramid].feature.size() << endl;
+    }else{
+        //refresh the cache
+        
+        result_list_cached = tmp_result_list_cached;
+        //cout << "refresh the cache" << endl;
+        //cout << "tmp cache size:" << tmp_result_list_cached.size() <<endl;
+        //cout << "cache size:" << result_list_cached.size() <<endl;        
+        
+    }
+    return true;
+}
 
 /*
  Ground truth detection
@@ -367,8 +456,8 @@ bool ObjectDetector::load_ground_truth_obj_annotation_my_data(string path){
         tmp_obj.frame = atoi(SplitVec[4].c_str());
         tmp_obj.x = atoi(SplitVec[0].c_str());
         tmp_obj.y = atoi(SplitVec[1].c_str());
-        tmp_obj.width = atoi(SplitVec[2].c_str());
-        tmp_obj.height = atoi(SplitVec[3].c_str());
+        tmp_obj.width = atoi(SplitVec[2].c_str()) - tmp_obj.x;
+        tmp_obj.height = atoi(SplitVec[3].c_str()) - tmp_obj.y;
         tmp_obj.index = atoi(SplitVec[6].c_str());
         tmp_obj.exist = true;
 

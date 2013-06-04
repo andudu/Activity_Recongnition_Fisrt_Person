@@ -79,6 +79,7 @@ public:
     bool load_ground_truth_obj_annotation(string path);
     bool load_ground_truth_obj_annotation_my_data(string path);
     bool ground_truth_detect(FrameModel* frame_model , int frame_index ,IplImage* image, int frame_start);
+    bool ground_truth_detect_my_data(FrameModel* frame_model , int frame_index ,IplImage* image, int frame_start);
     
     //constructor
 	ObjectDetector(int indicate);
@@ -86,6 +87,8 @@ public:
     
 private:
     
+    int use_cache_counter;
+
     vector< vector<Rect> > result_list_cached;
     vector<Haar_cascade> myHaars;
     vector<mean_std> mean_std_list;
