@@ -13,6 +13,8 @@ ObjectDetector::ObjectDetector(int indicate){
     DIR *dir;
     struct dirent *ent;
     string file_name;
+
+    use_cache_counter = 0;
     
     int counter = 1;
 
@@ -166,6 +168,7 @@ bool ObjectDetector::ground_truth_detect_my_data(FrameModel* frame_model , int f
             //we dont use cache here, use this frame as new cache instead.
             if(use_cache){
                 use_cache = false;
+                use_cache_counter = 0;
                 result_list_cached.clear();
             }
         }
@@ -175,10 +178,12 @@ bool ObjectDetector::ground_truth_detect_my_data(FrameModel* frame_model , int f
         frame_model->frameList[frame_index_pyramid].result_list.push_back(result); 
     }
 
-    if(frame_index_pyramid > 0 && use_cache ){
+    if(frame_index_pyramid > 0 && use_cache && use_cache_counter < 30){
         //use cache
         //cout << "use cache" << endl;
         //cout << "cache size:" << result_list_cached.size() <<endl;
+
+        use_cache_counter = use_cache_counter + 1;
 
         frame_model->frameList[frame_index_pyramid].feature.clear();
         frame_model->frameList[frame_index_pyramid].result_list.clear();
