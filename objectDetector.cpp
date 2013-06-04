@@ -372,6 +372,8 @@ bool ObjectDetector::load_ground_truth_obj_annotation_my_data(string path){
         tmp_obj.index = atoi(SplitVec[6].c_str());
         tmp_obj.exist = true;
 
+        cout << tmp_obj.frame << endl;
+
         if(ground_truth.find(tmp_obj.frame) == ground_truth.end()){
             frame_annotation tmp;
             tmp.objs[tmp_obj.index] = tmp_obj;
@@ -385,9 +387,10 @@ bool ObjectDetector::load_ground_truth_obj_annotation_my_data(string path){
     cout << "annotation file:" << path << "is loaded."<<endl;
     
     map<int, string>::iterator it;
-    /*cout << "ground_truth:" <<endl;
-    for(it = obj_name.begin() ; it != obj_name.end() ; it++)
+    for(it = obj_name.begin() ; it != obj_name.end() ; it++){
         cout<<it->first<<" "<<it->second<<endl;
+    }        
+    
     /*
     map<string,int>::iterator it2;
     cout << "ground_truth:" <<endl;

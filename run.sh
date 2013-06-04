@@ -1,6 +1,6 @@
 echo "run by shell"
 
-i="13"
+i="1"
 
 #crf_model_path="crf/multi_stage/1_vs_all_more_segment_2/model_${i}.crf"
 #crf_model_path="crf/multi_stage/1_vs_all_more_segment/model_${i}.crf"
