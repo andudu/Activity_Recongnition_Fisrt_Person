@@ -363,16 +363,6 @@ bool ObjectDetector::load_ground_truth_obj_annotation_my_data(string path){
         split_vector_type SplitVec;
         split( SplitVec, file[i], is_any_of(" ") );
 
-        /*
-        x = obj_annotation{1}(line);
-                y = obj_annotation{2}(line);
-                width = obj_annotation{3}(line) - x;
-                height = obj_annotation{4}(line) - y;
-                frame_index = obj_annotation{5}(line);
-                active = obj_annotation{6}(line)
-                obj_index = obj_annotation{7}(line);   
-        */
-
         tmp_obj.name = "null";
         tmp_obj.frame = atoi(SplitVec[4].c_str());
         tmp_obj.x = atoi(SplitVec[0].c_str());

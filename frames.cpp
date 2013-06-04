@@ -194,10 +194,11 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
 
     //Load ground truth obj annotation
     //CVPR12
-    myObjDetector->load_ground_truth_obj_annotation(annotation_file);
+    //myObjDetector->load_ground_truth_obj_annotation(annotation_file);
     //my_data
     myObjDetector->load_ground_truth_obj_annotation_my_data(annotation_file);
 
+return 0;
 
     
     frame_count = end - start + 1;
