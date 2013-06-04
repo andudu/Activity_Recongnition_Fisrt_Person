@@ -20,7 +20,8 @@
 #include <math.h>
 #include <boost/algorithm/string.hpp>
 
-#define NUM_FEATURE_TOTAL 89
+//#define NUM_FEATURE_TOTAL 89
+#define NUM_FEATURE_TOTAL 21
 
 using namespace std;
 using namespace cv;
