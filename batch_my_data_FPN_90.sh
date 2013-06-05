@@ -14,7 +14,7 @@ the_fpn="90"
 FPN="-FPN ${the_fpn}"
 thres_factor="-thres_factor ${thres}"
 #indicate="-indicate 2"
-show="-show"
+#show="-show"
 show_pyramid="-show_pyramid"
 activity_prediction="-activity_prediction"
 #pause="-pause"
@@ -22,11 +22,15 @@ ground_truth_detect="-ground_truth"
 crf="-crf"
 start="1"
 
-cmd="rm -r crf/result/my_data/${thres}"
+cmd="rm -r crf/result/my_data/FPN_${the_fpn}"
 
 $cmd
 
-cmd="mkdir -p crf/result/my_data/FPN_${the_fpn}/no_pyramid ; mkdir -p crf/result/my_data/FPN_${the_fpn}/pyramid"
+cmd="mkdir -p crf/result/my_data/FPN_${the_fpn}/no_pyramid"
+
+$cmd
+
+cmd="mkdir -p crf/result/my_data/FPN_${the_fpn}/pyramid"
 
 $cmd
 
