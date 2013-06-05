@@ -9,7 +9,33 @@ frame_numbers=(
 13021
 )
 
-for (( i=1; i<=5; i=i+1 ))
+thres="10"
+the_fpn="90"
+FPN="-FPN ${the_fpn}"
+thres_factor="-thres_factor ${thres}"
+#indicate="-indicate 2"
+#show="-show"
+show=""
+show_pyramid="-show_pyramid"
+activity_prediction="-activity_prediction"
+#pause="-pause"
+ground_truth_detect="-ground_truth"
+crf="-crf"
+start="1"
+
+cmd="rm -r crf/result/my_data/FPN_${the_fpn}"
+
+$cmd
+
+cmd="mkdir -p crf/result/my_data/FPN_${the_fpn}/no_pyramid"
+
+$cmd
+
+cmd="mkdir -p crf/result/my_data/FPN_${the_fpn}/pyramid"
+
+$cmd
+
+for (( i=1; i<=1; i=i+1 ))
 #for (( i=1; i<=5; i=i+1 ))
 do
 
@@ -32,32 +58,23 @@ do
   #annotation="translated_with_obj_name/object_annot_P_${index}_translated_with_obj_name.txt"
   annotation="my_data_obj_annotation/P${index}.txt"
 
-  start="1"
+  comment1 ()
+  {
+    #no_pyramid
+    build_pyramid=""
+    cmd="./FP_ADL.out -i ${video} -start ${start} -length ${length} -crf_model_path ${crf_model_path} -an ${annotation} ${show} ${pause} ${indicate} ${ground_truth_detect} ${crf} ${thres_factor} ${show_pyramid} ${build_pyramid} ${activity_prediction} ${FPN}"
 
-  #indicate="-indicate 2"
-  show="-show"
-  show_pyramid="-show_pyramid"
-  activity_prediction="-activity_prediction"
-  #pause="-pause"
-  ground_truth_detect="-ground_truth"
-  crf="-crf"
-  FPN="-FPN 90"
-  thres_factor="-thres_factor 10"
+    echo $cmd
 
+    $cmd
 
-  #no_pyramid
-  build_pyramid=""
-  cmd="./FP_ADL.out -i ${video} -start ${start} -length ${length} -crf_model_path ${crf_model_path} -an ${annotation} ${show} ${pause} ${indicate} ${ground_truth_detect} ${crf} ${thres_factor} ${show_pyramid} ${build_pyramid} ${activity_prediction} ${FPN}"
+    cmd="mv activity_result.txt crf/result/my_data/FPN_${the_fpn}/no_pyramid/result_${index}.txt"
 
-  echo $cmd
+    echo $cmd
 
-  $cmd
-
-  cmd="mv activity_result.txt crf/result/my_data/FPN_10/no_pyramid/result_${index}.txt"
-
-  echo $cmd
-
-  $cmd
+    $cmd
+  }
+  
 
   #with_pyramid
   build_pyramid="-build_pyramid"
@@ -67,7 +84,7 @@ do
 
   $cmd
 
-  cmd="mv activity_result.txt crf/result/my_data/FPN_10/pyramid/result_${index}.txt"
+  cmd="mv activity_result.txt crf/result/my_data/FPN_${the_fpn}/pyramid/result_${index}.txt"
 
   echo $cmd
 

@@ -19,7 +19,7 @@
 #include "frames.h"
 
 #define CORRELATION_THRES 0.3
-#define MAX_LEVEL_PYRAMID 10
+#define MAX_LEVEL_PYRAMID 6
 
 using namespace boost;
 using namespace std;
