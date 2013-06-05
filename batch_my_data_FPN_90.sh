@@ -13,6 +13,13 @@ thres="10"
 the_fpn="90"
 FPN="-FPN ${the_fpn}"
 thres_factor="-thres_factor ${thres}"
+#indicate="-indicate 2"
+show="-show"
+show_pyramid="-show_pyramid"
+activity_prediction="-activity_prediction"
+#pause="-pause"
+ground_truth_detect="-ground_truth"
+crf="-crf"
 start="1"
 
 cmd="rm -r crf/result/my_data/${thres}"
@@ -44,14 +51,6 @@ do
   video="/Users/hmliu/Documents/CMLab/Master/ADL_code/ADLdataset/Haar_helper/my_data/videos/split_frames_P_${index}"
   #annotation="translated_with_obj_name/object_annot_P_${index}_translated_with_obj_name.txt"
   annotation="my_data_obj_annotation/P${index}.txt"
-
-  #indicate="-indicate 2"
-  show="-show"
-  show_pyramid="-show_pyramid"
-  activity_prediction="-activity_prediction"
-  #pause="-pause"
-  ground_truth_detect="-ground_truth"
-  crf="-crf"
 
   #no_pyramid
   build_pyramid=""
