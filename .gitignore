@@ -4,3 +4,5 @@ pg_test/hmm_test
 
 crf/result.txt
 crf/test.crf
+
+Makefile

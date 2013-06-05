@@ -1,18 +1,18 @@
 #Macbook
 
-#INCLUDE+=-I/usr/local/include -I/usr/local/include/opencv -I/usr/local/include/opencv2 -I/Users/hmliu/boost_1_53_0
-#LINKING+=-L/usr/lib -lopencv_core.2.4.3 -lopencv_highgui.2.4.3 -lopencv_imgproc.2.4.3 -lopencv_objdetect.2.4.3
+INCLUDE+=-I/usr/local/include -I/usr/local/include/opencv -I/usr/local/include/opencv2 -I/Users/hmliu/boost_1_53_0
+LINKING+=-L/usr/lib -lopencv_core.2.4.3 -lopencv_highgui.2.4.3 -lopencv_imgproc.2.4.3 -lopencv_objdetect.2.4.3
 
 ##################################################################################################
 
 #Ubuntu
 
-INCLUDE+=-I/usr/local/include
+#INCLUDE+=-I/usr/local/include
 
-LINKING+=-L/usr/local/lib
+#LINKING+=-L/usr/local/lib
 
-CV_CONF=`pkg-config opencv --cflags`
-CV_CONF_2=`pkg-config opencv --libs`
+#CV_CONF=`pkg-config opencv --cflags`
+#CV_CONF_2=`pkg-config opencv --libs`
 
 #################################################################################################
 
