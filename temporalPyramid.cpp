@@ -16,6 +16,40 @@ TemporalPyramid::TemporalPyramid(){
 TemporalPyramid::~TemporalPyramid(){
 }
 
+bool TemporalPyramid::null_feature_check(FrameModel* frames, int frame_index){
+
+    //create a tmp node with the same number of features in a frame
+    node tmp_node;
+    int sliding_window_start = frame_index - frame_per_node;
+    
+    for (int i = 0 ; i < frames->num_features ; i++){
+        //cout << "frame_model->frameList["<<f<<"].feature.size()" << frames->frameList[f].feature.size() <<endl;
+        //cout << frames->frameList[f].feature.size() <<endl;
+        tmp_node.feature.push_back(0);
+    }
+    
+    //Summing frame features in an interval(FPN)
+    for (int j = sliding_window_start; j < sliding_window_start + frame_per_node ; j++) {
+        for (int i = 0 ; i < frames->num_features ; i++){
+            //cerr << " j:"<< j <<" i:" << i << endl;
+            //tmp_node.feature[i] = frames->frameList[j].feature[i] + tmp_node.feature[i];
+            tmp_node.feature[i] = frames->frameList[j].feature[i] + tmp_node.feature[i];
+        } 
+    }
+
+    //Null feature check
+    for (int i = 0 ; i < frames->num_features ; i++){
+        if(tmp_node.feature[i] > 0.001){
+            return false;
+        }  
+    }
+
+    current_best_activity = "NULL";
+    current_best_prob = "NULL";
+
+    return true;
+}
+
 bool TemporalPyramid::loadFrames_realtime(FrameModel* frames, int frame_index){
 
     if( frame_index == 0){

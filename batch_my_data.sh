@@ -10,9 +10,8 @@ frame_numbers=(
 )
 
 for (( i=1; i<=5; i=i+1 ))
+#for (( i=1; i<=5; i=i+1 ))
 do
-
-  i="1"
 
   #crf_model_path="crf/multi_stage/1_vs_all_more_segment_2/model_${i}.crf"
   #crf_model_path="crf/multi_stage/1_vs_all_more_segment/model_${i}.crf"
@@ -38,7 +37,6 @@ do
   #indicate="-indicate 2"
   show="-show"
   show_pyramid="-show_pyramid"
-  #build_pyramid="-build_pyramid"
   activity_prediction="-activity_prediction"
   #pause="-pause"
   ground_truth_detect="-ground_truth"
@@ -46,13 +44,30 @@ do
   FPN="-FPN 90"
   thres_factor="-thres_factor 10"
 
+
+  #no_pyramid
+  build_pyramid=""
   cmd="./FP_ADL.out -i ${video} -start ${start} -length ${length} -crf_model_path ${crf_model_path} -an ${annotation} ${show} ${pause} ${indicate} ${ground_truth_detect} ${crf} ${thres_factor} ${show_pyramid} ${build_pyramid} ${activity_prediction} ${FPN}"
 
   echo $cmd
 
   $cmd
 
-  cmd="mv activity_result.txt crf/result/my_data/no_pyramid/result_${index}.txt"
+  cmd="mv activity_result.txt crf/result/my_data/FPN_10/no_pyramid/result_${index}.txt"
+
+  echo $cmd
+
+  $cmd
+
+  #with_pyramid
+  build_pyramid="-build_pyramid"
+  cmd="./FP_ADL.out -i ${video} -start ${start} -length ${length} -crf_model_path ${crf_model_path} -an ${annotation} ${show} ${pause} ${indicate} ${ground_truth_detect} ${crf} ${thres_factor} ${show_pyramid} ${build_pyramid} ${activity_prediction} ${FPN}"
+
+  echo $cmd
+
+  $cmd
+
+  cmd="mv activity_result.txt crf/result/my_data/FPN_10/pyramid/result_${index}.txt"
 
   echo $cmd
 

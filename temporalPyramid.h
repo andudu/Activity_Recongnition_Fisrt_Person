@@ -88,6 +88,7 @@ public:
     //load frames and build the first level pyramid(nodes)
     bool loadFrames(FrameModel* frames);
     bool loadFrames_realtime(FrameModel* frames, int frame_index);
+    bool null_feature_check(FrameModel* frames, int frame_index);
     bool buildPyramid(int frame_size ,int FPN);
     bool buildPyramid_realtime();
     bool refreshPyramid_realtime();

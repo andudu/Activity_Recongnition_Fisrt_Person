@@ -272,18 +272,32 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
                 if(show_activity_prediction){
                     activity_result = myTemporalPyramid->showCurrentPrediction();
                     //cout <<  activity_result[0] << endl;
-                    //Output the activity detected for further evaluation
+                    //Output the activity detected for further evaluation                    
                     if(activity_result.size() == 4){
                         fprintf(fp, "%d %s %s\n",i+frame_start-FPN,get_activity_index_my_data(activity_result[2]).c_str(),activity_result[3].c_str());   
                     }else if(activity_result.size() == 2){
                         fprintf(fp, "%d %s %s\n",i+frame_start-FPN,get_activity_index_my_data(activity_result[0]).c_str(),activity_result[1].c_str());
                     }else{
                         //Do nothing
-                    }                
+                    }                                   
                 }              
             }else{
                 cout << "Not adding new node because its similar to the latest one!" << endl;
                 cout << "Remaining latest prediction" << endl;
+
+                //feature null測試
+                //if null feature then skip
+                if(myTemporalPyramid->null_feature_check(this, i)){                    
+                    continue;
+                }
+
+                if(activity_result.size() == 4){
+                    fprintf(fp, "%d %s %s\n",i+frame_start-FPN,get_activity_index_my_data(activity_result[2]).c_str(),activity_result[3].c_str());   
+                }else if(activity_result.size() == 2){
+                    fprintf(fp, "%d %s %s\n",i+frame_start-FPN,get_activity_index_my_data(activity_result[0]).c_str(),activity_result[1].c_str());
+                }else{
+                    //Do nothing
+                }  
             }           
 
             //Display
