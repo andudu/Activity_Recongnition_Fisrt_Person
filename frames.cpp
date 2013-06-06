@@ -208,6 +208,9 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
     vector<string> activity_result;
     FILE* fp; //Output file for evaluation
     fp = fopen("activity_result.txt", "w");
+    FILE* fp_time; //Output file for evaluation
+    fp_time = fopen("time_record.txt", "w");
+
 
     cvNamedWindow("Obj Detection Result", CV_WINDOW_AUTOSIZE);
     cvMoveWindow("Obj Detection Result", 50, 0);
@@ -217,14 +220,9 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
     //myObjDetector->load_ground_truth_obj_annotation(annotation_file);
     //my_data
     myObjDetector->load_ground_truth_obj_annotation_my_data(annotation_file);
-
     
     frame_count = end - start + 1;
-    frame_start = start;
-
-    //Time evaluation
-    clock_t act_start_time, act_end_time;
-    float act_duration = 0;
+    frame_start = start;   
 
     for(int i = 0 ; i < frame_count ; i ++)
     {   
@@ -254,8 +252,12 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
         if((i%FPN) == 0){
 
             cout << "=================================\n";
-
-            act_start_time = clock();
+            cerr << "1\n";
+            //Time evaluation
+            clock_t start_time, end_time;
+            float act_duration = 0; 
+            start_time = clock();
+            cerr << "2\n";
 
             //Loading frames and put them into pyramid, level 0
             //Return false if it is similar to the latest one
@@ -288,10 +290,12 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
                     }                                   
                 }
 
+                /*
                 act_end_time = clock();
                 act_duration = (float)(act_end_time - act_start_time);
                 cout << "act_duration:" << act_duration/CLOCKS_PER_SEC << endl;
                 act_duration = 0;
+                */
 
             }else{
                 cout << "Not adding new node because its similar to the latest one!" << endl;
@@ -316,6 +320,11 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
             if(show_pyramid){
                 myTemporalPyramid->print_info("pyramid");
             }
+
+            end_time = clock();
+            act_duration = (float)(end_time - start_time);
+            cout << "act_duration:" << act_duration/CLOCKS_PER_SEC << endl;
+            fprintf(fp_time, "%d %d %f\n",myTemporalPyramid->num_of_levels, myTemporalPyramid->pyramid[0].size(), act_duration/CLOCKS_PER_SEC);
         }
         
 
