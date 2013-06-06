@@ -17,8 +17,37 @@ ObjectDetector::ObjectDetector(){
     struct dirent *ent;
     string file_name;
     
+    cout <<"Constructing object detectors\n";
+
+    if ((dir = opendir (HAAR_PATH)) != NULL) {
+
+        while ((ent = readdir (dir)) != NULL) {
+            
+            file_name.assign(ent->d_name);
+
+            if( file_name.compare(".") == 0 || 
+                file_name.compare("..") == 0 ||
+                file_name.compare("backup") == 0 || 
+                file_name.compare(".DS_Store") == 0 ||
+                file_name.compare("mean_std.txt") == 0
+                ){
+                continue; 
+            }
+
+            cout << "cascade file name:" << file_name << endl;
+        }
+
+
+        exit (1);
+
+    }else{
+        cout << "No such directory:"  <<  HAAR_PATH << endl;
+        exit (1);
+    }
+
+    /*
     //Fucking dont no why!!
-    int indicate = 1;
+    int indicate = 2;
     cout <<"Constructing object detectors\n";
     cout <<"indicate: " << indicate << endl;
 
@@ -67,6 +96,7 @@ ObjectDetector::ObjectDetector(){
         //could not open directory
         cout << "No such directory:"  <<  HAAR_PATH << endl;
     }
+    */
 
     num_of_detectors  = myHaars.size();
     cout << "number of objectDetector: " << num_of_detectors << endl;
