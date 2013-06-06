@@ -19,6 +19,7 @@
 #include <map>
 #include <math.h>
 #include <boost/algorithm/string.hpp>
+#include "time.h"
 
 //#define NUM_FEATURE_TOTAL 89
 #define NUM_FEATURE_TOTAL 21

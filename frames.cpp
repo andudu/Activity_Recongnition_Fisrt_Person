@@ -222,6 +222,10 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
     frame_count = end - start + 1;
     frame_start = start;
 
+    //Time evaluation
+    clock_t act_start_time, act_end_time;
+    float act_duration = 0;
+
     for(int i = 0 ; i < frame_count ; i ++)
     {   
         
@@ -250,6 +254,8 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
         if((i%FPN) == 0){
 
             cout << "=================================\n";
+
+            act_start_time = clock();
 
             //Loading frames and put them into pyramid, level 0
             //Return false if it is similar to the latest one
@@ -280,7 +286,13 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
                     }else{
                         //Do nothing
                     }                                   
-                }              
+                }
+
+                act_end_time = clock();
+                act_duration = (float)(act_end_time - act_start_time);
+                cout << "act_duration:" << act_duration/CLOCKS_PER_SEC << endl;
+                act_duration = 0;
+
             }else{
                 cout << "Not adding new node because its similar to the latest one!" << endl;
                 cout << "Remaining latest prediction" << endl;
