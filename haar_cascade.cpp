@@ -43,7 +43,7 @@ vector<string> Haar_cascade::reader(string path){
 void Haar_cascade::min_max_reader(){
 
     typedef vector< string > split_vector_type;
-    vector<string> list = reader("cascade_0528/mean_std.txt");
+    vector<string> list = reader("cascade_0528/min_max.txt");
 
     for(int i = 0 ; i < list.size() ; i ++){
         
@@ -68,12 +68,13 @@ Haar_cascade::Haar_cascade(string classifier_name , string feature_name){
     name = feature_name;
 
     // Create classifier object 
-    if (myClassifier.load(classifier_name))
+    if (myClassifier.load(classifier_name)){
         cout << classifier_name << " is loaded\n";
-    else
+        min_max_reader();
+    }else{
         cout << "Failed loading" << classifier_name <<endl;
-
-    min_max_reader();    
+    }
+        
 }
 
 Haar_cascade::Haar_cascade(string classifier_name , string feature_name,int width_mean,int height_mean, int width_std,int height_std){

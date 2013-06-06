@@ -29,7 +29,7 @@ ObjectDetector::ObjectDetector(){
                 file_name.compare("..") == 0 ||
                 file_name.compare("backup") == 0 || 
                 file_name.compare(".DS_Store") == 0 ||
-                file_name.compare("mean_std.txt") == 0
+                file_name.compare("min_max.txt") == 0
                 ){
                 continue; 
             }
