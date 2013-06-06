@@ -35,8 +35,16 @@ ObjectDetector::ObjectDetector(){
             }
 
             cout << "cascade file name:" << file_name << endl;
+
+            string path = HAAR_PATH;
+            
+            path.append(file_name);
+            Haar_cascade tmp_classifier = Haar_cascade(path , file_name);
+            myHaars.push_back(tmp_classifier);
         }
 
+        num_of_detectors  = myHaars.size();
+        cout << "number of objectDetector: " << num_of_detectors << endl;
 
         exit (1);
 
