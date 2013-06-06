@@ -7,8 +7,8 @@ video="/Users/hmliu/Documents/CMLab/Master/ADL_code/ADLdataset/Haar_helper/my_da
 annotation="dpm_with_obj_name/P_${index}.txt"
 crf_model_path="crf/multi_stage/1_vs_all_more_segment_2/model_${index}.crf"
 
-start="1"
-length="100"
+start="50"
+length="30"
 
 # Watching TV in P02
 # start="69235"
@@ -51,7 +51,7 @@ show_pyramid="-show_pyramid"
 #pause="-pause"
 #ground_truth_detect="-ground_truth"
 #crf="-crf"
-FPN="-FPN 10"
+FPN="-FPN 30"
 thres_factor="-thres_factor 10"
 #dpm_thres="-dpm_thres -0.7"
 

@@ -204,6 +204,12 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
     frame_count = end - start + 1;
     frame_start = start;
 
+    //Time evaluation
+    clock_t act_start_time, act_end_time;
+    float act_duration = 0;
+    clock_t obj_start_time, obj_end_time;
+    float obj_duration = 0;    
+
     for(int i = 0 ; i < frame_count ; i ++)
     {   
         
@@ -216,13 +222,16 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
         num_frames++;
         frameList.push_back(temp);
 
+        obj_start_time = clock();
         if(ground_truth_detect){
             //Ground truth detect
             myObjDetector->ground_truth_detect(this, i, &frame , frame_start);
         }else{
             //Real detect
             myObjDetector->detect(this, i, &frame);
-        }            
+        }
+        obj_end_time = clock();
+        obj_duration = (float)(obj_duration +  obj_end_time  -  obj_start_time);        
         
         if(show_obj_detection){
             playImage_with_detected_results(pause_when_detected, &frame, myTemporalPyramid->current_best_activity, myTemporalPyramid->current_best_prob);   
@@ -231,6 +240,8 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
         if((i%FPN) == 0){
 
             cout << "=================================\n";
+
+            act_start_time = clock();
 
             //Loading frames and put them into pyramid, level 0
             //Return false if it is similar to the latest one
@@ -266,7 +277,9 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
                         //Do nothing
                     }                
                 }
-                     
+                
+                act_end_time = clock();
+                act_duration = (float)(act_end_time - act_start_time);
             }else{
                 cout << "Not adding new node because its similar to the latest one!" << endl;
                 cout << "Remaining latest prediction" << endl;
@@ -276,6 +289,11 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
             if(show_pyramid){
                 myTemporalPyramid->print_info("pyramid");
             }
+
+            cout << "act_duration:" << act_duration/CLOCKS_PER_SEC << endl;
+            cout << "obj_duration:" << obj_duration/CLOCKS_PER_SEC << endl;
+            act_duration = 0;
+            obj_duration = 0;            
         }
         
 
