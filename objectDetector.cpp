@@ -44,9 +44,9 @@ ObjectDetector::ObjectDetector(){
         }
 
         num_of_detectors  = myHaars.size();
-        cout << "number of objectDetector: " << num_of_detectors << endl;
+        cout << "number of objectDetectors: " << num_of_detectors << endl;
 
-        exit (1);
+        //exit (1);
 
     }else{
         cout << "No such directory:"  <<  HAAR_PATH << endl;
