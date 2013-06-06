@@ -10,7 +10,7 @@ frame_numbers=(
 )
 
 thres="10"
-the_fpn="90"
+the_fpn="30"
 FPN="-FPN ${the_fpn}"
 thres_factor="-thres_factor ${thres}"
 #indicate="-indicate 2"
@@ -18,7 +18,7 @@ show="-show"
 #show=""
 show_pyramid="-show_pyramid"
 activity_prediction="-activity_prediction"
-pause="-pause"
+#pause="-pause"
 ground_truth_detect="-ground_truth"
 crf="-crf"
 start="1"
