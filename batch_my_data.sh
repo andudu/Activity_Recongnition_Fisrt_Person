@@ -18,10 +18,11 @@ show="-show"
 #show=""
 show_pyramid="-show_pyramid"
 activity_prediction="-activity_prediction"
+crf="-crf"
 #pause="-pause"
 ground_truth_detect="-ground_truth"
-crf="-crf"
-start="1"
+
+start="3000"
 
 cmd="rm -r crf/result/my_data/FPN_${the_fpn}"
 
@@ -35,7 +36,7 @@ cmd="mkdir -p crf/result/my_data/FPN_${the_fpn}/pyramid"
 
 $cmd
 
-for (( i=1; i<=1; i=i+1 ))
+for (( i=3; i<=3; i=i+1 ))
 #for (( i=1; i<=5; i=i+1 ))
 do
 
@@ -77,7 +78,7 @@ do
   
 
   #with_pyramid
-  build_pyramid="-build_pyramid"
+  #build_pyramid="-build_pyramid"
   cmd="./FP_ADL.out -i ${video} -start ${start} -length ${length} -crf_model_path ${crf_model_path} -an ${annotation} ${show} ${pause} ${indicate} ${ground_truth_detect} ${crf} ${thres_factor} ${show_pyramid} ${build_pyramid} ${activity_prediction} ${FPN}"
 
   echo $cmd
