@@ -198,6 +198,7 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
     frame_count = end - start + 1;
     frame_start = start;
 
+
     for(int i = 0 ; i < frame_count ; i ++)
     {   
         
@@ -221,6 +222,11 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
         if(show_obj_detection){
             playImage_with_detected_results(pause_when_detected, &frame, myTemporalPyramid->current_best_activity, myTemporalPyramid->current_best_prob);   
         }           
+
+        if (i == 0){
+            cout << "press any key to continue\n";
+            cvWaitKey();
+        }
 
         if((i%FPN) == 0){
 
@@ -356,9 +362,15 @@ bool FrameModel::playImage_with_detected_results(bool pause_when_detected, IplIm
     }
     CvFont font_act_label;
     cvInitFont(&font_act_label, CV_FONT_HERSHEY_SIMPLEX, 1.5, 1.5, 0, 3, CV_AA);
+
+    //Green
     cvPutText(tempFrame, activity.c_str(), cvPoint(20, 50), &font_act_label, cvScalar(0, 255, 0, 0));
     cvPutText(tempFrame, prob.c_str(), cvPoint(20 , 100), &font_act_label, cvScalar(0, 255, 0, 0));
     
+    //Red
+    //cvPutText(tempFrame, activity.c_str(), cvPoint(20, 50), &font_act_label, cvScalar(0, 0, 255, 0));
+    //cvPutText(tempFrame, prob.c_str(), cvPoint(20 , 100), &font_act_label, cvScalar(0, 0, 255, 0));
+
     /*
      scale down the image since it's 720x1280 sometimes exceeds the monitor size
      */

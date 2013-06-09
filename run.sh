@@ -1,6 +1,6 @@
 echo "run by shell"
 
-i="20"
+i="13"
 
 #crf_model_path="crf/multi_stage/1_vs_all_more_segment_2/model_${i}.crf"
 #crf_model_path="crf/multi_stage/1_vs_all_more_segment/model_${i}.crf"
@@ -40,21 +40,21 @@ length="600"
 # length="900"
 
 # A temporal pyramid demo P20 washing dishes
-start="13000"
-length="800"
+# start="13000"
+# length="800"
 
 # making cold food snack in P10
 #start="1000"
 #length="2000"
 
 # A 3 activities demo in P13
-#start="42800"
-#length="1600"
+start="42800"
+length="1600"
 
 #indicate="-indicate 2"
 show="-show"
 show_pyramid="-show_pyramid"
-#build_pyramid="-build_pyramid"
+build_pyramid="-build_pyramid"
 activity_prediction="-activity_prediction"
 #pause="-pause"
 ground_truth_detect="-ground_truth"
