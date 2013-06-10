@@ -247,7 +247,11 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
         
         if(show_obj_detection){
             playImage_with_detected_results(pause_when_detected, &frame, myTemporalPyramid->current_best_activity, myTemporalPyramid->current_best_prob);   
-        }           
+        }             
+
+        if( i == 0){
+            cvWaitKey();
+        }
 
         if((i%FPN) == 0){
 
@@ -404,7 +408,8 @@ bool FrameModel::playImage_with_detected_results(bool pause_when_detected, IplIm
             point2.y = frameList.back().result_list[feature_index][box].y + frameList.back().result_list[feature_index][box].height;  
             //cout << "x1:" << point1.x << " x2:" << point2.x << " y1:"<< point1.y << " y2:" <<point2.y <<endl;
             //Scout << "width:" << point2.x - point1.x << " height:" << point2.y - point1.y << endl;
-            cvRectangle(tempFrame, point1, point2, CV_RGB(0,255,0), 3, 8, 0);
+            //cvRectangle(tempFrame, point1, point2, CV_RGB(0,255,0), 3, 8, 0);
+            cvRectangle(tempFrame, point1, point2, CV_RGB(0,0,255), 3, 8, 0);
             /*
              Put the object name on the box
              */
@@ -416,14 +421,15 @@ bool FrameModel::playImage_with_detected_results(bool pause_when_detected, IplIm
     }
     CvFont font_act_label;
     cvInitFont(&font_act_label, CV_FONT_HERSHEY_SIMPLEX, 1.5, 1.5, 0, 3, CV_AA);
+    //cvPutText(tempFrame, activity.c_str(), cvPoint(20, 50), &font_act_label, cvScalar(0, 255, 0, 0));
+    //cvPutText(tempFrame, prob.c_str(), cvPoint(20 , 100), &font_act_label, cvScalar(0, 255, 0, 0));
     cvPutText(tempFrame, activity.c_str(), cvPoint(20, 50), &font_act_label, cvScalar(0, 255, 0, 0));
     cvPutText(tempFrame, prob.c_str(), cvPoint(20 , 100), &font_act_label, cvScalar(0, 255, 0, 0));
-    
     /*
      scale down the image since it's 720x1280 sometimes exceeds the monitor size
      */
     IplImage *dst = 0;       
-    float scale = 0.5; 
+    float scale = 0.8; 
     CvSize dst_cvsize;      
     dst_cvsize.width = tempFrame->width * scale;
     dst_cvsize.height = tempFrame->height * scale;

@@ -10,7 +10,7 @@ frame_numbers=(
 )
 
 thres="10"
-the_fpn="30"
+the_fpn="90"
 FPN="-FPN ${the_fpn}"
 thres_factor="-thres_factor ${thres}"
 #indicate="-indicate 2"
@@ -22,7 +22,7 @@ crf="-crf"
 #pause="-pause"
 ground_truth_detect="-ground_truth"
 
-start="3000"
+start="1"
 
 cmd="rm -r crf/result/my_data/FPN_${the_fpn}"
 
@@ -36,7 +36,7 @@ cmd="mkdir -p crf/result/my_data/FPN_${the_fpn}/pyramid"
 
 $cmd
 
-for (( i=3; i<=3; i=i+1 ))
+for (( i=4; i<=4; i=i+1 ))
 #for (( i=1; i<=5; i=i+1 ))
 do
 
@@ -59,8 +59,7 @@ do
   #annotation="translated_with_obj_name/object_annot_P_${index}_translated_with_obj_name.txt"
   annotation="my_data_obj_annotation/P${index}.txt"
 
-  comment1 ()
-  {
+  #comment1 (){
     #no_pyramid
     build_pyramid=""
     cmd="./FP_ADL.out -i ${video} -start ${start} -length ${length} -crf_model_path ${crf_model_path} -an ${annotation} ${show} ${pause} ${indicate} ${ground_truth_detect} ${crf} ${thres_factor} ${show_pyramid} ${build_pyramid} ${activity_prediction} ${FPN}"
@@ -74,9 +73,9 @@ do
     echo $cmd
 
     $cmd
-  }
+  #}
   
-
+  comment2(){
   #with_pyramid
   #build_pyramid="-build_pyramid"
   cmd="./FP_ADL.out -i ${video} -start ${start} -length ${length} -crf_model_path ${crf_model_path} -an ${annotation} ${show} ${pause} ${indicate} ${ground_truth_detect} ${crf} ${thres_factor} ${show_pyramid} ${build_pyramid} ${activity_prediction} ${FPN}"
@@ -90,6 +89,7 @@ do
   echo $cmd
 
   $cmd
+  }
 done
 
 
