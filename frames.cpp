@@ -212,8 +212,8 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
     fp_time = fopen("time_record.txt", "w");
 
 
-    cvNamedWindow("Obj Detection Result", CV_WINDOW_AUTOSIZE);
-    cvMoveWindow("Obj Detection Result", 50, 0);
+    //cvNamedWindow("Obj Detection Result", CV_WINDOW_AUTOSIZE);
+    //cvMoveWindow("Obj Detection Result", 50, 0);
 
     //Load ground truth obj annotation
     //CVPR12
@@ -249,9 +249,11 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
             playImage_with_detected_results(pause_when_detected, &frame, myTemporalPyramid->current_best_activity, myTemporalPyramid->current_best_prob);   
         }             
 
+        /*
         if( i == 0){
             cvWaitKey();
         }
+        */
 
         if((i%FPN) == 0){
 
@@ -336,7 +338,7 @@ bool FrameModel::loadVideo_realtime(map<string, string> args){
             break;
     }
 
-    cvDestroyWindow("Obj Detection Result");
+    //cvDestroyWindow("Obj Detection Result");
     delete myObjDetector;
     delete myTemporalPyramid;
     fclose(fp);

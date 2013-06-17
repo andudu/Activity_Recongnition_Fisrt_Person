@@ -220,11 +220,11 @@ bool ActivityDetector::activity_detect(TemporalPyramid *my_pyramid){
             }
 
             //Check if these 2 stage activities are what i am looking for
-            if(my_pyramid->pyramid[level][node].table[1][0].activity == 8 ||
-               my_pyramid->pyramid[level][node].table[1][1].activity == 9 ||               
-               my_pyramid->pyramid[level][node].table[1][0].activity == 10 ||
-               my_pyramid->pyramid[level][node].table[1][1].activity == 11 ||
-               ){
+            if((strcmp(my_pyramid->pyramid[level][node].table[1][0].activity.c_str(),"make_coffee_stage_1") == 0  &&
+               strcmp(my_pyramid->pyramid[level][node].table[1][1].activity.c_str(),"make_coffee_stage_2") == 0 ) ||
+               (strcmp(my_pyramid->pyramid[level][node].table[1][0].activity.c_str(),"copy_documents_stage_1") == 0  &&
+               strcmp(my_pyramid->pyramid[level][node].table[1][1].activity.c_str(),"copy_documents_stage_2") == 0)
+               ){                
                 
                 tmp_prediction.level = level;
                 tmp_prediction.node = node;
