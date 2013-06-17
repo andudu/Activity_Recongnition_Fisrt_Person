@@ -21,22 +21,23 @@ activity_prediction="-activity_prediction"
 crf="-crf"
 #pause="-pause"
 ground_truth_detect="-ground_truth"
+out_put_folder="my_data_v2"
 
 start="1"
 
-cmd="rm -r crf/result/my_data/FPN_${the_fpn}"
+cmd="rm -r crf/result/${out_put_folder}/FPN_${the_fpn}"
 
 $cmd
 
-cmd="mkdir -p crf/result/my_data/FPN_${the_fpn}/no_pyramid"
+cmd="mkdir -p crf/result/${out_put_folder}/FPN_${the_fpn}/no_pyramid"
 
 $cmd
 
-cmd="mkdir -p crf/result/my_data/FPN_${the_fpn}/pyramid"
+cmd="mkdir -p crf/result/${out_put_folder}/FPN_${the_fpn}/pyramid"
 
 $cmd
 
-for (( i=4; i<=4; i=i+1 ))
+for (( i=1; i<=1; i=i+1 ))
 #for (( i=1; i<=5; i=i+1 ))
 do
 
@@ -68,14 +69,14 @@ do
 
     $cmd
 
-    cmd="mv activity_result.txt crf/result/my_data/FPN_${the_fpn}/no_pyramid/result_${index}.txt"
+    cmd="mv activity_result.txt crf/result/${out_put_folder}/FPN_${the_fpn}/no_pyramid/result_${index}.txt"
 
     echo $cmd
 
     $cmd
   #}
   
-  comment2(){
+  #comment2(){
   #with_pyramid
   #build_pyramid="-build_pyramid"
   cmd="./FP_ADL.out -i ${video} -start ${start} -length ${length} -crf_model_path ${crf_model_path} -an ${annotation} ${show} ${pause} ${indicate} ${ground_truth_detect} ${crf} ${thres_factor} ${show_pyramid} ${build_pyramid} ${activity_prediction} ${FPN}"
@@ -84,12 +85,12 @@ do
 
   $cmd
 
-  cmd="mv activity_result.txt crf/result/my_data/FPN_${the_fpn}/pyramid/result_${index}.txt"
+  cmd="mv activity_result.txt crf/result/${out_put_folder}/FPN_${the_fpn}/pyramid/result_${index}.txt"
 
   echo $cmd
 
   $cmd
-  }
+  #}
 done
 
 

@@ -208,7 +208,7 @@ bool ActivityDetector::activity_detect(TemporalPyramid *my_pyramid){
                     activity_detected = run_crf(my_pyramid,level_before,node_before,level,node);
 
                     if(atof(activity_detected[3].c_str()) > max_prob){
-                        
+
                         my_pyramid->pyramid[level][node].table[1][0].activity = activity_detected[0];
                         my_pyramid->pyramid[level][node].table[1][0].prob = atof(activity_detected[1].c_str());
                         my_pyramid->pyramid[level][node].table[1][1].activity = activity_detected[2];
@@ -219,7 +219,21 @@ bool ActivityDetector::activity_detect(TemporalPyramid *my_pyramid){
                 }
             }
 
+            //Check if these 2 stage activities are what i am looking for
+            if(my_pyramid->pyramid[level][node].table[1][0].activity == 8 ||
+               my_pyramid->pyramid[level][node].table[1][1].activity == 9 ||               
+               my_pyramid->pyramid[level][node].table[1][0].activity == 10 ||
+               my_pyramid->pyramid[level][node].table[1][1].activity == 11 ||
+               ){
+                
+                tmp_prediction.level = level;
+                tmp_prediction.node = node;
+                tmp_prediction.table_row = 1;
+                tmp_prediction.table_col = 0;
 
+                my_pyramid->current_prediction.push_back(tmp_prediction);
+            }   
+            /*
             tmp_prediction.level = level;
             tmp_prediction.node = node;
             tmp_prediction.table_row = 1;
@@ -233,7 +247,7 @@ bool ActivityDetector::activity_detect(TemporalPyramid *my_pyramid){
             tmp_prediction.table_col = 1;
 
             my_pyramid->current_prediction.push_back(tmp_prediction);
-
+            */
             my_pyramid->pyramid[level][node].table_filled = true;
         }
     }    
