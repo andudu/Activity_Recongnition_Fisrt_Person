@@ -10,11 +10,11 @@ frame_numbers=(
 )
 
 thres="10"
-the_fpn="90"
+the_fpn="60"
 FPN="-FPN ${the_fpn}"
 thres_factor="-thres_factor ${thres}"
 #indicate="-indicate 2"
-show="-show"
+#show="-show"
 #show=""
 show_pyramid="-show_pyramid"
 activity_prediction="-activity_prediction"
@@ -77,19 +77,19 @@ do
   #}
   
   #comment2(){
-  #with_pyramid
-  #build_pyramid="-build_pyramid"
-  cmd="./FP_ADL.out -i ${video} -start ${start} -length ${length} -crf_model_path ${crf_model_path} -an ${annotation} ${show} ${pause} ${indicate} ${ground_truth_detect} ${crf} ${thres_factor} ${show_pyramid} ${build_pyramid} ${activity_prediction} ${FPN}"
+    #with_pyramid
+    build_pyramid="-build_pyramid"
+    cmd="./FP_ADL.out -i ${video} -start ${start} -length ${length} -crf_model_path ${crf_model_path} -an ${annotation} ${show} ${pause} ${indicate} ${ground_truth_detect} ${crf} ${thres_factor} ${show_pyramid} ${build_pyramid} ${activity_prediction} ${FPN}"
 
-  echo $cmd
+    echo $cmd
 
-  $cmd
+    $cmd
 
-  cmd="mv activity_result.txt crf/result/${out_put_folder}/FPN_${the_fpn}/pyramid/result_${index}.txt"
+    cmd="mv activity_result.txt crf/result/${out_put_folder}/FPN_${the_fpn}/pyramid/result_${index}.txt"
 
-  echo $cmd
+    echo $cmd
 
-  $cmd
+    $cmd
   #}
 done
 
