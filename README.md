@@ -18,11 +18,11 @@ FP_ADL_new
 ## Branches
 
 - master
-  -目前無用(未整理)
+  - 目前無用(未整理)
 - demo
-  -讀取CVPR12 dataset與object annotation, 進行辨識
+  - 讀取CVPR12 dataset與object annotation, 進行辨識
 - my data ground truth
-  -讀取自製dataset與object annotation, 進行辨識
+  - 讀取自製dataset與object annotation, 進行辨識
 - my data real object
-  -讀取自製dataset與object model, 進行辨識
+  - 讀取自製dataset與object model, 進行辨識
 
