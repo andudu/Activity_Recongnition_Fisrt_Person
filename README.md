@@ -18,10 +18,12 @@ Activity_Recongnition_Fisrt_Person
   - result : 跑批次實驗輸出的結果
 - cascade_xxxx(folder)
   - 各種cascade object detector 
-- translated_with_obj_name
-  - object annotation(Ground truth)
+- translated_with_obj_name(folder)
+  - object annotation for CVPR12 dataset(Ground truth)
 - dpm_with_obj_name(folder)
-  - object annotation(Deformable part-based model)
+  - object annotation for CVPR12 dataset(Deformable part-based model)
+- run.sh
+  -方便執行程式用的shell script 
 
 ## Branches
 
