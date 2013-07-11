@@ -13,7 +13,15 @@ Activity_Recongnition_Fisrt_Person
   - 容納所有haar_cascade物件, 包裝給frame物件使用
 - temporalPyramid
   - 輸入frame物件, 建立temporal pyramid  
-
+- crf(folder)
+  - multi_stage : 內含所有的CRF事件模型
+  - result : 跑批次實驗輸出的結果
+- cascade_xxxx(folder)
+  - 各種cascade object detector 
+- translated_with_obj_name
+  - object annotation(Ground truth)
+- dpm_with_obj_name(folder)
+  - object annotation(Deformable part-based model)
 
 ## Branches
 
