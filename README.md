@@ -48,7 +48,8 @@ Activity_Recongnition_Fisrt_Person
   - http://deepthought.ics.uci.edu/ADLdataset/adl.html
   - 如欲使用demo&dpm,需下載ADL_videos,將各影片拆解成圖片並各自放進一資料夾,並在run.sh設定位置
 - My dataset
-  - not uploaded yet 
+  - not yet uploaded
+  - 如欲使用my_data_ground_truth&my_data_real_obj,需下載ADL_videos,將各影片拆解成圖片並各自放進一資料夾,並在run.sh設定位置
 - CRF++
   - http://crfpp.googlecode.com/svn/trunk/doc/index.html?source=navbar
   - CRF的部份都是採用這個工具, 在本程式裡使用system call去外部執行crf_test來做辨識, CRF model也都是用此工具做訓練
