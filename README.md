@@ -1,4 +1,4 @@
-FP_ADL_new
+Activity_Recongnition_Fisrt_Person
 ==========
 
 ## Components
@@ -21,8 +21,8 @@ FP_ADL_new
   - 目前無用(未整理)
 - demo
   - 讀取CVPR12 dataset與object annotation, 進行辨識
-- my data ground truth
+- my_data_ground_truth
   - 讀取自製dataset與object annotation, 進行辨識
-- my data real object
+- my_data_real_object
   - 讀取自製dataset與object model, 進行辨識
 
