@@ -1,6 +1,10 @@
 Activity_Recongnition_Fisrt_Person
 ==========
 
+## Thesis
+- PPT https://www.dropbox.com/s/06ek971cpoyvdd4/Presentation_V8.pptx
+- Thsis https://www.dropbox.com/s/qit03lvj6h7qp0k/thesis.pdf
+
 ## Components
 
 - main
