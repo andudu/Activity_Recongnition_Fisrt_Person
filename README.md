@@ -22,8 +22,10 @@ Activity_Recongnition_Fisrt_Person
   - object annotation for CVPR12 dataset(Ground truth)
 - dpm_with_obj_name(folder)
   - object annotation for CVPR12 dataset(Deformable part-based model)
+- my_data_obj_annotation(folder)
+  - object annotation for my dataset(Ground truth)
 - run.sh
-  -方便執行程式用的shell script 
+  - 方便執行程式用的shell script 
 
 ## Branches
 
