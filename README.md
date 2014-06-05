@@ -44,7 +44,7 @@ Activity_Recongnition_Fisrt_Person
 - my_data_real_object
   - 讀取自製dataset的影片split frames與object model(LBP cascade), 進行辨識
 
-## Reguirements
+## Requirements
 - C++ libraries
   - Boost http://www.boost.org/
   - OpenCV 2.4 以上
