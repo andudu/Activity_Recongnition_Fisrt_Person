@@ -49,7 +49,7 @@ Activity_Recongnition_Fisrt_Person
   - Boost http://www.boost.org/
   - OpenCV 2.4 以上
 - CVPR12 dataset
-  - http://deepthought.ics.uci.edu/ADLdataset/adl.html
+  - http://people.csail.mit.edu/hpirsiav/codes/ADLdataset/adl.html
   - 如欲使用demo&dpm,需下載ADL_videos,將各影片拆解成圖片後各自放進一資料夾,並在run.sh設定位置
 - My dataset
   - not yet uploaded
