@@ -3,7 +3,7 @@ Activity_Recongnition_Fisrt_Person
 
 ## Thesis
 - PPT https://www.dropbox.com/s/06ek971cpoyvdd4/Presentation_V8.pptx
-- Thsis https://www.dropbox.com/s/qit03lvj6h7qp0k/thesis.pdf
+- Thsis https://drive.google.com/file/d/0B1Bn5EEsUfi4VUR6b3FLa2tDM3M/edit?usp=sharing
 
 ## Components
 
